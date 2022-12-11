@@ -14,7 +14,7 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
     <!-- button start -->
-    <button color="primary" class=" btn" mat-raised-button (click)="getDayWiseChart()" [disabled]="loader">
+    <button color="primary" class=" btn" mat-raised-button  [disabled]="loader">
         <span *ngIf="!loader"> Submit</span>
         <span>
             <mat-spinner *ngIf="loader" diameter="20"></mat-spinner>

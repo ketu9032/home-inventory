@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
 import { ISelectedDate } from 'src/app/models/table';
-import { AnalysisService } from '../analysis/services/analysis.service';
-import { DashboardService } from './services/dashboard.service';
+
 
 
 @Component({

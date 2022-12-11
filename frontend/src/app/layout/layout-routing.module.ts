@@ -81,12 +81,6 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./transfer/transfer.module').then((m) => m.TransferModule)
-            },
-            {
-                path: 'analysis',
-                canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import('./analysis/analysis.module').then((m) => m.AnalysisModule)
             }
 
         ]

@@ -2,12 +2,9 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Highcharts from 'highcharts';
-import { ItemsService } from '../../items/services/items.service';
-import { SalesService } from '../../sales/services/sales.service';
-import { AnalysisService } from '../../analysis/services/analysis.service';
 import { DashboardService } from '../services/dashboard.service';
-import { response } from 'express';
-import { C } from '@angular/cdk/keycodes';
+
+
 
 @Component({
     selector: 'app-customer-suppliers-chart',
