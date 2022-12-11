@@ -38,28 +38,10 @@ const routes: Routes = [
                 loadChildren: () =>
                     import('./customers/customers.module').then((m) => m.CustomersModule)
             },
-            {
-
-                path: 'items',
-                canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import('./items/items.module').then((m) => m.ItemsModule)
-            },
 
 
-            {
-                path: 'suppliers',
-                canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import('./suppliers/suppliers.module').then((m) => m.SuppliersModule)
-            },
 
-            {
-                path: 'purchase',
-                canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import('./purchase/purchase.module').then((m) => m.PurchaseModule)
-            },
+
             {
                 path: 'expense',
                 canActivate: [AuthGuard],

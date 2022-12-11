@@ -36,28 +36,9 @@ export class SidebarComponent implements OnInit {
             icon: 'people',
             key: 'customers',
         },
-        {
-            link: '/items',
-            name: 'Items',
-            icon: 'list',
-            key: 'items'
-        },
 
 
-        {
-            link: '/suppliers',
-            name: 'Suppliers',
-            icon: 'bookmark_border',
-            key: 'suppliers'
 
-        },
-
-        {
-            link: '/purchase',
-            name: 'Purchase',
-            icon: 'payment',
-            key: 'purchase'
-        },
         {
             link: '/expense',
             name: 'Expense',
