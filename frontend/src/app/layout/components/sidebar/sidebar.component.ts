@@ -85,13 +85,6 @@ export class SidebarComponent implements OnInit {
             name: 'Analysis',
             icon: 'timeline',
             key: 'analysis'
-        },
-        {
-            link: '/rojMed',
-            name: 'Roj-Med',
-            icon: 'money',
-            key: 'roj_med'
-
         }
     ]
 

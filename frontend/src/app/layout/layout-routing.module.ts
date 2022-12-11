@@ -87,12 +87,6 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./analysis/analysis.module').then((m) => m.AnalysisModule)
-            },
-            {
-                path: 'rojMed',
-                canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import('./roj-med/roj-med.module').then((m) => m.RojMedModule)
             }
 
         ]
