@@ -8,7 +8,6 @@ import { IItemSupplierData } from 'src/app/models/item_supplier';
 import { IPurchaseDetailsData } from 'src/app/models/purchase-details';
 import { IMatTableParams } from 'src/app/models/table';
 import { PAGE_SIZE } from 'src/app/shared/global/table-config';
-import { ConfirmBoxComponent } from '../../sales/add-sales/confirm-box/confirm-box.component';
 import { PurchaseDetailsService } from '../services/purchase-details.service';
 import { PurchaseService } from '../services/purchase.service';
 @Component({
@@ -168,7 +167,7 @@ export class AddPurchaseComponent implements OnInit {
     }
     onSubmit() {
         if (this.dueLimit < this.totalDue) {
-            this.confirmDialog()
+            // this.confirmDialog()
         } else {
             if (this.data.purchaseId) {
                 this.updatePurchase();
@@ -377,20 +376,5 @@ export class AddPurchaseComponent implements OnInit {
             () => { }
         );
     }
-    confirmDialog(): void {
-        this.dialog
-            .open(ConfirmBoxComponent, {
-                maxWidth: '500px',
-            })
-            .afterClosed()
-            .subscribe((result) => {
-                if (result && result.data === true) {
-                    if (this.data.purchaseId) {
-                        this.updatePurchase();
-                    } else {
-                        this.savePurchase();
-                    }
-                }
-            });
-    }
+
 }

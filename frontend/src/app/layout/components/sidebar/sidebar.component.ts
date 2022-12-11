@@ -43,17 +43,7 @@ export class SidebarComponent implements OnInit {
             key: 'items'
         },
 
-        {
-            link: '/sales',
-            name: 'Sales',
-            icon: 'add_shopping_cart',
-            key: 'sales'
-        },  {
-            link: '/salesQuotation',
-            name: 'Sales Quotation',
-            icon: 'bookmark_border',
-            key: 'sales_quotation'
-        },
+
         {
             link: '/suppliers',
             name: 'Suppliers',

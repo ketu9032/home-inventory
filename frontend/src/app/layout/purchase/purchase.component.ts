@@ -9,7 +9,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { IPurchaseData } from 'src/app/models/purchase';
 import { IMatTableParams } from 'src/app/models/table';
 import { PAGE_SIZE, PAGE_SIZE_OPTION } from 'src/app/shared/global/table-config';
-import { SalesService } from '../sales/services/sales.service';
 import { UserService } from '../user/services/user.service';
 import { AddPurchaseComponent } from './add-purchase/add-purchase.component';
 import { PurchaseService } from './services/purchase.service';
