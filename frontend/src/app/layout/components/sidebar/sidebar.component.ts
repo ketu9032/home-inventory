@@ -24,18 +24,7 @@ export class SidebarComponent implements OnInit {
             icon: 'people',
             key: 'users'
         },
-        {
-            link: '/cdf',
-            name: 'CDF',
-            icon: 'person',
-            key: 'cdf'
-        },
-        {
-            link: '/customers',
-            name: 'Customers',
-            icon: 'people',
-            key: 'customers',
-        },
+
 
 
 

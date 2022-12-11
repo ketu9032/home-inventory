@@ -26,21 +26,6 @@ const routes: Routes = [
                 loadChildren: () =>
                     import('./user/user.module').then((m) => m.UserModule)
             },
-            {
-                path: 'cdf',
-                canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import('./cdf/cdf.module').then((m) => m.CDFModule)
-            },
-            {
-                path: 'customers',
-                canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import('./customers/customers.module').then((m) => m.CustomersModule)
-            },
-
-
-
 
             {
                 path: 'expense',
