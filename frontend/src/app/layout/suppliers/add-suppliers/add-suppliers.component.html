@@ -1,0 +1,92 @@
+<div class="main-header">
+    <h1 mat-dialog-title><b> {{ !this.data ?'Add Suppliers' : 'Update Suppliers' }}</b> </h1>
+    <button mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-divider></mat-divider>
+<br>
+<div class="container">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <!-- company start -->
+        <!-- <ng-container *ngIf="this.data.company">
+            <mat-form-field>
+                <mat-label>Company</mat-label>
+                <input  matInput formControlName="company" readonly     matTooltip="Not Editable"/>
+
+
+            </mat-form-field>
+        </ng-container> -->
+        <ng-container >
+
+
+        <mat-form-field  >
+            <mat-label>Company</mat-label>
+
+
+                <input  matInput  formControlName="company" (keyup)="onSupplierCompanyExistCheck()" />
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="!isSupplierCompanyExist">
+                <span class="error">This company is exist, Please another company.</span>
+            </ng-container>
+            <ng-container *ngIf="
+          formGroup.controls.company.touched &&
+          !formGroup.controls.company.value
+        ">
+                <span class="error">Company is Required</span>
+            </ng-container>
+        </div>
+    </ng-container>
+        <!--dueLimit start -->
+        <mat-form-field>
+            <mat-label>Due Limit</mat-label>
+            <input type="number" matInput formControlName="dueLimit" required />
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="
+          formGroup.controls.dueLimit.touched &&
+          !formGroup.controls.dueLimit.value
+        ">
+                <span class="error">Due limit is Required</span>
+            </ng-container>
+        </div>
+        <!-- Balance start -->
+        <mat-form-field>
+            <mat-label>Balance</mat-label>
+            <!-- <input *ngIf="this.data.balance" matInput formControlName="balance" type="number" readonly matTooltip="Not Editable" /> -->
+            <!-- <input  *ngIf="!this.data.balance" matInput formControlName="balance" type="number" required /> -->
+            <input   matInput formControlName="balance" type="number" required />
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="
+          formGroup.controls.balance.touched &&
+          !formGroup.controls.balance.value
+        ">
+                <span class="error">Balance is Required</span>
+            </ng-container>
+        </div>
+        <!-- Other start -->
+        <mat-form-field>
+            <mat-label>Comment</mat-label>
+            <input matInput formControlName="other" />
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="
+          formGroup.controls.other.touched &&
+          !formGroup.controls.other.value
+        ">
+                <span class="error">Other is Required</span>
+            </ng-container>
+        </div>
+        <!-- button start -->
+        <div class="btn-update">
+            <button mat-raised-button color="primary" [disabled]="!formGroup.valid || isShowLoader" type="submit">
+                <span *ngIf="!isShowLoader">
+                    {{ !this.data ? 'Save' : 'Update' }}
+                </span>
+                <mat-spinner *ngIf="isShowLoader" class="inline-loader" diameter="20"></mat-spinner>
+            </button>
+        </div>
+    </form>
+</div>

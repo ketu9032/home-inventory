@@ -1,0 +1,73 @@
+<div class="main-header">
+    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Transfer' : 'Update Transfer' }}</b> </h1>
+    <button mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-divider></mat-divider>
+<br>
+
+<div class="container">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+
+        <!-- Description start -->
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" required></textarea>
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="
+        formGroup.controls.description.touched &&
+        !formGroup.controls.description.value
+      ">
+                <span class="error">Description is Required</span>
+            </ng-container>
+        </div>
+
+        <!-- Amount start -->
+        <mat-form-field>
+            <mat-label>Amount</mat-label>
+            <input matInput formControlName="transfer_amount" type="number"  required />
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="
+          formGroup.controls.transfer_amount.touched &&
+          !formGroup.controls.transfer_amount.value &&
+          !formGroup.controls.transfer_amount.errors.required
+        ">
+                <span class="error">Amount Balance is Required</span>
+
+            </ng-container>
+        </div>
+
+        <!-- user start -->
+        <mat-form-field>
+            <mat-label>User To</mat-label>
+            <mat-select formControlName="toUserId" name="toUserId" required>
+                <mat-option *ngFor="let user of users" [value]="user.id">
+                    {{user.user_name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="
+          formGroup.controls.toUserId.touched &&
+          !formGroup.controls.toUserId.value
+        ">
+                <span class="error">User is Required</span>
+
+            </ng-container>
+        </div>
+
+        <!-- button start -->
+        <br>
+        <div class="btn-update">
+            <button mat-raised-button color="primary" [disabled]="!formGroup.valid || isShowLoader" type="submit">
+                <span *ngIf="!isShowLoader">
+                    {{ !this.data ? 'Save Transfer' : 'Update Transfer' }}
+                </span>
+                <mat-spinner *ngIf="isShowLoader" class="inline-loader" diameter="20"></mat-spinner>
+            </button>
+        </div>
+    </form>
+</div>

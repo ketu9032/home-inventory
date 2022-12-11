@@ -1,0 +1,221 @@
+<div>
+    <div>
+        <mat-spinner *ngIf="loader" class="loader" diameter="40"></mat-spinner>
+        <div class="header">
+            <div>
+                <!-- Select date range -->
+                <mat-form-field class="field-width margin">
+                    <mat-label>Select date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate [(ngModel)]="fromDate" placeholder="Start date">
+                        <input matEndDate [(ngModel)]="toDate" placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+                <!-- category start -->
+                <mat-form-field class="margin field-width">
+                    <mat-label>Select Tier</mat-label>
+                    <mat-select name="tier" [(ngModel)]="tireId"
+                        (selectionChange)="toggleCreateButton(); getSalesQuotation()">
+                        <mat-option value=''>All Tires</mat-option>
+                        <mat-option *ngFor="let tire of tires" [value]="tire.id">
+                            {{tire.code | uppercase}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-spinner class="selectTierLoader" *ngIf="selectTireLoader" diameter="20"></mat-spinner>
+                </mat-form-field>
+                <!-- search text box  -->
+                <mat-form-field class="field-width">
+                    <mat-label>Search...</mat-label>
+                    <input matInput type="text" [(ngModel)]="tableParams.search" (keyup.enter)="getSalesQuotation()">
+                </mat-form-field>
+                <!-- search button -->
+                <button color="primary" class="margin btn" mat-raised-button (click)="getSalesQuotation()">
+                    Search
+                </button>
+                <!-- clear search box-->
+                <button color="primary" class="margin btn" mat-raised-button (click)="clearSearch()">
+                    Clear Search
+                </button>
+
+                <button color="primary" class="margin btn" mat-raised-button>
+                    <mat-icon class="icon">cloud_download</mat-icon>
+                    Download
+                </button>
+                <button color="primary" class="margin btn" mat-raised-button *ngIf="isShow"
+                    (click)="onAddNewCreateQuotation()">
+                    Add Create Qutation
+                </button>
+            </div>
+            <div>
+                <mat-slide-toggle color="primary" (change)="toggleType()" [checked]="tableParams.active">Active
+                </mat-slide-toggle>
+            </div>
+        </div>
+        <br />
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)"
+                matSortActive="company" matSortDirection="asc">
+                <ng-container matColumnDef="sr">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>SR</th>
+                    <ng-container id="print">
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.sr}}
+                        </td>
+                    </ng-container>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.date | date: 'MMM d, y, h:mm:ss' }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="remarks">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.remarks | uppercase}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="qty">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Qty </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.qty }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+                    <td mat-cell *matCellDef="let element">{{ element.amount | currency: 'INR' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="shipping">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Shipping</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.shipping | currency: 'INR'}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="gst">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>GST</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.gst | currency: 'INR' }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="total_due">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Due</th>
+                    <td mat-cell *matCellDef="let element">{{ element.total_due | currency: 'INR'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="tier">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tier</th>
+                    <td mat-cell *matCellDef="let element">{{ element.tier_code | uppercase }}</td>
+                </ng-container>
+                <ng-container matColumnDef="user">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
+                    <td mat-cell *matCellDef="let element">{{ element.user_name | uppercase }}</td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+
+                    <td mat-cell *matCellDef="let element">
+                        <ng-container *ngIf="loggedInUsersData.user_name === element.user_name">
+                            <button mat-icon-button matTooltip="Click to Edit" color="primary" type="button"
+                                (click)="onEditNewCustomers(element)">
+                                <mat-icon aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button mat-icon-button matTooltip="Click to Delete" color="warn"
+                                (click)="confirmDialog(element.id)">
+                                <mat-icon aria-label="Delete">delete</mat-icon>
+                            </button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="print">
+                    <th mat-header-cell *matHeaderCellDef>Print</th>
+                    <td mat-cell *matCellDef="let element">
+                        <ng-container *ngIf="loggedInUsersData.user_name === element.user_name">
+                            <button mat-icon-button matTooltip="Move to sales " type="button"
+                                (click)="onSelectCustomers(element.id)">
+                                <mat-icon aria-label="" class="green">device_hub</mat-icon>
+                            </button>
+                        </ng-container>
+                        <button mat-icon-button matTooltip="Click to PRINT" color="primary" type="button"
+                            (click)="getPrintData(element.id)">
+                            <mat-icon aria-label="PRINT" color="primary">print</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+            </table>
+            <mat-paginator #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="defaultPageSize"
+                showFirstLastButtons (page)="pageChanged($event)" [length]="+totalRows"
+                aria-label="Select page of elements">
+            </mat-paginator>
+        </div>
+    </div>
+
+    <!-- print start -->
+    <div style="display: none;">
+        <div id="print">
+            <div style="display: flex; justify-content: space-around;">
+                <span
+                    style="border: 1px solid black; padding: 5px; font-size: 14pxs; width: 1230px; margin: 0 0 0 5px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <b>{{remarks| uppercase}} </b>
+                        </div>
+                        <div>
+                            <b style="float: right;">No #:- {{sr}} </b> <br>
+                            {{date | date: 'MMM d, y, h:mm:ss a' }}
+                        </div>
+                    </div>
+                    <div style="display: flex; font-weight: bold; border-top: 1px solid black">
+                        <div style="margin-right: 16px">No.</div>
+                        <div style="margin-right: 32px">Item </div>
+                        <div style="margin-right: 27px">Qty</div>
+                        <div style="margin-right: 31px">Price </div>
+                        <div style="margin: 0 0 0 auto;">Amount </div>
+                    </div>
+                    <ng-container *ngFor="let item of salesQuotationItems; let i = index">
+                        <div *ngIf="+item.row_number_by_category_id === 1 && i !== 0"
+                            style="display: flex; border-top: 1px solid black;"></div>
+                        <div a-for style="display: flex; border-top: 1px solid black;">
+                            <div style="width:30px; margin: 0 8px 0 0;   ">{{ i + 1 }}</div>
+                            <div style="  width:55px; margin: 0 8px 0 0;">{{item.item_item_code}}</div>
+                            <div style="  width:45px; margin: 0 8px 0 0;">{{item.sales_quotation_details_qty
+                                }}</div>
+                            <div style=" width:42px; margin: 0 8px 0 0;">{{item.sales_quotation_details_selling_price
+                                }}</div>
+                            <div style="margin-left:  auto">{{+item.sales_quotation_details_qty
+                                * +item.sales_quotation_details_selling_price | currency: 'INR'}}</div>
+                        </div>
+                    </ng-container>
+                    <div style="border-top: 1px solid black;"></div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div><b>Total Qty: {{totalQty}}</b></div>
+                        <br>
+                        <div>
+                            <b>Total: {{total | currency: 'INR'}}</b>
+                        </div>
+                    </div>
+                    <div style="border-top: 2px solid black;"></div>
+                    <div style="display: flex; justify-content: space-between;">
+
+                        <div>
+                            Weight: {{weight}}
+                        </div>
+                        <div>
+                            <b> Grand Total : {{total | currency: 'INR'}}</b>
+                        </div>
+                    </div>
+
+                    <div style="float: right;">Shipping: {{shipping | currency: 'INR'}}</div><br>
+                    <div style="float: right;">GST: {{gst | currency: 'INR'}}</div><br>
+                    <div style="border-top: 2px solid black;">
+                        <div style="float: right;">
+                            <b> Total Due: {{+total + (+shipping === 0 ? +0 : +shipping) + (gst === 0 ? +0 : +gst) |
+                                currency: 'INR'}}</b>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
