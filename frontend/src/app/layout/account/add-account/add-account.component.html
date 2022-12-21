@@ -1,0 +1,133 @@
+<div class="main-header">
+    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Account' : 'Update Account' }}</b> </h1>
+    <button mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div class="container">
+    <mat-divider></mat-divider>
+    <br>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="flex">
+            <!-- user name start -->
+            <div class="width margin-right">
+
+                <mat-form-field>
+                    <mat-label>User Name</mat-label>
+                    <mat-select formControlName="userName" matInput required>
+                        <mat-option value="user1">User 1</mat-option>
+                        <mat-option value="user2">User 2</mat-option>
+                        <mat-option value="user3">User 3</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="!isUserNameExist">
+                        <span class="error">This User name is exist, Please another user name</span>
+                    </ng-container>
+                    <ng-container *ngIf="
+          formGroup.controls.userName.touched &&
+          !formGroup.controls.userName.value
+        ">
+                        <span class="error">User name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- mobile start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Bank Name</mat-label>
+                    <input matInput formControlName="bankName" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.bankName.touched &&
+          !formGroup.controls.bankName.value
+        ">
+                        <span class="error">Bank Name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex">
+            <!-- Account Holder Full Name start -->
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Account Holder Full Name</mat-label>
+                    <input matInput formControlName="accountHolderFullName" required />
+                </mat-form-field>
+
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.accountHolderFullName.touched &&
+          !formGroup.controls.accountHolderFullName.value
+        ">
+                        <span class="error">Account Holder Full Name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- balance start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Branch Name</mat-label>
+                    <input matInput formControlName="branchName" type="text" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.branchName.touched &&
+          !formGroup.controls.branchName.value
+        ">
+                        <span class="error">Branch Name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex">
+            <!-- Account Holder Full Name start -->
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Account Number</mat-label>
+                    <input matInput formControlName="accountNumber" type="number" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.accountNumber.touched &&
+          !formGroup.controls.accountNumber.value
+        ">
+                        <span class="error">Account Number is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- balance start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>IFSC Code Name</mat-label>
+                    <input matInput formControlName="ifscCode" type="text" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.ifscCode.touched &&
+          !formGroup.controls.ifscCode.value
+        ">
+                        <span class="error">IFSC Code is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <!-- button start -->
+        <div class="button-save-update center">
+            <button mat-raised-button color="primary" [disabled]="!formGroup.valid || isShowLoader" type="submit"
+                class="margin-right">
+                <span *ngIf="!isShowLoader">
+                    {{ !this.data ? 'Save' : 'Update' }}
+                </span>
+                <mat-spinner *ngIf="isShowLoader" class="inline-loader" diameter="20"></mat-spinner>
+            </button>
+            <button mat-raised-button color="warn">
+                Close
+            </button>
+        </div>
+    </form>
+</div>

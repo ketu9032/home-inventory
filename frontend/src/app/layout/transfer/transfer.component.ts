@@ -71,8 +71,8 @@ export class TransferComponent implements OnInit {
         this.loggedInUsersData = this.authService.getUserData();
         this.loggedInUserId = this.loggedInUsersData.id
         this.loggedInUserRole = this.loggedInUsersData.role
-        this.getUserDropDown()
-        this.getTransfer();
+        // this.getUserDropDown()
+        // this.getTransfer();
     }
 
     sortData(sort: Sort) {

@@ -10,7 +10,6 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { IExpenseData } from 'src/app/models/expense';
 import * as moment from 'moment';
-import { CategoriesService } from './services/categories.service';
 import { UserService } from '../user/services/user.service';
 import { AuthService } from 'src/app/auth/auth.service';
 
@@ -50,11 +49,7 @@ export class ExpenseComponent implements OnInit {
         direction: "desc",
         search: '',
         active: true,
-        fromDate: '',
-        toDate: '',
-        userId: '',
-        categoryId: '',
-        isCashIn: null
+
     }
     categories = []
     loggedInUsersData: any;
@@ -71,14 +66,14 @@ export class ExpenseComponent implements OnInit {
         public snackBar: MatSnackBar,
         public authService: AuthService,
         private userService: UserService,
-        private categoriesService: CategoriesService
+
     ) { }
 
     ngOnInit(): void {
         this.loggedInUsersData = this.authService.getUserData();
-        this.getUserDropDown()
-        this.getCategoryDropDown('Expense')
-        this.getExpense()
+        // this.getUserDropDown()
+        // this.getCategoryDropDown('Expense')
+        // this.getExpense()
     }
 
     sortData(sort: Sort) {
@@ -106,25 +101,7 @@ export class ExpenseComponent implements OnInit {
 
     getExpense() {
         this.loader = true;
-        if (this.userId && +this.userId !== 0) {
-            this.tableParams.userId = this.userId;
-        } else {
-            this.tableParams.userId = '';
-        }
 
-        if (this.categoryId && +this.categoryId !== 0) {
-            this.tableParams.categoryId = this.categoryId;
-        }  else {
-            this.tableParams.categoryId = '';
-        }
-
-        if (this.fromDate) {
-            this.tableParams.fromDate = moment(this.fromDate).format('YYYY-MM-DD');
-        }
-        if (this.toDate) {
-            this.tableParams.toDate = moment(this.toDate).format('YYYY-MM-DD');
-        }
-        this.tableParams.isCashIn = this.isCashIn;
         this.expenseService.getExpense(this.tableParams).subscribe(
             (newCustomers: any[]) => {
                 this.dataSource = new MatTableDataSource<IExpenseData>(newCustomers);
@@ -233,24 +210,7 @@ export class ExpenseComponent implements OnInit {
                 () => { }
             );
     }
-    getCategoryDropDown(type: string) {
-        this.categoriesService
-            .getCategoryDropDown(type)
-            .subscribe(
-                (response) => {
-                    this.categories = response
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok', {
-                        duration: 3000
-                    }
-                    );
-                },
-                () => { }
-            );
-    }
+
     onApproved(expenseId: number): void {
         this.expenseService
             .approved(expenseId)
@@ -281,11 +241,7 @@ export class ExpenseComponent implements OnInit {
         this.categoryId = null;
         this.isCashIn = undefined;
         this.tableParams.search = '';
-        this.tableParams.userId = '';
-        this.tableParams.categoryId = '';
-        this.tableParams.fromDate = '';
-        this.tableParams.toDate = '';
-        this.tableParams.isCashIn = undefined;
+
         this.getExpense();
     }
 }

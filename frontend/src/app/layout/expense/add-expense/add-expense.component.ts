@@ -3,10 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { IExpenseData } from 'src/app/models/expense';
-import { UserService } from '../../user/services/user.service';
-import { CategoriesService } from '../services/categories.service';
 import { ExpenseService } from '../services/expense.service';
 
 @Component({
@@ -30,15 +27,13 @@ export class AddExpenseComponent implements OnInit {
         public dialogRef: MatDialogRef<AddExpenseComponent>,
         private formBuilder: FormBuilder,
         public snackBar: MatSnackBar,
-
-        private expenseService: ExpenseService,
-        private categoriesService: CategoriesService
+        private expenseService: ExpenseService
     ) { }
 
     ngOnInit() {
         this.initializeForm();
 
-        this.getCategoryDropDown('Expense')
+
         if (this.data && this.data.expenseId) {
             this.fillForm();
         }
@@ -126,25 +121,5 @@ export class AddExpenseComponent implements OnInit {
             categoryId,
             isCashIn
         });
-    }
-
-
-    getCategoryDropDown(type: string) {
-        this.categoriesService
-            .getCategoryDropDown(type)
-            .subscribe(
-                (response) => {
-                    this.categories = response
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok', {
-                        duration: 3000
-                    }
-                    );
-                },
-                () => { }
-            );
     }
 }
