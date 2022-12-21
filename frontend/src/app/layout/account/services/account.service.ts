@@ -17,27 +17,18 @@ export class AccountService {
         private commonService: CommonService
     ) { }
 
-    public getUser(tablePrams: IMatTableParams) {
+    public getAccount(tablePrams: IMatTableParams) {
         const queryString = this.commonService.toQueryString(tablePrams);
         return this.restService.get<any>(`${this.url}${queryString}`);
     }
-    public addUser(user: IAccountParams) {
-        return this.restService.post(`${this.url}`, user);
+    public addAccount(account: IAccountParams) {
+        return this.restService.post(`${this.url}`, account);
     }
-    public editUser(user: IAccountParams) {
-        return this.restService.put(`${this.url}`, user);
+    public editAccount(account: IAccountParams) {
+        return this.restService.put(`${this.url}`, account);
     }
-    public removeUser(id: string) {
+    public removeAccount(id: string) {
         return this.restService.delete(`${this.url}?id=${id}`);
     }
-    public getUserDropDown(loggedInUser: boolean) {
-        return this.restService.get<any>(`${this.getUserDropDownURL}?loggedInUser=${loggedInUser}`);
-    }
-    public changeStatus(user: IUserActiveParams) {
-        return this.restService.put(`${this.changeStatusURL}`, user);
-    }
 
-    public onCheckUserName(userName: IUserName) {
-        return this.restService.put(`${this.onCheckUserNameURL}`, userName);
-    }
 }

@@ -63,7 +63,7 @@ export class AddAccountComponent implements OnInit {
             this.formGroup.value;
         this.isShowLoader = true;
         this.accountService
-            .addUser({
+            .addAccount({
                 userName,
                 bankName,
                 accountHolderFullName,
@@ -101,7 +101,7 @@ export class AddAccountComponent implements OnInit {
             this.formGroup.value;
         this.isShowLoader = true;
         this.accountService
-            .editUser({
+            .editAccount({
                 id: this.data.id,
                 userName,
                 bankName,

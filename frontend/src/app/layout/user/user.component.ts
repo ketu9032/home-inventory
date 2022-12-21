@@ -21,8 +21,9 @@ import { IMatTableParams } from 'src/app/models/table';
 })
 export class UserComponent implements OnInit {
     displayedColumns: string[] = [
-        'user_name',
-        'mobile_number',
+        'date',
+        'userName',
+        'mobileNumber',
         'balance',
         'action'
     ];
@@ -53,8 +54,8 @@ export class UserComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        const loggedInUser = this.authService.getUserData()
-        this.isLoggedInUserIsOwner = loggedInUser.role.toLowerCase() === 'owner' ? true : false;
+        // const loggedInUser = this.authService.getUserData()
+        // this.isLoggedInUserIsOwner = loggedInUser.role.toLowerCase() === 'owner' ? true : false;
         // this.getUser();
     }
 
@@ -96,7 +97,7 @@ export class UserComponent implements OnInit {
     onAddNewUser(): void {
         this.dialog
             .open(AddUserComponent, {
-                width: '400px'
+                width: '700px'
             })
             .afterClosed()
             .subscribe((result) => {
@@ -108,7 +109,7 @@ export class UserComponent implements OnInit {
     onEditNewUser(element) {
         this.dialog
             .open(AddUserComponent, {
-                width: '400px',
+                width: '700px',
                 data: element
             })
             .afterClosed()
@@ -129,35 +130,5 @@ export class UserComponent implements OnInit {
         this.tableParams.pageNumber = 1;
         this.getUser();
     }
-
-    changeStatus(id: number): void {
-        this.userService
-            .changeStatus({ id: id, status: !this.tableParams.active })
-            .subscribe(
-                (response) => {
-                    if (!this.tableParams.active) {
-                        this.snackBar.open('User active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    } else {
-                        this.snackBar.open('User de-active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    }
-                    this.getUser();
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok',
-                        {
-                            duration: 3000
-                        }
-                    );
-                },
-                () => { }
-            );
-    }
-
 
 }
