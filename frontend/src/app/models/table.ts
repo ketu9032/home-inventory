@@ -6,7 +6,7 @@ export interface IMatTableParams {
     direction: string;
     search: string;
     active: boolean;
-    [key: string]: any;
+
 }
 export interface IMatTableParamsWithSearchParams {
     pageSize: number

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../shared/guard';
+// import { AuthGuard } from '../shared/guard';
 import { LayoutComponent } from './layout.component';
 
 const routes: Routes = [
@@ -16,28 +16,34 @@ const routes: Routes = [
             },
             {
                 path: 'dashboard',
-                canActivate: [AuthGuard],
+                // canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
             },
             {
                 path: 'user',
-                canActivate: [AuthGuard],
+                // canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./user/user.module').then((m) => m.UserModule)
             },
 
             {
                 path: 'expense',
-                canActivate: [AuthGuard],
+                // canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./expense/expense.module').then((m) => m.ExpenseModule)
             },
             {
                 path: 'transfer',
-                canActivate: [AuthGuard],
+                // canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./transfer/transfer.module').then((m) => m.TransferModule)
+            },
+            {
+                path: 'account',
+                // canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('./account/account.module').then((m) => m.AccountModule)
             }
 
         ]

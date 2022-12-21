@@ -24,10 +24,12 @@ export class SidebarComponent implements OnInit {
             icon: 'people',
             key: 'users'
         },
-
-
-
-
+        {
+            link: '/account',
+            name: 'Account',
+            icon: 'account_balance',
+            key: 'account'
+        },
         {
             link: '/expense',
             name: 'Expense',

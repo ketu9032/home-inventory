@@ -1,4 +1,4 @@
-import { AuthService } from './../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -7,26 +7,28 @@ import { IUserData } from 'src/app/models/user';
 import {
     PAGE_SIZE,
     PAGE_SIZE_OPTION
-} from './../../shared/global/table-config';
+} from '../../shared/global/table-config';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
-import { UserService } from './services/user.service';
-import { AddUserComponent } from './add-user/add-user.component';
 import { IMatTableParams } from 'src/app/models/table';
-
+import { AccountService } from './services/account.service';
+import { AddAccountComponent } from './add-account/add-account.component';
 @Component({
-    selector: 'app-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.scss']
+    selector: 'app-account',
+    templateUrl: './account.component.html',
+    styleUrls: ['./account.component.scss']
 })
-export class UserComponent implements OnInit {
+export class AccountComponent implements OnInit {
     displayedColumns: string[] = [
-        'user_name',
-        'mobile_number',
-        'balance',
+        'date',
+        'userName',
+        'bankName',
+        'accountHolderFullName',
+        'accountNumber',
+        'ifscCode',
+        'branchName',
         'action'
     ];
-
     dataSource: any = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     public defaultPageSize = PAGE_SIZE;
@@ -43,35 +45,26 @@ export class UserComponent implements OnInit {
         active: true
     }
     isLoggedInUserIsOwner = false
-
-
     constructor(
         public dialog: MatDialog,
-        private userService: UserService,
+        private accountService: AccountService,
         public snackBar: MatSnackBar,
         private authService: AuthService
     ) { }
-
     ngOnInit(): void {
-        const loggedInUser = this.authService.getUserData()
-        this.isLoggedInUserIsOwner = loggedInUser.role.toLowerCase() === 'owner' ? true : false;
-        // this.getUser();
     }
-
     sortData(sort: Sort) {
         this.tableParams.orderBy = sort.active;
         this.tableParams.direction = sort.direction;
         this.tableParams.pageNumber = 1;
-        this.getUser();
+        this.getAccount();
     }
-
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
     }
-
-    getUser() {
+    getAccount() {
         this.loader = true;
-        this.userService.getUser(this.tableParams).subscribe(
+        this.accountService.getUser(this.tableParams).subscribe(
             (newUser: any[]) => {
                 this.dataSource = new MatTableDataSource<IUserData>(newUser);
                 if (newUser.length > 0) {
@@ -92,59 +85,56 @@ export class UserComponent implements OnInit {
             () => { }
         );
     }
-
-    onAddNewUser(): void {
+    onAddNewAccount(): void {
         this.dialog
-            .open(AddUserComponent, {
-                width: '400px'
+            .open(AddAccountComponent, {
+                width: '700px'
             })
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getUser();
+                    this.getAccount();
                 }
             });
     }
-    onEditNewUser(element) {
+    onEditNewAccount(element) {
         this.dialog
-            .open(AddUserComponent, {
-                width: '400px',
+            .open(AddAccountComponent, {
+                width: '600px',
                 data: element
             })
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getUser();
+                    this.getAccount();
                 }
             });
     }
-
     pageChanged(event: PageEvent) {
         this.tableParams.pageSize = event.pageSize;
         this.tableParams.pageNumber = event.pageIndex + 1;
-        this.getUser();
+        this.getAccount();
     }
     toggleType() {
         this.tableParams.active = !this.tableParams.active;
         this.tableParams.pageNumber = 1;
-        this.getUser();
+        this.getAccount();
     }
-
     changeStatus(id: number): void {
-        this.userService
+        this.accountService
             .changeStatus({ id: id, status: !this.tableParams.active })
             .subscribe(
                 (response) => {
                     if (!this.tableParams.active) {
-                        this.snackBar.open('User active successfully', 'OK', {
+                        this.snackBar.open('Account active successfully', 'OK', {
                             duration: 3000
                         })
                     } else {
-                        this.snackBar.open('User de-active successfully', 'OK', {
+                        this.snackBar.open('Account de-active successfully', 'OK', {
                             duration: 3000
                         })
                     }
-                    this.getUser();
+                    this.getAccount();
                 },
                 (error) => {
                     this.snackBar.open(
@@ -158,6 +148,4 @@ export class UserComponent implements OnInit {
                 () => { }
             );
     }
-
-
 }
