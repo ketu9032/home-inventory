@@ -18,22 +18,7 @@ import { UserService } from '../services/user.service';
 })
 export class AddUserComponent implements OnInit {
     formGroup: FormGroup;
-    permissions = {
-        dashboard: false,
-        cdf: false,
-        customers: false,
-        items: false,
-        sales: false,
-        sales_quotation: false,
-        suppliers: false,
-        purchase: false,
-        expense: false,
-        transfer: false,
-        analysis: false,
-        roj_med: false,
-        users: true,
-        history: false
-    };
+
     isLoggedInUserIsOwner: boolean = false;
     isShowLoader: boolean = false;
     isUserNameExist: boolean = true;
@@ -50,9 +35,7 @@ export class AddUserComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        const loggedInUser = this.authService.getUserData();
-        this.isLoggedInUserIsOwner =
-            loggedInUser.role.toLowerCase() === 'owner' ? true : false;
+
         this.initializeForm();
         if (this.data && this.data.id) {
             this.fillForm();
@@ -61,39 +44,15 @@ export class AddUserComponent implements OnInit {
 
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
-            userName: [
-                {
-                    value: '',
-                    disabled:
-                        !this.isLoggedInUserIsOwner ||
-                        (this.data && this.data.id && this.isLoggedInUserIsOwner)
-                },
-                Validators.required
-            ],
-            password: ['', Validators.required],
+            userName: ['', Validators.required],
             mobileNumber: ['', Validators.required],
-            balance: [
-                {
-                    value: '',
-                    disabled:
-                        !this.isLoggedInUserIsOwner ||
-                        (this.data && this.data.id && this.isLoggedInUserIsOwner)
-                }
-            ],
-            role: [
-                {
-                    value: '',
-                    disabled:
-                        !this.isLoggedInUserIsOwner ||
-                        (this.data && this.data.id && this.isLoggedInUserIsOwner)
-                },
-                Validators.required
-            ]
-        });
+            password: ['', Validators.required],
+            balance: ['', Validators.required]
+        })
     }
 
     saveUser(): void {
-        const { userName, password, mobileNumber, balance, role } =
+        const { userName, password, mobileNumber, balance } =
             this.formGroup.value;
         this.isShowLoader = true;
         this.userService
@@ -101,9 +60,8 @@ export class AddUserComponent implements OnInit {
                 userName,
                 password,
                 mobileNumber,
-                balance,
-                role,
-                permission: this.permissions
+                balance
+
             })
             .subscribe(
                 (response) => {
@@ -138,8 +96,7 @@ export class AddUserComponent implements OnInit {
                 password,
                 mobileNumber,
                 balance,
-                role,
-                permission: this.permissions
+
             })
             .subscribe(
                 (response) => {
@@ -172,21 +129,20 @@ export class AddUserComponent implements OnInit {
     }
 
     fillForm() {
-        const {
-            user_name: userName,
-            password: password,
-            mobile_number: mobileNumber,
-            balance: balance,
-            role: role,
+        // const {
+        //     userName: userName,
+        //     password: password,
+        //     mobileNumber: mobileNumber,
+        //     balance: balance,
 
-        } = this.data;
-        this.formGroup.patchValue({
-            userName,
-            password,
-            mobileNumber,
-            balance,
-            role
-        });
+
+        // } = this.data;
+        // this.formGroup.patchValue({
+        //     userName,
+        //     password,
+        //     mobileNumber,
+        //     balance
+        // });
 
     }
 

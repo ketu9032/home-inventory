@@ -64,7 +64,7 @@ export class AccountComponent implements OnInit {
     }
     getAccount() {
         this.loader = true;
-        this.accountService.getUser(this.tableParams).subscribe(
+        this.accountService.getAccount(this.tableParams).subscribe(
             (newUser: any[]) => {
                 this.dataSource = new MatTableDataSource<IUserData>(newUser);
                 if (newUser.length > 0) {
@@ -100,7 +100,7 @@ export class AccountComponent implements OnInit {
     onEditNewAccount(element) {
         this.dialog
             .open(AddAccountComponent, {
-                width: '600px',
+                width: '700px',
                 data: element
             })
             .afterClosed()
@@ -120,32 +120,5 @@ export class AccountComponent implements OnInit {
         this.tableParams.pageNumber = 1;
         this.getAccount();
     }
-    changeStatus(id: number): void {
-        this.accountService
-            .changeStatus({ id: id, status: !this.tableParams.active })
-            .subscribe(
-                (response) => {
-                    if (!this.tableParams.active) {
-                        this.snackBar.open('Account active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    } else {
-                        this.snackBar.open('Account de-active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    }
-                    this.getAccount();
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok',
-                        {
-                            duration: 3000
-                        }
-                    );
-                },
-                () => { }
-            );
-    }
+
 }
