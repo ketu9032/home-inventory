@@ -1,4 +1,3 @@
-import { CategoryComponent } from './cateogry/category.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -186,15 +185,7 @@ export class ExpenseComponent implements OnInit {
         this.getExpense()
     }
 
-    openCategory() {
-        this.dialog
-            .open(CategoryComponent, {
-                width: 'auto',
-                height: '550px'
-            })
-            .afterClosed()
-            .subscribe((result) => { });
-    }
+
 
     changeStatus(expenseId: number): void {
         this.expenseService

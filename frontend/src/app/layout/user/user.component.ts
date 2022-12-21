@@ -12,7 +12,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
 import { UserService } from './services/user.service';
 import { AddUserComponent } from './add-user/add-user.component';
-import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { IMatTableParams } from 'src/app/models/table';
 
 @Component({
@@ -25,7 +24,6 @@ export class UserComponent implements OnInit {
         'user_name',
         'mobile_number',
         'balance',
-        'role',
         'action'
     ];
 

@@ -9,10 +9,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddUserComponent } from './add-user/add-user.component';
-import { DeleteUserComponent } from './delete-user/delete-user.component';
 
 @NgModule({
-  declarations: [UserComponent, AddUserComponent, DeleteUserComponent],
+  declarations: [UserComponent, AddUserComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -23,7 +22,7 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
     FlexLayoutModule.withConfig({ addFlexToParent: false }),
     UserRoutingModule
   ],
-  entryComponents: [AddUserComponent, DeleteUserComponent],
+  entryComponents: [AddUserComponent],
   providers: [UserService]
 })
 export class UserModule {}

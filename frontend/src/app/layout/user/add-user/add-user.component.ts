@@ -18,8 +18,6 @@ import { UserService } from '../services/user.service';
 })
 export class AddUserComponent implements OnInit {
     formGroup: FormGroup;
-    selectedRole: string;
-    roles = [{ value: 'Owner' }, { value: 'Employees' }];
     permissions = {
         dashboard: false,
         cdf: false,
@@ -180,7 +178,7 @@ export class AddUserComponent implements OnInit {
             mobile_number: mobileNumber,
             balance: balance,
             role: role,
-            permission
+
         } = this.data;
         this.formGroup.patchValue({
             userName,
@@ -189,21 +187,7 @@ export class AddUserComponent implements OnInit {
             balance,
             role
         });
-        this.permissions = { ...this.permissions, ...permission as any };
+
     }
 
-    onPermissionChange(key: string) {
-        if (this.isLoggedInUserIsOwner) {
-            this.permissions[key] = !this.permissions[key];
-        }
-    }
-
-    onUserNameCheck() {
-        this.userService
-            .onCheckUserName({ userName: this.formGroup.controls.userName.value })
-            .subscribe(
-                (response: boolean) => {
-                    this.isUserNameExist = response
-                })
-    }
 }

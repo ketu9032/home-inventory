@@ -1,5 +1,4 @@
-import { AddCategoryComponent } from './cateogry/add-category/add-category.component';
-import { CategoryComponent } from './cateogry/category.component';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,9 +14,7 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 @NgModule({
   declarations: [
     ExpenseComponent,
-    AddExpenseComponent,
-    CategoryComponent,
-    AddCategoryComponent,
+    AddExpenseComponent
   ],
   imports: [
     CommonModule,
@@ -31,8 +28,7 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
     FlexLayoutModule.withConfig({ addFlexToParent: false })
   ],
   entryComponents: [
-    CategoryComponent,
-    AddCategoryComponent,
+
   ]
 })
 export class ExpenseModule {}

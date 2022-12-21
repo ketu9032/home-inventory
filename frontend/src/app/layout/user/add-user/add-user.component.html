@@ -11,7 +11,7 @@
         <!-- user name start -->
         <mat-form-field>
             <mat-label>User Name</mat-label>
-            <input matInput formControlName="userName" (keyup)="onUserNameCheck()" required />
+            <input matInput formControlName="userName"  required />
         </mat-form-field>
         <div>
             <ng-container *ngIf="!isUserNameExist">
@@ -51,23 +51,7 @@
                 <span class="error">Password is Required</span>
             </ng-container>
         </div>
-        <!-- role start -->
-        <mat-form-field>
-            <mat-label>Select Role</mat-label>
-            <mat-select formControlName="role" name="role" required>
-                <mat-option *ngFor="let role of roles" [value]="role.value">
-                    {{role.value}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <div>
-            <ng-container *ngIf="
-          formGroup.controls.role.touched &&
-          !formGroup.controls.role.value
-        ">
-                <span class="error">Role is Required</span>
-            </ng-container>
-        </div>
+
         <!-- balance start -->
         <mat-form-field>
             <mat-label>Balance</mat-label>
@@ -81,24 +65,7 @@
                 <span class="error">Balance is Required</span>
             </ng-container>
         </div>
-        <!-- Permission start -->
-        <br>
-        <div>
-            <mat-label>Permission</mat-label>
-            <br>
-            <br>
-            <ng-container *ngFor="let permission of (permissions | keyvalue)">
-                <span class="permission">
-                    <!-- <mat-card style="width: 100px; display: block;"> -->
-
-                        <mat-checkbox [disabled]="!isLoggedInUserIsOwner" (click)="onPermissionChange(permission.key)"
-                        [checked]="permission.value">{{permission.key}}</mat-checkbox>
-                    <!-- </mat-card> -->
-                    </span>
-            </ng-container>
-        </div>
-        <br>
-        <!-- button start -->
+      <!-- button start -->
         <div class="btn-update">
             <button mat-raised-button color="primary" [disabled]="!formGroup.valid || isShowLoader" type="submit">
                 <span *ngIf="!isShowLoader">
