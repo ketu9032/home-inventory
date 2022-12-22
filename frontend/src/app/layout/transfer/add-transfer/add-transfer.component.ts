@@ -37,16 +37,19 @@ export class AddTransferComponent implements OnInit {
     ngOnInit() {
         this.initializeForm();
         this.getUserDropDown()
-        this.loggedInUserId = this.authService.getUserData();
         if (this.data && this.data.transferId) {
             this.fillForm();
         }
     }
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
-            description: ['', Validators.required],
-            transfer_amount: ['', Validators.required],
+            userId: ['', Validators.required],
+            accountNumber: ['', Validators.required],
             toUserId: ['', Validators.required],
+            toUserAccountNumber: ['', Validators.required],
+            remark: ['', Validators.required],
+            amount: ['', Validators.required],
+            paymentMethod: ['', Validators.required]
         });
     }
     saveTransfer(): void {

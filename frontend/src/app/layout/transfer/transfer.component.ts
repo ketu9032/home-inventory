@@ -21,14 +21,15 @@ import { TransferService } from './services/transfer.service';
 })
 export class TransferComponent implements OnInit {
     displayedColumns: string[] = [
-        "transferId",
-        'transferDate',
-        'description',
-        'transfer_amount',
-        'fromUserName',
+        "date",
+        'userName',
+        'accountNumber',
         'toUserName',
-        'action',
-        'isApproved',
+        'toUserAccountNumber',
+        'amount',
+        'paymentMethod',
+        'remark',
+        'action'
     ];
     dataSource: any = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -55,7 +56,7 @@ export class TransferComponent implements OnInit {
     loggedInUserRole: any;
     users = []
     fromDate: any;
-    toDate:any;
+    toDate: any;
     fromUserId: number;
     toUserId: number;
     currentDate = new Date()
@@ -98,13 +99,13 @@ export class TransferComponent implements OnInit {
     getTransfer() {
         this.loader = true;
         this.totalRows = 0;
-        if (this.fromUserId && +this.fromUserId !== 0 ) {
+        if (this.fromUserId && +this.fromUserId !== 0) {
             this.tableParams.fromUserId = this.fromUserId;
         } else {
             this.tableParams.fromUserId = ''
         }
 
-        if (this.toUserId && +this.toUserId !== 0 ) {
+        if (this.toUserId && +this.toUserId !== 0) {
             this.tableParams.toUserId = this.toUserId;
         } else {
             this.tableParams.toUserId = ''
@@ -140,7 +141,7 @@ export class TransferComponent implements OnInit {
     onAddNewUser(): void {
         this.dialog
             .open(AddTransferComponent, {
-                width: '400px'
+                width: '700px'
             })
             .afterClosed()
             .subscribe((result) => {
@@ -152,7 +153,7 @@ export class TransferComponent implements OnInit {
     onEditNewUser(element) {
         this.dialog
             .open(AddTransferComponent, {
-                width: '400px',
+                width: '700px',
                 data: element
             })
             .afterClosed()
@@ -180,81 +181,6 @@ export class TransferComponent implements OnInit {
         this.tableParams.pageSize = event.pageSize;
         this.tableParams.pageNumber = event.pageIndex + 1;
         this.getTransfer();
-    }
-    toggleType() {
-        this.tableParams.active = !this.tableParams.active;
-        this.tableParams.pageNumber = 1;
-        this.getTransfer();
-    }
-    changeStatus(transferId: number): void {
-        this.transferService
-            .changeStatus({ transferId, status: !this.tableParams.active })
-            .subscribe(
-                (response) => {
-                    if (!this.tableParams.active) {
-                        this.snackBar.open('Transfer active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    } else {
-                        this.snackBar.open('Transfer de-active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    }
-                    this.getTransfer();
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok',
-                        {
-                            duration: 3000
-                        }
-                    );
-                },
-                () => { }
-            );
-    }
-
-    onApproved(transferId: number): void {
-        this.transferService
-            .approved(transferId)
-            .subscribe(
-                (response) => {
-                    this.snackBar.open('Transfer Approved successfully', 'OK', {
-                        duration: 3000
-                    })
-                    this.getTransfer();
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok',
-                        {
-                            duration: 3000
-                        }
-                    );
-                },
-                () => { }
-            );
-    }
-
-    getUserDropDown() {
-        this.userService
-            .getUserDropDown(this.loggedInUser)
-            .subscribe(
-                (response) => {
-                    this.users = response
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok', {
-                        duration: 3000
-                    }
-                    );
-                },
-                () => { }
-            );
     }
 
     clearSearch() {
