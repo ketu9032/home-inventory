@@ -112,7 +112,7 @@ exports.changeStatus = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    const { userName, role, mobileNumber, balance, password, permission } =
+    const { userName, lastName, mobileNumber, balance, password } =
       req.body;
 
     if (!userName || !role || !mobileNumber || !balance || !password) {
@@ -129,10 +129,8 @@ exports.add = async (req, res) => {
     }
 
     const query = `INSERT INTO users
-    (user_name, "role", mobile_number, balance, "password", permission)
-    VALUES('${userName}', '${role}', '${mobileNumber}', '${balance}', '${password}', '${JSON.stringify(
-      permission
-    )}'); `;
+    (date, user_name, mobile_number, password)
+    VALUES('${userName}', '${lastName}', '${mobileNumber}',  '${password}'); `;
 
     await pool.query(query);
     res.status(STATUS_CODE.SUCCESS).send();

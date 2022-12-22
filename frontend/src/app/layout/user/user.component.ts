@@ -22,8 +22,8 @@ import { IMatTableParams } from 'src/app/models/table';
 export class UserComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'firstName',
-        'lastName',
+        'userName',
+        'email',
         'balance',
         'mobileNumber',
         'action'
