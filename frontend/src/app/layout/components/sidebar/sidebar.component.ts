@@ -39,7 +39,7 @@ export class SidebarComponent implements OnInit {
         {
             link: '/transfer',
             name: 'Transfer',
-            icon: 'attach_money',
+            icon: 'loop',
             key: 'transfer'
         },
         {
