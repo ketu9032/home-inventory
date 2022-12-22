@@ -50,22 +50,21 @@
 
         </div>
         <div class="flex">
-            <!-- Account Holder Full Name start -->
-            <div class="width margin-right">
-                <mat-form-field>
-                    <mat-label>Account Holder Full Name</mat-label>
-                    <input matInput formControlName="accountHolderFullName" required />
-                </mat-form-field>
 
-                <div>
-                    <ng-container *ngIf="
-          formGroup.controls.accountHolderFullName.touched &&
-          !formGroup.controls.accountHolderFullName.value
-        ">
-                        <span class="error">Account Holder Full Name is Required</span>
-                    </ng-container>
-                </div>
+          <div class="width margin-right">
+            <mat-form-field>
+                <mat-label>Account Number</mat-label>
+                <input matInput formControlName="accountNumber" type="number" required />
+            </mat-form-field>
+            <div>
+                <ng-container *ngIf="
+      formGroup.controls.accountNumber.touched &&
+      !formGroup.controls.accountNumber.value
+    ">
+                    <span class="error">Account Number is Required</span>
+                </ng-container>
             </div>
+        </div>
             <!-- balance start -->
             <div class="width">
                 <mat-form-field>
@@ -84,10 +83,10 @@
 
         </div>
         <div class="flex">
-            <!-- Account Holder Full Name start -->
+
             <div class="width margin-right">
                 <mat-form-field>
-                    <mat-label>Account Number</mat-label>
+                    <mat-label>Confirm Account Number</mat-label>
                     <input matInput formControlName="accountNumber" type="number" required />
                 </mat-form-field>
                 <div>
@@ -95,7 +94,42 @@
           formGroup.controls.accountNumber.touched &&
           !formGroup.controls.accountNumber.value
         ">
-                        <span class="error">Account Number is Required</span>
+                        <span class="error"> Confirm Account Number is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- balance start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Balance</mat-label>
+                    <input matInput formControlName="balance" type="number" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.balance.touched &&
+          !formGroup.controls.balance.value
+        ">
+                        <span class="error">Balance is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex">
+            <!-- Account Holder Full Name start -->
+
+                   <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Account Holder Full Name</mat-label>
+                    <input matInput formControlName="accountHolderFullName" required />
+                </mat-form-field>
+
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.accountHolderFullName.touched &&
+          !formGroup.controls.accountHolderFullName.value
+        ">
+                        <span class="error">Account Holder Full Name is Required</span>
                     </ng-container>
                 </div>
             </div>

@@ -17,7 +17,6 @@ import { AccountService } from '../services/account.service';
 })
 export class AddAccountComponent implements OnInit {
     formGroup: FormGroup;
-
     isLoggedInUserIsOwner: boolean = false;
     isShowLoader: boolean = false;
     isUserNameExist: boolean = true;
@@ -38,14 +37,13 @@ export class AddAccountComponent implements OnInit {
         }
     }
 
-
-
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
             userName: ['', Validators.required],
             bankName: ['', Validators.required],
             accountHolderFullName: ['', Validators.required],
             branchName: ['', Validators.required],
+            balance: ['', Validators.required],
             accountNumber: ['', Validators.required],
             ifscCode: ['', Validators.required]
         });
@@ -59,6 +57,7 @@ export class AddAccountComponent implements OnInit {
             branchName,
             accountNumber,
             ifscCode,
+            balance
          } =
             this.formGroup.value;
         this.isShowLoader = true;
@@ -69,7 +68,8 @@ export class AddAccountComponent implements OnInit {
                 accountHolderFullName,
                 branchName,
                 accountNumber,
-                ifscCode
+                ifscCode,
+                balance
             })
             .subscribe(
                 (response) => {
@@ -95,7 +95,7 @@ export class AddAccountComponent implements OnInit {
 
     updateAccount(): void {
         const { userName, bankName, accountHolderFullName,
-            branchName,
+            branchName,balance,
             accountNumber,
             ifscCode } =
             this.formGroup.value;
@@ -108,7 +108,8 @@ export class AddAccountComponent implements OnInit {
                 accountHolderFullName,
                 branchName,
                 accountNumber,
-                ifscCode
+                ifscCode,
+                balance
 
             })
             .subscribe(
@@ -143,14 +144,13 @@ export class AddAccountComponent implements OnInit {
 
     fillForm() {
         // const {
-
         //     userName: userName,
         //     bankName: bankName,
         //     accountHolderFullName:accountHolderFullName,
         //     branchName: branchName,
         //     accountNumber: accountNumber,
         //     ifscCode: ifscCode
-
+        //     balance: balance
         // } = this.data;
         // this.formGroup.patchValue({
         //          userName,
@@ -158,7 +158,8 @@ export class AddAccountComponent implements OnInit {
         //         accountHolderFullName,
         //         branchName,
         //         accountNumber,
-        //         ifscCode
+        //         ifscCode,
+        //          balance
         // });
 
     }

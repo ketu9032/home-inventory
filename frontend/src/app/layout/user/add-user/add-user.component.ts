@@ -47,12 +47,12 @@ export class AddUserComponent implements OnInit {
             userName: ['', Validators.required],
             mobileNumber: ['', Validators.required],
             password: ['', Validators.required],
-            balance: ['', Validators.required]
+            lastName: ['', Validators.required]
         })
     }
 
     saveUser(): void {
-        const { userName, password, mobileNumber, balance } =
+        const { userName, password, mobileNumber, lastName } =
             this.formGroup.value;
         this.isShowLoader = true;
         this.userService
@@ -60,7 +60,7 @@ export class AddUserComponent implements OnInit {
                 userName,
                 password,
                 mobileNumber,
-                balance
+                lastName
 
             })
             .subscribe(
@@ -86,7 +86,7 @@ export class AddUserComponent implements OnInit {
     }
 
     updateUser(): void {
-        const { userName, password, mobileNumber, balance, role } =
+        const { userName, password, mobileNumber, lastName} =
             this.formGroup.value;
         this.isShowLoader = true;
         this.userService
@@ -95,7 +95,7 @@ export class AddUserComponent implements OnInit {
                 userName,
                 password,
                 mobileNumber,
-                balance,
+                lastName,
 
             })
             .subscribe(
@@ -133,7 +133,7 @@ export class AddUserComponent implements OnInit {
         //     userName: userName,
         //     password: password,
         //     mobileNumber: mobileNumber,
-        //     balance: balance,
+        //     lastName: lastName,
 
 
         // } = this.data;
@@ -141,7 +141,7 @@ export class AddUserComponent implements OnInit {
         //     userName,
         //     password,
         //     mobileNumber,
-        //     balance
+        //     lastName
         // });
 
     }
