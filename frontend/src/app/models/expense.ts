@@ -1,13 +1,22 @@
 
 export interface IExpenseData {
-    expenseId: number, user_id: number, description: string, amount: number, date: string, categoryId: number, isCashIn: boolean
-
+    expenseId: number,
+    userId: number,
+    userName: string,
+    accountNumber: number,
+    toUserId: number,
+    toUserName: string,
+    amount: number,
+    paymentMethod: string,
+    remark: string
 }
 
 export interface IExpenseParams {
-    id?: number, description: string, amount: number, categoryId: number, isCashIn: boolean
-
-}
-export interface IExpenseActiveParams {
-    expenseId: number, status: boolean
+    id?: number,
+    userId: number,
+    accountNumber: number,
+    toUserId: number,
+    amount: number,
+    paymentMethod: string,
+    remark: string
 }

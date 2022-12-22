@@ -13,40 +13,6 @@
                 <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
 
-            <!-- All user -->
-            <ng-container *ngIf="loggedInUsersData.role !== 'Employees'">
-                <mat-form-field class="field-width margin">
-                    <mat-label>All User</mat-label>
-                    <mat-select [(ngModel)]="userId" (selectionChange)="getExpense()">
-                        <mat-option value="0">--Select--</mat-option>
-                        <mat-option *ngFor="let user of userData" [value]="user.id">
-                            {{user.user_name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </ng-container>
-            <!-- Category start -->
-            <mat-form-field class="field-width margin">
-                <mat-label>Category</mat-label>
-                <mat-select [(ngModel)]="categoryId" (selectionChange)="getExpense()">
-                    <mat-option value="0">--Select--</mat-option>
-                    <mat-option *ngFor="let category of categories" [value]="category.id">
-                        {{category.code}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <!-- cash  -->
-            <mat-form-field class="field-width margin">
-                <mat-label>All Cash</mat-label>
-                <mat-select [(ngModel)]="isCashIn" (selectionChange)="getExpense()">
-                    <mat-option>--Select--</mat-option>
-                    <mat-option *ngFor="let cash of cashes" [value]="cash.value">
-                        {{cash.text}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
             <!-- search -->
             <mat-form-field class="field-width margin">
                 <mat-label>Search...</mat-label>
@@ -59,6 +25,9 @@
             <button color="primary" class="margin btn" mat-raised-button (click)="clearSearch()">
                 Clear Search
             </button>
+        </div>
+        <div>
+
             <button color="primary" class="margin btn" mat-raised-button (click)="onAddNewExpense()">
                 Add Expense
             </button>
@@ -68,57 +37,56 @@
                 Download
             </button>
         </div>
-        <div>
-            <mat-slide-toggle color="primary" (change)="toggleType()" [checked]="tableParams.active">Active
-            </mat-slide-toggle>
-        </div>
     </div>
     <br />
 </div>
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="id"
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="userName"
         matSortDirection="asc">
-        <ng-container matColumnDef="expenseId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID#</th>
-            <td mat-cell *matCellDef="let element">
-                <b>
-                    {{ element.expenseId}}
 
-                </b>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="expenseDate">
+        <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
             <td mat-cell *matCellDef="let element">
-                {{ element.expenseDate | date: 'medium' }}
+                {{ element.date | date: 'dd-MM-YYYY' }}
             </td>
         </ng-container>
-        <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+
+        <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
             <td mat-cell *matCellDef="let element">
-                {{ element.description | titlecase }}
+                {{ element.userName | titlecase}}
+            </td>
+
+        </ng-container>
+        <ng-container matColumnDef="accountNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Number</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.accountNumber | titlecase }}
             </td>
         </ng-container>
-        <ng-container matColumnDef="categoryName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <ng-container matColumnDef="toUserName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>To User Name</th>
             <td mat-cell *matCellDef="let element">
-                {{ element.categoryName | uppercase }}
+                {{ element.toUserName | titlecase }}
             </td>
         </ng-container>
         <ng-container matColumnDef="amount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
             <td mat-cell *matCellDef="let element">
-                <span [class]="element.isCashIn ? 'dark-green': 'dark-red'">
-                    <b>
-                        {{ element.amount | currency: 'INR' }}
-                    </b>
-                </span>
+                {{ element.amount | currency: 'INR' }}
             </td>
         </ng-container>
-        <ng-container matColumnDef="userName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
-            <td mat-cell *matCellDef="let element"><b>{{ element.userName | uppercase }}</b></td>
+
+        <ng-container matColumnDef="paymentMethod">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Method</th>
+            <td mat-cell *matCellDef="let element"><b>{{ element.paymentMethod | titlecase }}</b></td>
         </ng-container>
+
+        <ng-container matColumnDef="remark">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark </th>
+            <td mat-cell *matCellDef="let element"><b>{{ element.remark | titlecase }}</b></td>
+        </ng-container>
+
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
