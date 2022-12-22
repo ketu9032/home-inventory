@@ -6,6 +6,7 @@ export interface IAccountData {
     accountHolderFullName: string,
     branchName: string,
     accountNumber: number,
+    balance: number;
     ifscCode: string
 }
 
@@ -17,5 +18,6 @@ export interface IAccountParams {
     branchName: string,
     accountNumber: number,
     ifscCode: string,
+    balance: number;
 }
 
