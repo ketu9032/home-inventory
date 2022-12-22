@@ -19,20 +19,15 @@ import { AuthService } from 'src/app/auth/auth.service';
     styleUrls: ['./expense.component.scss']
 })
 export class ExpenseComponent implements OnInit {
-    cashes = [
-        { text: 'Cash In', value: true },
-        { text: 'Cash Out', value: false },
-    ]
     displayedColumns: string[] = [
-        'expenseId',
-        'expenseDate',
-        'description',
-        'categoryName',
-        'amount',
+        'date',
         'userName',
-        'action',
-        'isApproved'
-
+        'accountNumber',
+        'toUserName',
+        'amount',
+        'paymentMethod',
+        'remark',
+        'action'
     ];
     dataSource: any = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,11 +44,10 @@ export class ExpenseComponent implements OnInit {
         direction: "desc",
         search: '',
         active: true,
-
     }
-    categories = []
+
     loggedInUsersData: any;
-    userData = []
+
     fromDate: string;
     toDate: string;
     userId?: number;
@@ -127,7 +121,7 @@ export class ExpenseComponent implements OnInit {
     onAddNewExpense(): void {
         this.dialog
             .open(AddExpenseComponent, {
-                width: '400px'
+                width: '700px'
             })
             .afterClosed()
             .subscribe((result) => {
@@ -140,7 +134,7 @@ export class ExpenseComponent implements OnInit {
     onEditNewExpense(element) {
         this.dialog
             .open(AddExpenseComponent, {
-                width: '400px',
+                width: '700px',
                 data: element
             })
             .afterClosed()
@@ -156,83 +150,7 @@ export class ExpenseComponent implements OnInit {
         this.tableParams.pageNumber = event.pageIndex + 1;
         this.getExpense()
     }
-    toggleType() {
-        this.tableParams.active = !this.tableParams.active;
-        this.tableParams.pageNumber = 1;
-        this.getExpense()
-    }
 
-
-
-    changeStatus(expenseId: number): void {
-        this.expenseService
-            .changeStatus({ expenseId, status: !this.tableParams.active })
-            .subscribe(
-                (response) => {
-                    if (!this.tableParams.active) {
-                        this.snackBar.open('Expense active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    } else {
-                        this.snackBar.open('Expense de-active successfully', 'OK', {
-                            duration: 3000
-                        })
-                    }
-                    this.getExpense()
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok',
-                        {
-                            duration: 3000
-                        }
-                    );
-                },
-                () => { }
-            );
-    }
-    getUserDropDown() {
-        this.userService
-            .getUserDropDown(this.loggedInUser)
-            .subscribe(
-                (response) => {
-                    this.userData = response
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok', {
-                        duration: 3000
-                    }
-                    );
-                },
-                () => { }
-            );
-    }
-
-    onApproved(expenseId: number): void {
-        this.expenseService
-            .approved(expenseId)
-            .subscribe(
-                (response) => {
-                    this.snackBar.open('Expense Approved successfully', 'OK', {
-                        duration: 3000
-                    })
-                    this.getExpense();
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok',
-                        {
-                            duration: 3000
-                        }
-                    );
-                },
-                () => { }
-            );
-    }
 
     clearSearch() {
         this.fromDate = '';

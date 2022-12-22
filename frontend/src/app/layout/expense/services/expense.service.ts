@@ -2,13 +2,12 @@ import { CommonService } from '../../../shared/services/common.service';
 import { Injectable } from '@angular/core';
 import { IMatTableParams } from 'src/app/models/table';
 import { RestService } from 'src/app/shared/services';
-import { IExpenseActiveParams, IExpenseParams } from 'src/app/models/expense';
+import { IExpenseParams } from 'src/app/models/expense';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
     private url = 'api/expense';
-    private changeStatusURL = 'api/expense/changeStatus';
-    private approvedURL = 'api/expense/approved';
+
 
 
     constructor(private restService: RestService, private commonService: CommonService) { }
@@ -27,11 +26,5 @@ export class ExpenseService {
         return this.restService.delete(`${this.url}?id=${id}`);
     }
 
-    public changeStatus(transfer: IExpenseActiveParams) {
-        return this.restService.put(`${this.changeStatusURL}`, transfer);
-    }
-    public approved(expenseId: number) {
-        return this.restService.put(`${this.approvedURL}`, {expenseId});
-      }
 
 }

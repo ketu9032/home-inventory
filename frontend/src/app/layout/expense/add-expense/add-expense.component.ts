@@ -32,8 +32,6 @@ export class AddExpenseComponent implements OnInit {
 
     ngOnInit() {
         this.initializeForm();
-
-
         if (this.data && this.data.expenseId) {
             this.fillForm();
         }
@@ -41,19 +39,31 @@ export class AddExpenseComponent implements OnInit {
 
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
-            description: ['', Validators.required],
-            categoryId: ['', Validators.required],
-            amount: ['', Validators.required],
-            isCashIn: [true]
+            userName: ['', Validators.required],
+            accountNumber: ['', Validators.required],
+            toUserName: ['', Validators.required],
+            paymentMethod: ['', Validators.required],
+            remark: ['', Validators.required],
+            amount: ['', Validators.required]
         });
     }
 
     saveExpense(): void {
-        const { description, amount, categoryId, isCashIn } = this.formGroup.value;
+        const { userId,
+            accountNumber,
+            toUserId,
+            paymentMethod,
+            remark,
+            amount } = this.formGroup.value;
         this.isShowLoader = true;
         this.expenseService
             .addExpense({
-                description, amount, categoryId, isCashIn
+                userId,
+                accountNumber,
+                toUserId,
+                paymentMethod,
+                remark,
+                amount
             })
             .subscribe(
                 (response) => {
@@ -77,12 +87,22 @@ export class AddExpenseComponent implements OnInit {
     }
 
     updateExpense(): void {
-        const { description, amount, categoryId, isCashIn } = this.formGroup.value;
+        const { userId,
+            accountNumber,
+            toUserId,
+            paymentMethod,
+            remark,
+            amount } = this.formGroup.value;
         this.isShowLoader = true;
         this.expenseService
             .editExpense({
                 id: this.data.expenseId,
-                description, amount, categoryId, isCashIn
+                userId,
+                accountNumber,
+                toUserId,
+                paymentMethod,
+                remark,
+                amount
             })
             .subscribe(
                 (response) => {
@@ -114,12 +134,19 @@ export class AddExpenseComponent implements OnInit {
     }
 
     fillForm() {
-        const { description, amount, categoryId, isCashIn } = this.data;
-        this.formGroup.patchValue({
-            description,
-            amount,
-            categoryId,
-            isCashIn
-        });
+        // const {        userId,
+        //     accountNumber,
+        //     toUserId,
+        //     paymentMethod,
+        //     remark,
+        //     amount } = this.data;
+        // this.formGroup.patchValue({
+        //     userId,
+        //     accountNumber,
+        //     toUserId,
+        //     paymentMethod,
+        //     remark,
+        //     amount
+        // });
     }
 }
