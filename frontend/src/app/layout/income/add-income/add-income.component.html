@@ -1,0 +1,123 @@
+<div class="main-header">
+    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Income' : 'Update Income' }}</b> </h1>
+    <button mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div class="container">
+    <mat-divider></mat-divider>
+    <br>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="flex">
+            <!-- user name start -->
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>User Name</mat-label>
+                    <mat-select formControlName="userId" matInput required>
+                        <mat-option value="user1">User 1</mat-option>
+                        <mat-option value="user2">User 2</mat-option>
+                        <mat-option value="user3">User 3</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+
+                    <ng-container *ngIf="
+          formGroup.controls.userName.touched &&
+          !formGroup.controls.userName.value
+        ">
+                        <span class="error">User name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- mobile start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Account Number</mat-label>
+                    <mat-select formControlName="accountNumber" matInput required>
+                        <mat-option value="account1">Account 1</mat-option>
+                        <mat-option value="account2">Account 2</mat-option>
+                        <mat-option value="account3">Account 3</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+
+                    <ng-container *ngIf="
+          formGroup.controls.userName.touched &&
+          !formGroup.controls.userName.value
+        ">
+                        <span class="error">User name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex">
+
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Amount</mat-label>
+                    <input matInput formControlName="amount" type="number" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.amount.touched &&
+          !formGroup.controls.amount.value
+        ">
+                        <span class="error">Amount is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- balance start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Payment Method</mat-label>
+                    <mat-select formControlName="paymentMethod" matInput required>
+                        <mat-option value="cash">Cash</mat-option>
+                        <mat-option value="online">Online</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+
+                    <ng-container *ngIf="
+          formGroup.controls.paymentMethod.touched &&
+          !formGroup.controls.paymentMethod.value
+        ">
+                        <span class="error">Payment Method is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex">
+
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Remark</mat-label>
+                    <input matInput formControlName="remark" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.accountNumber.touched &&
+          !formGroup.controls.accountNumber.value
+        ">
+                        <span class="error"> Remark is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <!-- button start -->
+        <div class="button-save-update center">
+            <button mat-raised-button color="primary" [disabled]="!formGroup.valid || isShowLoader" type="submit"
+                class="margin-right">
+                <span *ngIf="!isShowLoader">
+                    {{ !this.data ? 'Save' : 'Update' }}
+                </span>
+                <mat-spinner *ngIf="isShowLoader" class="inline-loader" diameter="20"></mat-spinner>
+            </button>
+            <button mat-raised-button color="warn">
+                Close
+            </button>
+        </div>
+    </form>
+</div>

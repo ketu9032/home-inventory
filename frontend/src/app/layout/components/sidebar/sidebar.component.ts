@@ -41,6 +41,12 @@ export class SidebarComponent implements OnInit {
             name: 'Transfer',
             icon: 'attach_money',
             key: 'transfer'
+        },
+        {
+            link: '/income',
+            name: 'Income',
+            icon: 'compare_arrows',
+            key: 'income'
         }
     ]
 
