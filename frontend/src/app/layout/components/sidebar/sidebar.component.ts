@@ -53,7 +53,7 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
         this.showMenu = '';
         const user = this.restService.getUserData();
-        this.userPermission = user.permission;
+        // this.userPermission = user.permission;
     }
 
     addExpandClass(element: any) {

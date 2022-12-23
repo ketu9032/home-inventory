@@ -70,8 +70,8 @@ export class TransferComponent implements OnInit {
 
     ngOnInit(): void {
         this.loggedInUsersData = this.authService.getUserData();
-        this.loggedInUserId = this.loggedInUsersData.id
-        this.loggedInUserRole = this.loggedInUsersData.role
+        // this.loggedInUserId = this.loggedInUsersData.id
+      //  this.loggedInUserRole = this.loggedInUsersData.role
         // this.getUserDropDown()
         // this.getTransfer();
     }

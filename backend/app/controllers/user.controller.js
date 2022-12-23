@@ -91,46 +91,29 @@ exports.delete = async (req, res) => {
   }
 };
 
-exports.changeStatus = async (req, res) => {
-  try {
-    const { id, status } = req.body;
-    if (!id) {
-      res
-        .status(STATUS_CODE.BAD)
-        .send({ message: MESSAGES.COMMON.INVALID_PARAMETERS });
-      return;
-    }
-    await pool.query(`UPDATE users
-        SET is_active = ${status} where "id" = '${id}'`);
-    res.status(STATUS_CODE.SUCCESS).send();
-  } catch (error) {
-    res.status(STATUS_CODE.ERROR).send({
-      message: error.message || MESSAGES.COMMON.ERROR
-    });
-  }
-};
+
 
 exports.add = async (req, res) => {
   try {
-    const { userName, lastName, mobileNumber, balance, password } =
+    const { userName, mobileNumber, email, password } =
       req.body;
 
-    if (!userName || !role || !mobileNumber || !balance || !password) {
+    if (!userName  || !mobileNumber || !email || !password) {
       res
         .status(STATUS_CODE.BAD)
         .send({ message: MESSAGES.COMMON.INVALID_PARAMETERS });
       return;
     }
 
-    const sql1 = `select id from users where user_name = '${userName}'`;
-    const users = await pool.query(sql1);
-    if (users.rows > 0) {
-      res.status(STATUS_CODE.BAD).send({ message: MESSAGES.AUTH.USER_EXITS });
-    }
+    // const sql1 = `select id from user where user_name = '${userName}'`;
+    // const users = await pool.query(sql1);
+    // if (users.rows > 0) {
+    //   res.status(STATUS_CODE.BAD).send({ message: MESSAGES.AUTH.USER_EXITS });
+    // }
 
-    const query = `INSERT INTO users
-    (date, user_name, mobile_number, password)
-    VALUES('${userName}', '${lastName}', '${mobileNumber}',  '${password}'); `;
+    const query = `INSERT INTO user
+    (date, user_name, mobile_number, password, email)
+    VALUES( now(), '${userName}', ${mobileNumber},  '${password}', '${email}'); `;
 
     await pool.query(query);
     res.status(STATUS_CODE.SUCCESS).send();

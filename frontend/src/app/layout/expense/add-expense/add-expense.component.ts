@@ -39,9 +39,9 @@ export class AddExpenseComponent implements OnInit {
 
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
-            userName: ['', Validators.required],
+            userId: ['', Validators.required],
             accountNumber: ['', Validators.required],
-            toUserName: ['', Validators.required],
+            toUserId: ['', Validators.required],
             paymentMethod: ['', Validators.required],
             remark: ['', Validators.required],
             amount: ['', Validators.required]
