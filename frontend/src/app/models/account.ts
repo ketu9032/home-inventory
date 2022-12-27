@@ -8,17 +8,21 @@ export interface IAccountData {
     account_number: number,
     balance: number;
     ifsc_code: string,
-    user_id: number
+    user_id: number,
+    account_type: string,
+    swift_code: string
 }
 
 export interface IAccountParams {
     id?: number,
-    userName: string,
+    userId: number,
     bankName: string,
     accountHolderName: string,
     branchName: string,
     accountNumber: number,
     ifscCode: string,
     balance: number;
+    accountType: string,
+    swiftCode: string
 }
 

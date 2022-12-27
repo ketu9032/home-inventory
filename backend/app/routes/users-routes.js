@@ -4,10 +4,11 @@ const controllers = require('../controllers/users-controller');
 const router = Router();
 //albums API
 
-router.get('/',controllers.getAlbums);
-router.post('/',controllers.addAlbums);
-router.put('/',controllers.updateAlbums);
-router.put('/remove',controllers.removeAlbums);
+router.get('/',controllers.getUser);
+router.post('/',controllers.addUser);
+router.put('/',controllers.updateUser);
+router.put('/remove',controllers.removeUser);
+router.get('/getUserDropDown',controllers.getUserDropDown);
 
 
 module.exports = router;

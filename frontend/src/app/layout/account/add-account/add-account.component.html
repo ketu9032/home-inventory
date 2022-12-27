@@ -14,19 +14,16 @@
 
                 <mat-form-field>
                     <mat-label>User Name</mat-label>
-                    <mat-select formControlName="userName" matInput required>
-                        <mat-option value="user1">User 1</mat-option>
-                        <mat-option value="user2">User 2</mat-option>
-                        <mat-option value="user3">User 3</mat-option>
+                    <mat-select formControlName="userId" matInput required>
+                        <mat-option *ngFor="let user of users" [value]="user.id">
+                            {{user.user_name | titlecase }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <div>
-                    <ng-container *ngIf="!isUserNameExist">
-                        <span class="error">This User name is exist, Please another user name</span>
-                    </ng-container>
                     <ng-container *ngIf="
-          formGroup.controls.userName.touched &&
-          !formGroup.controls.userName.value
+          formGroup.controls.userId.touched &&
+          !formGroup.controls.userId.value
         ">
                         <span class="error">User name is Required</span>
                     </ng-container>
@@ -51,20 +48,20 @@
         </div>
         <div class="flex">
 
-          <div class="width margin-right">
-            <mat-form-field>
-                <mat-label>Account Number</mat-label>
-                <input matInput formControlName="accountNumber" type="number" required />
-            </mat-form-field>
-            <div>
-                <ng-container *ngIf="
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Account Number</mat-label>
+                    <input matInput formControlName="accountNumber" type="number" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
       formGroup.controls.accountNumber.touched &&
       !formGroup.controls.accountNumber.value
     ">
-                    <span class="error">Account Number is Required</span>
-                </ng-container>
+                        <span class="error">Account Number is Required</span>
+                    </ng-container>
+                </div>
             </div>
-        </div>
             <!-- balance start -->
             <div class="width">
                 <mat-form-field>
@@ -118,7 +115,7 @@
         <div class="flex">
             <!-- Account Holder Full Name start -->
 
-                   <div class="width margin-right">
+            <div class="width margin-right">
                 <mat-form-field>
                     <mat-label>Account Holder Full Name</mat-label>
                     <input matInput formControlName="accountHolderName" required />
@@ -147,6 +144,37 @@
                         <span class="error">IFSC Code is Required</span>
                     </ng-container>
                 </div>
+            </div>
+
+        </div>
+        <div class="flex">
+            <!-- Account Type -->
+
+            <div class="width margin-right">
+
+                <mat-form-field>
+                    <mat-label>Account Type</mat-label>
+                    <mat-select formControlName="accountType" matInput required>
+                        <mat-option value="saving">Saving</mat-option>
+                        <mat-option value="online">Current</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.accountType.touched &&
+          !formGroup.controls.accountType.value
+        ">
+                        <span class="error">Account Type is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- balance start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Swift Code</mat-label>
+                    <input matInput formControlName="swiftCode" type="text" />
+                </mat-form-field>
             </div>
 
         </div>
