@@ -7,19 +7,17 @@ import { IAccountParams } from 'src/app/models/account';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-    private url = 'api/users';
-    private getUserDropDownURL = 'api/getUserDropDown';
-    private changeStatusURL = 'api/users/changeStatus';
-    private onCheckUserNameURL = 'api/users/onCheckUserName';
+    private url = 'api/account';
 
     constructor(
         private restService: RestService,
         private commonService: CommonService
     ) { }
 
-    public getAccount(tablePrams: IMatTableParams) {
-        const queryString = this.commonService.toQueryString(tablePrams);
-        return this.restService.get<any>(`${this.url}${queryString}`);
+    public getAccount() {
+        //  const queryString = this.commonService.toQueryString(tablePrams);
+        //  return this.restService.get<any>(`${this.url}${queryString}`);
+        return this.restService.get(`${this.url}`);
     }
     public addAccount(account: IAccountParams) {
         return this.restService.post(`${this.url}`, account);

@@ -9,6 +9,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IUserData } from 'src/app/models/user';
 import { AccountService } from '../services/account.service';
+import { IAccountData } from 'src/app/models/account';
 
 @Component({
     selector: 'app-add-account',
@@ -22,7 +23,7 @@ export class AddAccountComponent implements OnInit {
     isUserNameExist: boolean = true;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: IUserData,
+        @Inject(MAT_DIALOG_DATA) public data: IAccountData,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<AddAccountComponent>,
         private formBuilder: FormBuilder,
@@ -31,6 +32,8 @@ export class AddAccountComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.data
+
         this.initializeForm();
         if (this.data && this.data.id) {
             this.fillForm();
@@ -41,7 +44,7 @@ export class AddAccountComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             userName: ['', Validators.required],
             bankName: ['', Validators.required],
-            accountHolderFullName: ['', Validators.required],
+            accountHolderName: ['', Validators.required],
             branchName: ['', Validators.required],
             balance: ['', Validators.required],
             accountNumber: ['', Validators.required],
@@ -53,7 +56,7 @@ export class AddAccountComponent implements OnInit {
         const {
             userName,
             bankName,
-            accountHolderFullName,
+            accountHolderName,
             branchName,
             accountNumber,
             ifscCode,
@@ -65,7 +68,7 @@ export class AddAccountComponent implements OnInit {
             .addAccount({
                 userName,
                 bankName,
-                accountHolderFullName,
+                accountHolderName,
                 branchName,
                 accountNumber,
                 ifscCode,
@@ -94,7 +97,7 @@ export class AddAccountComponent implements OnInit {
     }
 
     updateAccount(): void {
-        const { userName, bankName, accountHolderFullName,
+        const { userName, bankName, accountHolderName,
             branchName,balance,
             accountNumber,
             ifscCode } =
@@ -105,7 +108,7 @@ export class AddAccountComponent implements OnInit {
                 id: this.data.id,
                 userName,
                 bankName,
-                accountHolderFullName,
+                accountHolderName,
                 branchName,
                 accountNumber,
                 ifscCode,
@@ -143,24 +146,16 @@ export class AddAccountComponent implements OnInit {
     }
 
     fillForm() {
-        // const {
-        //     userName: userName,
-        //     bankName: bankName,
-        //     accountHolderFullName:accountHolderFullName,
-        //     branchName: branchName,
-        //     accountNumber: accountNumber,
-        //     ifscCode: ifscCode
-        //     balance: balance
-        // } = this.data;
-        // this.formGroup.patchValue({
-        //          userName,
-        //         bankName,
-        //         accountHolderFullName,
-        //         branchName,
-        //         accountNumber,
-        //         ifscCode,
-        //          balance
-        // });
+
+        this.formGroup.patchValue({
+                 userName: this.data.user_id,
+                bankName: this.data.bank_name,
+                accountHolderName: this.data.account_holder_name,
+                branchName:this.data.branch_name,
+                accountNumber:this.data.account_number,
+                ifscCode:this.data.ifsc_code,
+                 balance:this.data.balance
+        });
 
     }
 

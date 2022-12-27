@@ -36,7 +36,6 @@ export class AddTransferComponent implements OnInit {
     ) { }
     ngOnInit() {
         this.initializeForm();
-        this.getUserDropDown()
         if (this.data && this.data.transferId) {
             this.fillForm();
         }
@@ -124,22 +123,5 @@ export class AddTransferComponent implements OnInit {
             toUserId,
         });
     }
-    getUserDropDown() {
-        this.userService
-            .getUserDropDown(this.loggedInUser)
-            .subscribe(
-                (response) => {
-                    this.users = response
-                },
-                (error) => {
-                    this.snackBar.open(
-                        (error.error && error.error.message) || error.message,
-                        'Ok', {
-                        duration: 3000
-                    }
-                    );
-                },
-                () => { }
-            );
-    }
+
 }

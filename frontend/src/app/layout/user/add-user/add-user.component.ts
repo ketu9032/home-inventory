@@ -7,7 +7,6 @@ import {
     MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { IUserData } from 'src/app/models/user';
 import { UserService } from '../services/user.service';
 
@@ -35,7 +34,6 @@ export class AddUserComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-
         this.initializeForm();
         if (this.data && this.data.id) {
             this.fillForm();
@@ -94,7 +92,6 @@ export class AddUserComponent implements OnInit {
                 userName,
                 password,
                 mobileNumber,
-
                 email
             })
             .subscribe(
@@ -128,21 +125,12 @@ export class AddUserComponent implements OnInit {
     }
 
     fillForm() {
-        // const {
-        //     userName: userName,
-        //     password: password,
-        //     mobileNumber: mobileNumber,
-        //     lastName: lastName,
-            //      email: email
-
-        // } = this.data;
-        // this.formGroup.patchValue({
-        //     userName,
-        //     password,
-        //     mobileNumber,
-        //     lastName,
-           //     email
-        // });
+        this.formGroup.patchValue({
+            userName:this.data.user_name,
+            password: this.data.password,
+            mobileNumber: this.data.mobile_number,
+            email: this.data.email
+        });
 
     }
 
