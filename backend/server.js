@@ -1,23 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const config = require('./app/config/db.config');
+const express = require("express");
+const cors = require("cors");
+const userRoutes = require("./app/routes/users-routes");
+const accountRoutes = require("./app/routes/account-routes");
+
 const app = express();
-// middlewares
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+const port = 4000;
+app.use(express.json());
+const bodyParser = require("body-parser");
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(bodyParser.json());
 
+app.use(express.static(__dirname + "/public"));
 
-// simple route
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to inventory application.' });
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-app.use(require('./app/routes'));
 
-// set port, listen for requests
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+app.use("/api/user", userRoutes);
+app.use("/api/account", accountRoutes);
+
+
+app.listen(port, () => console.log(`app listening on port ${port}`));

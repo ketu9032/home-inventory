@@ -2,7 +2,9 @@
     <mat-nav-list>
         <ng-container *ngFor="let _menu of menu">
             <a mat-list-item [routerLinkActive]="'active'" [routerLink]="[_menu.link]"
-                *ngIf="userPermission[_menu.key]">
+                >
+            <!-- <a mat-list-item [routerLinkActive]="'active'" [routerLink]="[_menu.link]"
+                *ngIf="userPermission[_menu.key]"> -->
                 <mat-icon class="sidenav-icon">{{_menu.icon}}</mat-icon>
                 {{ _menu.name }}
             </a>

@@ -22,9 +22,11 @@ export class AccountComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
         'userName',
-        'bankName',
-        'accountHolderFullName',
+        'balance',
         'accountNumber',
+        'accountHolderName',
+        'accountType',
+        'bankName',
         'ifscCode',
         'branchName',
         'action'
@@ -52,6 +54,7 @@ export class AccountComponent implements OnInit {
         private authService: AuthService
     ) { }
     ngOnInit(): void {
+        this.getAccount();
     }
     sortData(sort: Sort) {
         this.tableParams.orderBy = sort.active;
@@ -64,7 +67,7 @@ export class AccountComponent implements OnInit {
     }
     getAccount() {
         this.loader = true;
-        this.accountService.getAccount(this.tableParams).subscribe(
+        this.accountService.getAccount().subscribe(
             (newUser: any[]) => {
                 this.dataSource = new MatTableDataSource<IUserData>(newUser);
                 if (newUser.length > 0) {

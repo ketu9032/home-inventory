@@ -7,7 +7,6 @@ import {
     MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { IUserData } from 'src/app/models/user';
 import { UserService } from '../services/user.service';
 
@@ -35,7 +34,6 @@ export class AddUserComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-
         this.initializeForm();
         if (this.data && this.data.id) {
             this.fillForm();
@@ -47,12 +45,12 @@ export class AddUserComponent implements OnInit {
             userName: ['', Validators.required],
             mobileNumber: ['', Validators.required],
             password: ['', Validators.required],
-            lastName: ['', Validators.required]
+            email: ['', Validators.required],
         })
     }
 
     saveUser(): void {
-        const { userName, password, mobileNumber, lastName } =
+        const { userName, password, mobileNumber,  email } =
             this.formGroup.value;
         this.isShowLoader = true;
         this.userService
@@ -60,8 +58,7 @@ export class AddUserComponent implements OnInit {
                 userName,
                 password,
                 mobileNumber,
-                lastName
-
+                email
             })
             .subscribe(
                 (response) => {
@@ -86,7 +83,7 @@ export class AddUserComponent implements OnInit {
     }
 
     updateUser(): void {
-        const { userName, password, mobileNumber, lastName} =
+        const { userName, password, mobileNumber,  email} =
             this.formGroup.value;
         this.isShowLoader = true;
         this.userService
@@ -95,8 +92,7 @@ export class AddUserComponent implements OnInit {
                 userName,
                 password,
                 mobileNumber,
-                lastName,
-
+                email
             })
             .subscribe(
                 (response) => {
@@ -129,20 +125,12 @@ export class AddUserComponent implements OnInit {
     }
 
     fillForm() {
-        // const {
-        //     userName: userName,
-        //     password: password,
-        //     mobileNumber: mobileNumber,
-        //     lastName: lastName,
-
-
-        // } = this.data;
-        // this.formGroup.patchValue({
-        //     userName,
-        //     password,
-        //     mobileNumber,
-        //     lastName
-        // });
+        this.formGroup.patchValue({
+            userName:this.data.user_name,
+            password: this.data.password,
+            mobileNumber: this.data.mobile_number,
+            email: this.data.email
+        });
 
     }
 

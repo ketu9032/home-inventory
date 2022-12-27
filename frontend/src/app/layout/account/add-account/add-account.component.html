@@ -121,15 +121,15 @@
                    <div class="width margin-right">
                 <mat-form-field>
                     <mat-label>Account Holder Full Name</mat-label>
-                    <input matInput formControlName="accountHolderFullName" required />
+                    <input matInput formControlName="accountHolderName" required />
                 </mat-form-field>
 
                 <div>
                     <ng-container *ngIf="
-          formGroup.controls.accountHolderFullName.touched &&
-          !formGroup.controls.accountHolderFullName.value
+          formGroup.controls.accountHolderName.touched &&
+          !formGroup.controls.accountHolderName.value
         ">
-                        <span class="error">Account Holder Full Name is Required</span>
+                        <span class="error">Account Holder Name is Required</span>
                     </ng-container>
                 </div>
             </div>

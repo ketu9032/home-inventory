@@ -13,6 +13,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { UserService } from './services/user.service';
 import { AddUserComponent } from './add-user/add-user.component';
 import { IMatTableParams } from 'src/app/models/table';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
 
 @Component({
     selector: 'app-user',
@@ -22,8 +23,8 @@ import { IMatTableParams } from 'src/app/models/table';
 export class UserComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'firstName',
-        'lastName',
+        'userName',
+        'email',
         'balance',
         'mobileNumber',
         'action'
@@ -57,7 +58,7 @@ export class UserComponent implements OnInit {
     ngOnInit(): void {
         // const loggedInUser = this.authService.getUserData()
         // this.isLoggedInUserIsOwner = loggedInUser.role.toLowerCase() === 'owner' ? true : false;
-        // this.getUser();
+         this.getUser();
     }
 
     sortData(sort: Sort) {
@@ -112,6 +113,19 @@ export class UserComponent implements OnInit {
             .open(AddUserComponent, {
                 width: '700px',
                 data: element
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    this.getUser();
+                }
+            });
+    }
+    onDeleteUser(id: number) {
+        this.dialog
+            .open(DeleteUserComponent, {
+                width: '400px',
+                data: id
             })
             .afterClosed()
             .subscribe((result) => {

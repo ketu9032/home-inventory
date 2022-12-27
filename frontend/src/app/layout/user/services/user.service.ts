@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { IMatTableParams } from 'src/app/models/table';
 import { IUserActiveParams, IUserName, IUserParams } from 'src/app/models/user';
 import { RestService } from 'src/app/shared/services';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private url = 'api/users';
-  private getUserDropDownURL = 'api/getUserDropDown';
-  private changeStatusURL = 'api/users/changeStatus';
-  private onCheckUserNameURL = 'api/users/onCheckUserName';
+  private url = 'api/user';
+  private removeUrl = 'api/user/remove';
+
 
   constructor(
     private restService: RestService,
@@ -20,23 +20,15 @@ export class UserService {
     const queryString = this.commonService.toQueryString(tablePrams);
     return this.restService.get<any>(`${this.url}${queryString}`);
   }
-  public addUser(user: IUserParams) {
+  public addUser(user: IUserParams):Observable<any> {
     return this.restService.post(`${this.url}`, user);
   }
   public editUser(user: IUserParams) {
     return this.restService.put(`${this.url}`, user);
   }
-  public removeUser(id: string) {
-    return this.restService.delete(`${this.url}?id=${id}`);
-  }
-  public getUserDropDown(loggedInUser: boolean) {
-    return this.restService.get<any>(`${this.getUserDropDownURL}?loggedInUser=${loggedInUser}`);
-  }
-  public changeStatus(user: IUserActiveParams) {
-    return this.restService.put(`${this.changeStatusURL}`, user);
+  public removeUser(id) {
+
+    return this.restService.put(`${this.removeUrl}`, id);
   }
 
-  public onCheckUserName(userName: IUserName) {
-    return this.restService.put(`${this.onCheckUserNameURL}`, userName);
-}
 }

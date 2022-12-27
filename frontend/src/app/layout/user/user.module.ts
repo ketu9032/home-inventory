@@ -9,9 +9,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddUserComponent } from './add-user/add-user.component';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
 
 @NgModule({
-  declarations: [UserComponent, AddUserComponent],
+  declarations: [UserComponent, AddUserComponent, DeleteUserComponent],
   imports: [
     CommonModule,
     SharedModule,
