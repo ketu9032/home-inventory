@@ -64,10 +64,8 @@ export class ExpenseComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.loggedInUsersData = this.authService.getUserData();
-        // this.getUserDropDown()
-        // this.getCategoryDropDown('Expense')
-        // this.getExpense()
+
+        this.getExpense();
     }
 
     sortData(sort: Sort) {
@@ -96,7 +94,7 @@ export class ExpenseComponent implements OnInit {
     getExpense() {
         this.loader = true;
 
-        this.expenseService.getExpense(this.tableParams).subscribe(
+        this.expenseService.getExpense().subscribe(
             (newCustomers: any[]) => {
                 this.dataSource = new MatTableDataSource<IExpenseData>(newCustomers);
                 if (newCustomers.length > 0) {
