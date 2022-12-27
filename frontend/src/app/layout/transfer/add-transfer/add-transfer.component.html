@@ -14,9 +14,10 @@
                 <mat-form-field>
                     <mat-label>User Name</mat-label>
                     <mat-select formControlName="userId" matInput required>
-                        <mat-option value="user1">User 1</mat-option>
-                        <mat-option value="user2">User 2</mat-option>
-                        <mat-option value="user3">User 3</mat-option>
+                        <mat-option *ngFor="let user of users" [value]="user.id"
+                            (click)="getAccountDropDownUserIdWise()">
+                            {{user.user_name | titlecase }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <div>
@@ -33,17 +34,18 @@
             <div class="width">
                 <mat-form-field>
                     <mat-label>Account Number</mat-label>
-                    <mat-select formControlName="accountNumber" matInput required>
-                        <mat-option value="account1">Account 1</mat-option>
-                        <mat-option value="account2">Account 2</mat-option>
-                        <mat-option value="account3">Account 3</mat-option>
+                    <mat-select formControlName="accountId" matInput required>
+                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id"
+                            (click)="getAccountDropDownUserIdWise()">
+                            {{userAccount.account_type | titlecase }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <div>
 
                     <ng-container *ngIf="
-          formGroup.controls.accountNumber.touched &&
-          !formGroup.controls.accountNumber.value
+          formGroup.controls.accountId.touched &&
+          !formGroup.controls.accountId.value
         ">
                         <span class="error">User name is Required</span>
                     </ng-container>
@@ -57,9 +59,10 @@
                 <mat-form-field>
                     <mat-label>To User Name</mat-label>
                     <mat-select formControlName="toUserId" matInput required>
-                        <mat-option value="user1">User 1</mat-option>
-                        <mat-option value="user2">User 2</mat-option>
-                        <mat-option value="user3">User 3</mat-option>
+                        <mat-option *ngFor="let user of users" [value]="user.id"
+                        (click)="getAccountDropDownUserIdWise()">
+                        {{user.user_name | titlecase }}
+                    </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <div>
@@ -76,17 +79,18 @@
             <div class="width">
                 <mat-form-field>
                     <mat-label> To User Account Number</mat-label>
-                    <mat-select formControlName="toUserAccountNumber" matInput required>
-                        <mat-option value="account1">Account 1</mat-option>
-                        <mat-option value="account2">Account 2</mat-option>
-                        <mat-option value="account3">Account 3</mat-option>
+                    <mat-select formControlName="toUserAccountId" matInput required>
+                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id"
+                        (click)="getAccountDropDownUserIdWise()">
+                        {{userAccount.account_type | titlecase }}
+                    </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <div>
 
                     <ng-container *ngIf="
-          formGroup.controls.toUserAccountNumber.touched &&
-          !formGroup.controls.toUserAccountNumber.value
+          formGroup.controls.toUserAccountId.touched &&
+          !formGroup.controls.toUserAccountId.value
         ">
                         <span class="error">To User Account Number is Required</span>
                     </ng-container>
