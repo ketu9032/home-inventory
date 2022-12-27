@@ -1,7 +1,7 @@
 const pool = require("../db");
 
-// get albums
-const getAlbums = async (req, res) => {
+// get User
+const getUser= async (req, res) => {
   try {
     const { rows } = await pool.query(`SELECT id, user_name, date, email, mobile_number, password FROM public.users`);
     return res.status(200).json(rows);
@@ -10,7 +10,7 @@ const getAlbums = async (req, res) => {
   }
 };
 
-const addAlbums = async (req, res) => {
+const addUser = async (req, res) => {
   try {
     const {
      userName,
@@ -27,7 +27,7 @@ const addAlbums = async (req, res) => {
   }
 };
 
-const updateAlbums = async (req, res) => {
+const updateUser= async (req, res) => {
   try {
     const {
      userName,
@@ -44,7 +44,7 @@ const updateAlbums = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-const removeAlbums = async (req, res) => {
+const removeUser= async (req, res) => {
   try {
 
     const { id } = req.body;
@@ -57,12 +57,20 @@ const removeAlbums = async (req, res) => {
   }
 };
 
-
+const getUserDropDown= async (req, res) => {
+  try {
+    const { rows } = await pool.query(`SELECT id, user_name FROM public.users`);
+    return res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 
 module.exports = {
-  getAlbums,
-  addAlbums,
-  updateAlbums,
-  removeAlbums
+  getUser,
+  addUser,
+  updateUser,
+  removeUser,
+  getUserDropDown
 };

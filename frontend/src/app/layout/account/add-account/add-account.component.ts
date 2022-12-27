@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IUserData } from 'src/app/models/user';
 import { AccountService } from '../services/account.service';
 import { IAccountData } from 'src/app/models/account';
+import { UserService } from '../../user/services/user.service';
 
 @Component({
     selector: 'app-add-account',
@@ -21,6 +22,7 @@ export class AddAccountComponent implements OnInit {
     isLoggedInUserIsOwner: boolean = false;
     isShowLoader: boolean = false;
     isUserNameExist: boolean = true;
+    users: any;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IAccountData,
@@ -28,13 +30,15 @@ export class AddAccountComponent implements OnInit {
         public dialogRef: MatDialogRef<AddAccountComponent>,
         private formBuilder: FormBuilder,
         public snackBar: MatSnackBar,
-        private accountService: AccountService
+        private accountService: AccountService,
+        private userService: UserService,
     ) { }
 
     ngOnInit() {
-        this.data
+
 
         this.initializeForm();
+        this.getUserDropDown()
         if (this.data && this.data.id) {
             this.fillForm();
         }
@@ -42,37 +46,42 @@ export class AddAccountComponent implements OnInit {
 
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
-            userName: ['', Validators.required],
+            userId: ['', Validators.required],
             bankName: ['', Validators.required],
             accountHolderName: ['', Validators.required],
             branchName: ['', Validators.required],
             balance: ['', Validators.required],
             accountNumber: ['', Validators.required],
-            ifscCode: ['', Validators.required]
+            ifscCode: ['', Validators.required],
+            accountType: ['', Validators.required],
+            swiftCode: ['']
         });
     }
 
     saveAccount(): void {
+        let id = this.formGroup.value.userId;
+        let userID: number = +id;
         const {
-            userName,
             bankName,
             accountHolderName,
             branchName,
             accountNumber,
             ifscCode,
-            balance
-         } =
+            balance, accountType, swiftCode
+        } =
             this.formGroup.value;
         this.isShowLoader = true;
         this.accountService
             .addAccount({
-                userName,
+                userId: userID,
                 bankName,
                 accountHolderName,
                 branchName,
                 accountNumber,
                 ifscCode,
-                balance
+                balance,
+                accountType,
+                swiftCode
             })
             .subscribe(
                 (response) => {
@@ -97,22 +106,22 @@ export class AddAccountComponent implements OnInit {
     }
 
     updateAccount(): void {
-        const { userName, bankName, accountHolderName,
-            branchName,balance,
-            accountNumber,
+        const { userId, bankName, accountHolderName,
+            branchName, balance,
+            accountNumber, accountType, swiftCode,
             ifscCode } =
             this.formGroup.value;
         this.isShowLoader = true;
         this.accountService
             .editAccount({
                 id: this.data.id,
-                userName,
+                userId,
                 bankName,
                 accountHolderName,
                 branchName,
                 accountNumber,
                 ifscCode,
-                balance
+                balance, accountType, swiftCode
 
             })
             .subscribe(
@@ -148,15 +157,32 @@ export class AddAccountComponent implements OnInit {
     fillForm() {
 
         this.formGroup.patchValue({
-                 userName: this.data.user_id,
-                bankName: this.data.bank_name,
-                accountHolderName: this.data.account_holder_name,
-                branchName:this.data.branch_name,
-                accountNumber:this.data.account_number,
-                ifscCode:this.data.ifsc_code,
-                 balance:this.data.balance
+            userId: this.data.user_id,
+            bankName: this.data.bank_name,
+            accountHolderName: this.data.account_holder_name,
+            branchName: this.data.branch_name,
+            accountNumber: this.data.account_number,
+            ifscCode: this.data.ifsc_code,
+            balance: this.data.balance,
+            accountType: this.data.account_type, swiftCode: this.data.swift_code
         });
 
     }
-
+    getUserDropDown() {
+        this.userService.userDropDown().subscribe((response) => {
+            this.users = response
+        },
+            (error) => {
+                this.isShowLoader = false;
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
+    }
 }
