@@ -1,20 +1,21 @@
 
 export interface IExpenseData {
     expenseId: number,
-    userId: number,
-    userName: string,
-    accountNumber: number,
-    toUserId: number,
+    user_id: number,
+    account_id: number,
+    user_name: string,
+    account_number: number,
+    to_user_id: number,
     toUserName: string,
     amount: number,
-    paymentMethod: string,
+    payment_method: string,
     remark: string
 }
 
 export interface IExpenseParams {
     id?: number,
     userId: number,
-    accountNumber: number,
+    accountId: number,
     toUserId: number,
     amount: number,
     paymentMethod: string,

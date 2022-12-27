@@ -26,7 +26,10 @@ export class AccountService {
         return this.restService.put(`${this.url}`, account);
     }
     public removeAccount(id: string) {
-        return this.restService.delete(`${this.url}?id=${id}`);
+        return this.restService.delete(`${this.url}/remove?id=${id}`);
+    }
+    public getAccountUserWise(id) {
+        return this.restService.get(`${this.url}/getAccountUserId`, id);
     }
 
 }

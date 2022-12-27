@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IExpenseData } from 'src/app/models/expense';
+import { AccountService } from '../../account/services/account.service';
+import { UserService } from '../../user/services/user.service';
 import { ExpenseService } from '../services/expense.service';
 
 @Component({
@@ -21,18 +23,25 @@ export class AddExpenseComponent implements OnInit {
     amount = true
     currentDate = new Date()
 
+    users: any
+    userAccounts: any
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IExpenseData,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<AddExpenseComponent>,
         private formBuilder: FormBuilder,
         public snackBar: MatSnackBar,
-        private expenseService: ExpenseService
+        private expenseService: ExpenseService,
+        private userService: UserService,
+        private accountService: AccountService
     ) { }
 
     ngOnInit() {
+        console.log(this.data);
         this.initializeForm();
-        if (this.data && this.data.expenseId) {
+        this.getUserDropDown();
+        if (this.data) {
             this.fillForm();
         }
     }
@@ -40,7 +49,7 @@ export class AddExpenseComponent implements OnInit {
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
-            accountNumber: ['', Validators.required],
+            accountId: ['', Validators.required],
             toUserId: ['', Validators.required],
             paymentMethod: ['', Validators.required],
             remark: ['', Validators.required],
@@ -49,21 +58,18 @@ export class AddExpenseComponent implements OnInit {
     }
 
     saveExpense(): void {
-        const { userId,
-            accountNumber,
-            toUserId,
+        const {
             paymentMethod,
-            remark,
-            amount } = this.formGroup.value;
+            remark } = this.formGroup.value;
         this.isShowLoader = true;
         this.expenseService
             .addExpense({
-                userId,
-                accountNumber,
-                toUserId,
+                userId: +this.formGroup.value.userId,
+                accountId: +this.formGroup.value.accountId,
+                toUserId: +this.formGroup.value.toUserId,
                 paymentMethod,
                 remark,
-                amount
+                amount: this.formGroup.value.amount
             })
             .subscribe(
                 (response) => {
@@ -88,7 +94,7 @@ export class AddExpenseComponent implements OnInit {
 
     updateExpense(): void {
         const { userId,
-            accountNumber,
+            accountId,
             toUserId,
             paymentMethod,
             remark,
@@ -98,7 +104,7 @@ export class AddExpenseComponent implements OnInit {
             .editExpense({
                 id: this.data.expenseId,
                 userId,
-                accountNumber,
+                accountId,
                 toUserId,
                 paymentMethod,
                 remark,
@@ -134,19 +140,52 @@ export class AddExpenseComponent implements OnInit {
     }
 
     fillForm() {
-        // const {        userId,
-        //     accountNumber,
-        //     toUserId,
-        //     paymentMethod,
-        //     remark,
-        //     amount } = this.data;
-        // this.formGroup.patchValue({
-        //     userId,
-        //     accountNumber,
-        //     toUserId,
-        //     paymentMethod,
-        //     remark,
-        //     amount
-        // });
+        this.formGroup.patchValue({
+            userId: this.data.user_id,
+            accountId: this.data.account_id,
+            toUserId: this.data.to_user_id,
+            paymentMethod: this.data.payment_method,
+            remark: this.data.remark,
+            amount: this.data.amount,
+        });
+    }
+
+    getUserDropDown() {
+        this.userService.userDropDown().subscribe((response) => {
+            this.users = response
+        },
+            (error) => {
+                this.isShowLoader = false;
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
+    }
+
+    getAccountDropDownUserIdWise() {
+        let a = this.formGroup.value.userId;
+        let id: number = +a
+        this.accountService.getAccountUserWise
+            ({ id: id }).subscribe((response) => {
+                this.userAccounts = response
+            },
+                (error) => {
+                    this.isShowLoader = false;
+                    this.snackBar.open(
+                        (error.error && error.error.message) || error.message,
+                        'Ok',
+                        {
+                            duration: 3000
+                        }
+                    );
+                },
+                () => { }
+            );
     }
 }

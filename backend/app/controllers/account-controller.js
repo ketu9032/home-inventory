@@ -109,10 +109,21 @@ const updateAccount = async (req, res) => {
 const removeAccount = async (req, res) => {
   try {
     const { id } = req.body;
-    const query = await pool.query(`UPDATE public.users
+    const query = await pool.query(`UPDATE public.account
     SET  is_active = false
     WHERE id = ${id}`);
     return res.status(200).json(query);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getAccountDropDownByUserId = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const { rows } = await pool.query(`
+    SELECT account_type, user_id, id as account_id FROM public.account  where user_id = 4 ;`);
+    return res.status(200).json(rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -122,5 +133,6 @@ module.exports = {
   getAccount,
   addAccount,
   updateAccount,
-  removeAccount
+  removeAccount,
+  getAccountDropDownByUserId
 };

@@ -8,13 +8,14 @@ import { IExpenseParams } from 'src/app/models/expense';
 export class ExpenseService {
     private url = 'api/expense';
 
+    constructor(
+        private restService: RestService,
+        private commonService: CommonService) { }
 
-
-    constructor(private restService: RestService, private commonService: CommonService) { }
-
-    public getExpense(tablePrams: IMatTableParams) {
-        const queryString = this.commonService.toQueryString(tablePrams);
-        return this.restService.get<any>(`${this.url}${queryString}`);
+    public getExpense() {
+        // const queryString = this.commonService.toQueryString(tablePrams);
+        // return this.restService.get<any>(`${this.url}${queryString}`);
+        return this.restService.get(`${this.url}`);
     }
     public addExpense(expense: IExpenseParams) {
         return this.restService.post(`${this.url}`, expense);
