@@ -73,7 +73,7 @@ export class TransferComponent implements OnInit {
         // this.loggedInUserId = this.loggedInUsersData.id
       //  this.loggedInUserRole = this.loggedInUsersData.role
         // this.getUserDropDown()
-        // this.getTransfer();
+        this.getTransfer();
     }
 
     sortData(sort: Sort) {
@@ -97,26 +97,8 @@ export class TransferComponent implements OnInit {
     }
 
     getTransfer() {
-        this.loader = true;
-        this.totalRows = 0;
-        if (this.fromUserId && +this.fromUserId !== 0) {
-            this.tableParams.fromUserId = this.fromUserId;
-        } else {
-            this.tableParams.fromUserId = ''
-        }
 
-        if (this.toUserId && +this.toUserId !== 0) {
-            this.tableParams.toUserId = this.toUserId;
-        } else {
-            this.tableParams.toUserId = ''
-        }
-        if (this.fromDate) {
-            this.tableParams.fromDate = moment(this.fromDate).format('YYYY-MM-DD');
-        }
-        if (this.toDate) {
-            this.tableParams.toDate = moment(this.toDate).format('YYYY-MM-DD');
-        }
-        this.transferService.getTransfer(this.tableParams).subscribe(
+        this.transferService.getTransfer().subscribe(
             (newTransfer: any[]) => {
                 this.dataSource = new MatTableDataSource<ITransferData>(newTransfer);
                 if (newTransfer.length > 0) {

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ITransferData } from 'src/app/models/transfer';
 import { IUserData } from 'src/app/models/user';
+import { AccountService } from '../../account/services/account.service';
 import { UserService } from '../../user/services/user.service';
 import { TransferService } from '../services/transfer.service';
 @Component({
@@ -17,12 +18,11 @@ import { TransferService } from '../services/transfer.service';
 export class AddTransferComponent implements OnInit {
     formGroup: FormGroup;
     selectedRole: string
-    users = []
+    users: any;
+    userAccounts: any;
     isShowLoader = false;
     currentDate = new Date();
-    loggedInUserId: any;
-    loggedInUser: boolean = false;
-    numberRegEx = /\-?\d*\.?\d{1,2}/;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: ITransferData,
         public dialog: MatDialog,
@@ -32,10 +32,12 @@ export class AddTransferComponent implements OnInit {
         private router: Router,
         private transferService: TransferService,
         private userService: UserService,
+        private accountService: AccountService,
         public authService: AuthService,
     ) { }
     ngOnInit() {
         this.initializeForm();
+        this.getUserDropDown();
         if (this.data && this.data.transferId) {
             this.fillForm();
         }
@@ -43,21 +45,27 @@ export class AddTransferComponent implements OnInit {
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
-            accountNumber: ['', Validators.required],
+            accountId: ['', Validators.required],
             toUserId: ['', Validators.required],
-            toUserAccountNumber: ['', Validators.required],
+            toUserAccountId: ['', Validators.required],
             remark: ['', Validators.required],
             amount: ['', Validators.required],
             paymentMethod: ['', Validators.required]
         });
     }
     saveTransfer(): void {
-        const { toUserId, description, transfer_amount } = this.formGroup.value;
-        const fromUserId = this.loggedInUserId.id;
+
+
         this.isShowLoader = true;
         this.transferService
             .addTransfer({
-                toUserId, description, transfer_amount, fromUserId
+                userId: +this.formGroup.value.userId,
+                accountId:+this.formGroup.value.accountId,
+                toUserId:+this.formGroup.value.toUserId,
+                toUserAccountId:+this.formGroup.value.toUserAccountId,
+                remark:this.formGroup.value.remark,
+                amount:this.formGroup.value.amount,
+                paymentMethod:this.formGroup.value.paymentMethod
             })
             .subscribe(
                 (response) => {
@@ -80,13 +88,25 @@ export class AddTransferComponent implements OnInit {
             );
     }
     updateTransfer(): void {
-        const { toUserId, description, transfer_amount } = this.formGroup.value;
-        const fromUserId = this.loggedInUserId.id;
+        const {     userId,
+            accountId,
+            toUserId,
+            toUserAccountId,
+            remark,
+            amount,
+            paymentMethod  } = this.formGroup.value;
+
         this.isShowLoader = true;
         this.transferService
             .editTransfer({
-                transferId: this.data.transferId,
-                toUserId, description, transfer_amount, fromUserId
+                // id: this.data.id,
+                userId,
+                accountId,
+                toUserId,
+                toUserAccountId,
+                remark,
+                amount,
+                paymentMethod
             })
             .subscribe(
                 (response) => {
@@ -122,6 +142,45 @@ export class AddTransferComponent implements OnInit {
             transfer_amount,
             toUserId,
         });
+    }
+
+    getUserDropDown() {
+        this.userService.userDropDown().subscribe((response) => {
+            this.users = response
+        },
+            (error) => {
+                this.isShowLoader = false;
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
+    }
+
+    getAccountDropDownUserIdWise() {
+        let a = this.formGroup.value.userId;
+        let id: number = +a
+        this.accountService.getAccountUserWise
+            ({ id: id }).subscribe((response) => {
+                this.userAccounts = response
+            },
+                (error) => {
+                    this.isShowLoader = false;
+                    this.snackBar.open(
+                        (error.error && error.error.message) || error.message,
+                        'Ok',
+                        {
+                            duration: 3000
+                        }
+                    );
+                },
+                () => { }
+            );
     }
 
 }
