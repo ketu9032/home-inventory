@@ -1,18 +1,19 @@
 
 export interface IIncomeData {
-    expenseId: number,
-    userId: number,
-    userName: string,
-    accountNumber: number,
+    id: number,
+    user_id: number,
+    user_name: string,
+    account_id: number,
+    account_type: string,
     amount: number,
-    paymentMethod: string,
+    payment_Method: string,
     remark: string
 }
 
 export interface IIncomeParams {
     id?: number,
     userId: number,
-    accountNumber: number,
+    accountId: number,
     amount: number,
     paymentMethod: string,
     remark: string
