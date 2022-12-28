@@ -36,9 +36,10 @@ export class AddTransferComponent implements OnInit {
         public authService: AuthService,
     ) { }
     ngOnInit() {
+        console.log(this.data)
         this.initializeForm();
         this.getUserDropDown();
-        if (this.data && this.data.transferId) {
+        if (this.data ) {
             this.fillForm();
         }
     }
@@ -54,8 +55,6 @@ export class AddTransferComponent implements OnInit {
         });
     }
     saveTransfer(): void {
-
-
         this.isShowLoader = true;
         this.transferService
             .addTransfer({
@@ -88,25 +87,17 @@ export class AddTransferComponent implements OnInit {
             );
     }
     updateTransfer(): void {
-        const {     userId,
-            accountId,
-            toUserId,
-            toUserAccountId,
-            remark,
-            amount,
-            paymentMethod  } = this.formGroup.value;
-
-        this.isShowLoader = true;
+       this.isShowLoader = true;
         this.transferService
             .editTransfer({
-                // id: this.data.id,
-                userId,
-                accountId,
-                toUserId,
-                toUserAccountId,
-                remark,
-                amount,
-                paymentMethod
+                 id: this.data.id,
+                userId: +this.formGroup.value.userId,
+                accountId:+this.formGroup.value.accountId,
+                toUserId:+this.formGroup.value.toUserId,
+                toUserAccountId:+this.formGroup.value.toUserAccountId,
+                remark:this.formGroup.value.remark,
+                amount:this.formGroup.value.amount,
+                paymentMethod:this.formGroup.value.paymentMethod
             })
             .subscribe(
                 (response) => {
@@ -129,18 +120,21 @@ export class AddTransferComponent implements OnInit {
             );
     }
     onSubmit() {
-        if (this.data && this.data.transferId) {
+        if (this.data ) {
             this.updateTransfer();
         } else {
             this.saveTransfer();
         }
     }
     fillForm() {
-        const { toUserId, description: description, transfer_amount: transfer_amount } = this.data;
         this.formGroup.patchValue({
-            description,
-            transfer_amount,
-            toUserId,
+            userId: this.data.user_id,
+            // accountId: this.data.,
+            toUserId: this.data.to_user_id,
+            // toUserAccountId: this.data.,
+            remark: this.data.remark,
+            amount: this.data.amount,
+            paymentMethod: this.data.payment_method,
         });
     }
 
