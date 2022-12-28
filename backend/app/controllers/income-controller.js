@@ -1,7 +1,7 @@
 const pool = require('../db');
 
 // get account
-const getIncome= async (req, res) => {
+const getIncome = async (req, res) => {
   try {
     const { rows } = await pool.query(`
           SELECT
@@ -31,13 +31,7 @@ const getIncome= async (req, res) => {
 
 const addIncome = async (req, res) => {
   try {
-    const {
-      userId,
-      accountId,
-      amount,
-      paymentMethod,
-      remark
-    } = req.body;
+    const { userId, accountId, amount, paymentMethod, remark } = req.body;
     const { rows } = await pool.query(`
 
     INSERT INTO public.income(
@@ -55,14 +49,7 @@ const addIncome = async (req, res) => {
 
 const updateIncome = async (req, res) => {
   try {
-    const {
-      userId,
-      accountId,
-      amount,
-      paymentMethod,
-      remark,
-      id
-    } = req.body;
+    const { userId, accountId, amount, paymentMethod, remark, id } = req.body;
     const { rows } = await pool.query(`
         UPDATE
       public.income
@@ -93,11 +80,9 @@ const removeIncome = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   getIncome,
   addIncome,
   updateIncome,
-  removeIncome,
+  removeIncome
 };
