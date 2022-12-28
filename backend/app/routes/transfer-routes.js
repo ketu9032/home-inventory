@@ -9,5 +9,4 @@ router.post('/', controllers.addTransfer);
 router.put('/', controllers.updateTransfer);
 router.put('/remove', controllers.removeTransfer);
 
-
 module.exports = router;

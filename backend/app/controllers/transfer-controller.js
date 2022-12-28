@@ -94,8 +94,6 @@ const removeTransfer = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   getTransfer,
   addTransfer,
