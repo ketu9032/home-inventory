@@ -6,13 +6,13 @@ import { IIncomeParams } from 'src/app/models/income';
 
 @Injectable({ providedIn: 'root' })
 export class IncomeService {
-    private url = 'api/expense';
+    private url = 'api/income';
 
     constructor(private restService: RestService, private commonService: CommonService) { }
 
     public getIncome(tablePrams: IMatTableParams) {
-        const queryString = this.commonService.toQueryString(tablePrams);
-        return this.restService.get<any>(`${this.url}${queryString}`);
+        // const queryString = this.commonService.toQueryString(tablePrams);
+        return this.restService.get(`${this.url}`);
     }
     public addIncome(income: IIncomeParams) {
         return this.restService.post(`${this.url}`, income);

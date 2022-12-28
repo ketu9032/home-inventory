@@ -61,10 +61,7 @@ export class IncomeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.loggedInUsersData = this.authService.getUserData();
-        // this.getUserDropDown()
-        // this.getCategoryDropDown('Expense')
-        // this.getExpense()
+        this.getIncome()
     }
 
     sortData(sort: Sort) {
