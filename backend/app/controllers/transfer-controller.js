@@ -54,28 +54,26 @@ const updateTransfer = async (req, res) => {
   try {
     const {
       userId,
+      accountId,
       toUserId,
+      toUserAccountId,
       amount,
       paymentMethod,
       remark,
-      accountId,
-      toAccountId,
       id
     } = req.body;
     const { rows } = await pool.query(`
-        UPDATE
-      public.account
-    SET
-      date = now(),
-      user_id = ${userId},
-      bank_name = '${bankName}',
-      account_number = ${accountNumber},
-      account_holder_name = '${accountHolderName}',
-      ifsc_code = '${ifscCode}',
-      branch_name = '${branchName}',
-      balance = ${balance},
-      account_type = '${accountType}',
-      swift_code = '${swiftCode}'
+    UPDATE public.transfer
+      SET
+       date = now(),
+        user_id = ${userId} ,
+        to_user_id = ${toUserId},
+        amount = ${amount},
+        payment_method = '${paymentMethod}',
+        remark = '${remark}',
+        account_id= ${accountId},
+        to_account_id=  ${toUserAccountId}
+
     WHERE
       id=${id};
   `);

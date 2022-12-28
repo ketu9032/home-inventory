@@ -1,5 +1,13 @@
 export interface ITransferData {
-    transferId: number, toUserId: number, description: string, transfer_amount: number, isDeleted: boolean, toUserName: string, fromUserId: number, fromUserName: string, isApproved: boolean, isActive: boolean
+
+    id:number,
+    user_id: number,
+    to_user_id: number,
+    amount: number,
+    remark: string,
+    payment_method: string,
+    user_name: string,
+    isActive: boolean,
 }
 export interface ITransferParams {
     id?: number,
