@@ -41,7 +41,7 @@ export class ExpenseComponent implements OnInit {
     tableParams: IMatTableParams = {
         pageSize: this.defaultPageSize,
         pageNumber: 1,
-        orderBy: 'expense.id',
+        orderBy: 'id',
         direction: "desc",
         search: '',
         active: true,
@@ -95,7 +95,7 @@ export class ExpenseComponent implements OnInit {
     getExpense() {
         this.loader = true;
 
-        this.expenseService.getExpense().subscribe(
+        this.expenseService.getExpense(this.tableParams).subscribe(
             (newCustomers: any[]) => {
                 this.dataSource = new MatTableDataSource<IExpenseData>(newCustomers);
                 if (newCustomers.length > 0) {

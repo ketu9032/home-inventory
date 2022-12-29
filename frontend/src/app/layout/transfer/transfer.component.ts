@@ -42,7 +42,7 @@ export class TransferComponent implements OnInit {
     tableParams: IMatTableParamsWithSearchParams = {
         pageSize: this.defaultPageSize,
         pageNumber: 1,
-        orderBy: 't.id',
+        orderBy: 'id',
         direction: "desc",
         search: '',
         active: true,
@@ -98,7 +98,7 @@ export class TransferComponent implements OnInit {
 
     getTransfer() {
 
-        this.transferService.getTransfer().subscribe(
+        this.transferService.getTransfer(this.tableParams).subscribe(
             (newTransfer: any[]) => {
                 this.dataSource = new MatTableDataSource<ITransferData>(newTransfer);
                 if (newTransfer.length > 0) {

@@ -3,8 +3,32 @@ const pool = require('../db');
 // get account
 const getTransfer = async (req, res) => {
   try {
-    const { rows } = await pool.query(`
-          SELECT
+    const {
+      orderBy,
+      direction,
+      pageSize,
+      pageNumber,
+      search,
+      active
+    } = req.query;
+
+    let searchQuery = 'having true';
+    let whereClause = ' where true ';
+    const offset = pageSize * pageNumber - pageSize;
+
+    if (search) {
+      searchQuery += ` and
+        (
+          user_name like '%${search}%'
+          or t.date::text like '%${search}%'
+          or t.payment_method like '%${search}%'
+          or t.remark::text like '%${search}%'
+          or t.amount::text like '%${search}%'
+        )`;
+    }
+    searchQuery += ` and t.is_active = ${active}  `;
+    const query = `
+       SELECT
           t.id,
           t.date,
           t.user_id,
@@ -17,12 +41,29 @@ const getTransfer = async (req, res) => {
           a.account_type
         FROM
           public.transfer t
-          join users u on u.id = user_id
-          join account a on a.id = account_id
-        WHERE
-          t.is_active = true
-    `);
-    return res.status(200).json(rows);
+        join
+          users u on u.id = user_id
+        join
+          account a on a.id = account_id
+        GROUP BY
+          t.id,
+          t.date,
+          t.user_id,
+          to_user_id,
+          amount,
+          payment_method,
+          remark,
+          t.is_active,
+          u.user_name,
+          a.account_type,
+          t.is_active
+          ${searchQuery}
+        order by
+            ${orderBy} ${direction} OFFSET ${offset}
+        LIMIT
+            ${pageSize}`
+   const response = await pool.query(query);
+    return res.status(200).json(response.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

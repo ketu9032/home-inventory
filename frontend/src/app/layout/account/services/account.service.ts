@@ -2,6 +2,7 @@ import { CommonService } from '../../../shared/services/common.service';
 import { Injectable } from '@angular/core';
 import { RestService } from 'src/app/shared/services';
 import { IAccountParams } from 'src/app/models/account';
+import { IMatTableParams } from 'src/app/models/table';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -12,10 +13,10 @@ export class AccountService {
         private commonService: CommonService
     ) { }
 
-    public getAccount() {
-        //  const queryString = this.commonService.toQueryString(tablePrams);
-        //  return this.restService.get<any>(`${this.url}${queryString}`);
-        return this.restService.get(`${this.url}`);
+    public getAccount(tablePrams: IMatTableParams) {
+         const queryString = this.commonService.toQueryString(tablePrams);
+         return this.restService.get<any>(`${this.url}${queryString}`);
+
     }
     public addAccount(account: IAccountParams) {
         return this.restService.post(`${this.url}`, account);

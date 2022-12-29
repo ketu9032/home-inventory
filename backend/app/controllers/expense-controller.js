@@ -3,30 +3,80 @@ const pool = require('../db');
 // get Expense
 const getExpense = async (req, res) => {
   try {
-    const { rows } = await pool.query(`
-        SELECT
-        e.id,
-        e.date,
-        e.user_id,
-        account_id,
-        to_user_id,
-        amount,
-        payment_method,
-        remark,
-        u.user_name as user_name,
-        u.id as user_id,
-        a.id as account_id,
-        a.account_type as account_type,
-        a.account_number as account_number
-      FROM
-        public.expense e
-        join users u On u.id = e.user_id
-        join account a on a.id = e.account_id
-      where
-        e.is_active = true;
 
-    `);
-    return res.status(200).json(rows);
+    const {
+      orderBy,
+      direction,
+      pageSize,
+      pageNumber,
+      search,
+      active
+    } = req.query;
+
+    let searchQuery = 'having true';
+    let whereClause = ' where true ';
+    const offset = pageSize * pageNumber - pageSize;
+
+    if (search) {
+      searchQuery += ` and
+        (
+          user_name like '%${search}%'
+          or e.date::text like '%${search}%'
+          or  u.user_name::text like '%${search}%'
+          or  a.account_type::text like '%${search}%'
+          or  e.to_user_id::text like '%${search}%'
+          or  amount::text like '%${search}%'
+          or  payment_method like '%${search}%'
+          or remark like '%${search}%'
+          or amount::text like '%${search}%'
+        )`;
+    }
+    searchQuery += ` and e.is_active = ${active}  `;
+
+const query = `
+        SELECT
+          e.id,
+          e.date,
+          e.user_id,
+          account_id,
+          to_user_id,
+          amount,
+          payment_method,
+          remark,
+          u.user_name as user_name,
+          u.id as user_id,
+          a.id as account_id,
+          a.account_type as account_type,
+          a.account_number as account_number
+        FROM
+          public.expense e
+        join
+          users u On u.id = e.user_id
+        join
+          account a on a.id = e.account_id
+        group by
+            u.id,
+            a.id,
+            e.id,
+            e.date,
+            e.user_id,
+            account_id,
+            to_user_id,
+            amount,
+            payment_method,
+            remark,
+            u.user_name,
+            a.account_type,
+            a.account_number,
+            e.is_active
+          ${searchQuery}
+        order by
+          ${orderBy} ${direction} OFFSET ${offset}
+        LIMIT
+          ${pageSize}`
+ console.log(query);
+    const response = await pool.query(query);
+    return res.status(200).json(response.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

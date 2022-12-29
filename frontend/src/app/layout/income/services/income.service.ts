@@ -11,8 +11,8 @@ export class IncomeService {
     constructor(private restService: RestService, private commonService: CommonService) { }
 
     public getIncome(tablePrams: IMatTableParams) {
-        // const queryString = this.commonService.toQueryString(tablePrams);
-        return this.restService.get(`${this.url}`);
+         const queryString = this.commonService.toQueryString(tablePrams);
+        return this.restService.get(`${this.url}${queryString}`);
     }
     public addIncome(income: IIncomeParams) {
         return this.restService.post(`${this.url}`, income);
