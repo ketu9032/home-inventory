@@ -22,11 +22,10 @@ import { DeleteExpenseComponent } from './delete-expense/delete-expense.componen
 export class ExpenseComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'userName',
-        'accountNumber',
-        'toUserName',
+        'user_name',
+        'account_number',
         'amount',
-        'paymentMethod',
+        'payment_method',
         'remark',
         'action'
     ];

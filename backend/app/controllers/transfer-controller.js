@@ -38,6 +38,7 @@ const getTransfer = async (req, res) => {
           remark,
           t.is_active,
           u.user_name as user_name,
+          u.user_name as to_user_name,
           a.account_type
         FROM
           public.transfer t

@@ -22,12 +22,12 @@ import { TransferService } from './services/transfer.service';
 export class TransferComponent implements OnInit {
     displayedColumns: string[] = [
         "date",
-        'userName',
-        'accountNumber',
-        'toUserName',
-        'toUserAccountNumber',
+        'user_name',
+        'account_number',
+        'to_user_name',
+        'to_user_account_number',
         'amount',
-        'paymentMethod',
+        'payment_method',
         'remark',
         'action'
     ];

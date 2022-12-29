@@ -21,10 +21,10 @@ import { DeleteIncomeComponent } from './delete-income/delete-income.component';
 export class IncomeComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'userName',
-        'accountNumber',
+        'user_name',
+        'account_type',
         'amount',
-        'paymentMethod',
+        'payment_method',
         'remark',
         'action'
     ];

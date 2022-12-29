@@ -41,7 +41,7 @@
     </div>
     <br />
     <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="userName"
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="date"
             matSortDirection="asc">
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
@@ -50,41 +50,47 @@
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="userName">
+            <ng-container matColumnDef="user_name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
                 <td mat-cell *matCellDef="let element">
                     {{ element.user_name | titlecase}}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="accountNumber">
+            <ng-container matColumnDef="account_number">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Ac.No</th>
                 <td mat-cell *matCellDef="let element">
                     {{ element.account_type }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="toUserName">
+            <ng-container matColumnDef="to_user_name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>To User Name</th>
                 <td mat-cell *matCellDef="let element">
                     {{ element.toUserName | titlecase }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="toUserAccountNumber">
+            <ng-container matColumnDef="to_user_account_number">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>To User Ac.No</th>
-                <td mat-cell *matCellDef="let element">{{ element.toUserAccountNumber }}</td>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.toUserAccountNumber }}
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="amount">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
-                <td mat-cell *matCellDef="let element">{{ element.amount | currency: 'INR' }}</td>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.amount | currency: 'INR' }}
+                </td>
             </ng-container>
 
-            <ng-container matColumnDef="paymentMethod">
+            <ng-container matColumnDef="payment_method">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment
                     Method</th>
-                <td mat-cell *matCellDef="let element">{{ element.payment_method | titlecase }}</td>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.payment_method | titlecase }}
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="remark">

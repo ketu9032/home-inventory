@@ -50,7 +50,6 @@ export class AddExpenseComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
             accountId: ['', Validators.required],
-            toUserId: ['', Validators.required],
             paymentMethod: ['', Validators.required],
             remark: ['', Validators.required],
             amount: ['', Validators.required]
@@ -66,7 +65,6 @@ export class AddExpenseComponent implements OnInit {
             .addExpense({
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
-                toUserId: +this.formGroup.value.toUserId,
                 paymentMethod,
                 remark,
                 amount: this.formGroup.value.amount
@@ -95,7 +93,6 @@ export class AddExpenseComponent implements OnInit {
     updateExpense(): void {
         const { userId,
             accountId,
-            toUserId,
             paymentMethod,
             remark,
             amount } = this.formGroup.value;
@@ -105,7 +102,6 @@ export class AddExpenseComponent implements OnInit {
                 id: this.data.expenseId,
                 userId,
                 accountId,
-                toUserId,
                 paymentMethod,
                 remark,
                 amount
@@ -143,7 +139,6 @@ export class AddExpenseComponent implements OnInit {
         this.formGroup.patchValue({
             userId: this.data.user_id,
             accountId: this.data.account_id,
-            toUserId: this.data.to_user_id,
             paymentMethod: this.data.payment_method,
             remark: this.data.remark,
             amount: this.data.amount,

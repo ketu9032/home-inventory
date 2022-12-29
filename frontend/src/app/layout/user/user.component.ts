@@ -23,10 +23,10 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
 export class UserComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'userName',
+        'user_name',
         'email',
         'balance',
-        'mobileNumber',
+        'mobile_number',
         'action'
     ];
 
@@ -140,10 +140,6 @@ export class UserComponent implements OnInit {
         this.tableParams.pageNumber = event.pageIndex + 1;
         this.getUser();
     }
-    toggleType() {
-        this.tableParams.active = !this.tableParams.active;
-        this.tableParams.pageNumber = 1;
-        this.getUser();
-    }
+
 
 }
