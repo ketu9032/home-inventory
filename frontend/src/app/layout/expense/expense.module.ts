@@ -10,25 +10,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/app/shared/modules/material/shared.module';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { DeleteExpenseComponent } from './delete-expense/delete-expense.component';
 
 @NgModule({
-  declarations: [
-    ExpenseComponent,
-    AddExpenseComponent
-  ],
-  imports: [
-    CommonModule,
-    ExpenseRoutingModule,
-    SharedModule,
-    MatCheckboxModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule.withConfig({ addFlexToParent: false })
-  ],
-  entryComponents: [
-
-  ]
+    declarations: [
+        ExpenseComponent,
+        AddExpenseComponent,
+        DeleteExpenseComponent
+    ],
+    imports: [
+        CommonModule,
+        ExpenseRoutingModule,
+        SharedModule,
+        MatCheckboxModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        FlexLayoutModule.withConfig({ addFlexToParent: false })
+    ],
+    entryComponents: [
+        AddExpenseComponent,
+        DeleteExpenseComponent
+    ]
 })
-export class ExpenseModule {}
+export class ExpenseModule { }

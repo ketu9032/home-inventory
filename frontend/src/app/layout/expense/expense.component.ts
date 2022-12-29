@@ -12,6 +12,7 @@ import { IExpenseData } from 'src/app/models/expense';
 import * as moment from 'moment';
 import { UserService } from '../user/services/user.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { DeleteExpenseComponent } from './delete-expense/delete-expense.component';
 
 @Component({
     selector: 'app-expense',
@@ -134,6 +135,20 @@ export class ExpenseComponent implements OnInit {
             .open(AddExpenseComponent, {
                 width: '700px',
                 data: element
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    this.getExpense();
+                }
+            });
+    }
+
+    onDeleteExpense(id: number) {
+        this.dialog
+            .open(DeleteExpenseComponent, {
+                width: '350px',
+                data: id
             })
             .afterClosed()
             .subscribe((result) => {

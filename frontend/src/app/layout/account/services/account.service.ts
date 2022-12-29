@@ -25,7 +25,7 @@ export class AccountService {
     public editAccount(account: IAccountParams) {
         return this.restService.put(`${this.url}`, account);
     }
-    public removeAccount(id: string) {
+    public removeAccount(id) {
         return this.restService.delete(`${this.url}/remove?id=${id}`);
     }
     public getAccountUserWise(id) {

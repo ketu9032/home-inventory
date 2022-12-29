@@ -71,7 +71,7 @@ export class TransferComponent implements OnInit {
     ngOnInit(): void {
         this.loggedInUsersData = this.authService.getUserData();
         // this.loggedInUserId = this.loggedInUsersData.id
-      //  this.loggedInUserRole = this.loggedInUsersData.role
+        //  this.loggedInUserRole = this.loggedInUsersData.role
         // this.getUserDropDown()
         this.getTransfer();
     }
@@ -120,7 +120,7 @@ export class TransferComponent implements OnInit {
         );
     }
 
-    onAddNewUser(): void {
+    onAddNewTransfer(): void {
         this.dialog
             .open(AddTransferComponent, {
                 width: '700px'
@@ -132,7 +132,7 @@ export class TransferComponent implements OnInit {
                 }
             });
     }
-    onEditNewUser(element) {
+    onEditNewTransfer(element) {
         this.dialog
             .open(AddTransferComponent, {
                 width: '700px',
@@ -145,7 +145,7 @@ export class TransferComponent implements OnInit {
                 }
             });
     }
-    confirmDialog(id: string): void {
+    onDeleteTransfer(id: string): void {
         this.dialog
             .open(DeleteTransferComponent, {
                 maxWidth: '400px',

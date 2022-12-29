@@ -9,9 +9,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddAccountComponent } from './add-account/add-account.component';
+import { DeleteAccountComponent } from './delete-account/delete-account.component';
 
 @NgModule({
-    declarations: [AccountComponent, AddAccountComponent],
+    declarations: [AccountComponent, AddAccountComponent, DeleteAccountComponent],
     imports: [
         CommonModule,
         SharedModule,
@@ -22,7 +23,7 @@ import { AddAccountComponent } from './add-account/add-account.component';
         FlexLayoutModule.withConfig({ addFlexToParent: false }),
         AccountRoutingModule
     ],
-    entryComponents: [AddAccountComponent],
+    entryComponents: [AddAccountComponent, DeleteAccountComponent],
     providers: [AccountService]
 })
 export class AccountModule { }
