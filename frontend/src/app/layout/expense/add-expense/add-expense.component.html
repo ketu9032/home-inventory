@@ -57,20 +57,15 @@
 
             <div class="width margin-right">
                 <mat-form-field>
-                    <mat-label>User Name</mat-label>
-                    <mat-select formControlName="toUserId" matInput required>
-                        <mat-option *ngFor="let user of users" [value]="user.id">
-                            {{user.user_name | titlecase }}
-                        </mat-option>
-                    </mat-select>
+                    <mat-label>Amount</mat-label>
+                    <input matInput formControlName="amount" type="number" required />
                 </mat-form-field>
                 <div>
-
                     <ng-container *ngIf="
-          formGroup.controls.toUserId.touched &&
-          !formGroup.controls.toUserId.value
+          formGroup.controls.amount.touched &&
+          !formGroup.controls.amount.value
         ">
-                        <span class="error">To User Name is Required</span>
+                        <span class="error">Amount is Required</span>
                     </ng-container>
                 </div>
             </div>
@@ -97,10 +92,11 @@
         </div>
         <div class="flex">
 
-            <div class="width margin-right">
+            <div class="width">
                 <mat-form-field>
                     <mat-label>Remark</mat-label>
-                    <input matInput formControlName="remark" required />
+                    <!-- <input matInput formControlName="remark" required /> -->
+                    <textarea matInput formControlName="remark" required placeholder="Expense Details.."></textarea>
                 </mat-form-field>
                 <div>
                     <ng-container *ngIf="
@@ -111,21 +107,7 @@
                     </ng-container>
                 </div>
             </div>
-            <!-- balance start -->
-            <div class="width">
-                <mat-form-field>
-                    <mat-label>Amount</mat-label>
-                    <input matInput formControlName="amount" type="number" required />
-                </mat-form-field>
-                <div>
-                    <ng-container *ngIf="
-          formGroup.controls.amount.touched &&
-          !formGroup.controls.amount.value
-        ">
-                        <span class="error">Amount is Required</span>
-                    </ng-container>
-                </div>
-            </div>
+
 
         </div>
 

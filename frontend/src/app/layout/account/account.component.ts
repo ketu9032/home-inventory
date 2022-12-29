@@ -22,14 +22,14 @@ import { DeleteAccountComponent } from './delete-account/delete-account.componen
 export class AccountComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'userName',
+        'user_name',
         'balance',
-        'accountNumber',
-        'accountHolderName',
-        'accountType',
-        'bankName',
-        'ifscCode',
-        'branchName',
+        'account_number',
+        'account_holder_name',
+        'account_type',
+        'bank_name',
+        'ifsc_code',
+        'branch_Name',
         'action'
     ];
     dataSource: any = [];

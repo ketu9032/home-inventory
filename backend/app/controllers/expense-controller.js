@@ -24,7 +24,6 @@ const getExpense = async (req, res) => {
           or e.date::text like '%${search}%'
           or  u.user_name::text like '%${search}%'
           or  a.account_type::text like '%${search}%'
-          or  e.to_user_id::text like '%${search}%'
           or  amount::text like '%${search}%'
           or  payment_method like '%${search}%'
           or remark like '%${search}%'
@@ -39,13 +38,13 @@ const query = `
           e.date,
           e.user_id,
           account_id,
-          to_user_id,
           amount,
           payment_method,
           remark,
           u.user_name as user_name,
           u.id as user_id,
           a.id as account_id,
+          u.user_name as to_user_name,
           a.account_type as account_type,
           a.account_number as account_number
         FROM
@@ -61,7 +60,6 @@ const query = `
             e.date,
             e.user_id,
             account_id,
-            to_user_id,
             amount,
             payment_method,
             remark,
@@ -84,15 +82,15 @@ const query = `
 
 const addExpense = async (req, res) => {
   try {
-    const { userId, accountId, toUserId, amount, paymentMethod, remark } =
+    const { userId, accountId,  amount, paymentMethod, remark } =
       req.body;
     const { rows } = await pool.query(`
     INSERT INTO public.expense(
-      date, user_id, account_id, to_user_id, amount, payment_method, remark
+      date, user_id, account_id, amount, payment_method, remark
       )
       VALUES
         (
-          now(), ${userId}, ${accountId}, ${toUserId},
+          now(), ${userId}, ${accountId},
           ${amount}, '${paymentMethod}',
           '${remark}'
         );
@@ -105,16 +103,15 @@ const addExpense = async (req, res) => {
 
 const updateExpense = async (req, res) => {
   try {
-    const { userId, accountId, toUserId, amount, paymentMethod, remark, id } =
+    const { userId, accountId,  amount, paymentMethod, remark, id } =
       req.body;
     const { rows } = await pool.query(`
-        UPDATE
+    UPDATE
       public.expense
     SET
       date = now(),
       user_id = ${userId},
       account_id = '${accountId}',
-      to_user_id = ${toUserId},
       amount = '${amount}',
       payment_method = '${paymentMethod}',
       remark = '${remark}'
