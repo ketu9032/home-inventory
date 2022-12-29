@@ -44,27 +44,39 @@ const addAccount = async (req, res) => {
       accountType,
       swiftCode
     } = req.body;
-    const { rows } = await pool.query(`
-    INSERT INTO public.account(
-      date,
-      user_id,
-      bank_name,
-      account_number,
-      account_holder_name,
-      ifsc_code,
-      branch_name,
-      balance,
-      account_type,
-      swift_code )
-      VALUES
-        (
-          now(), ${userId}, '${bankName}', ${accountNumber},
-          '${accountHolderName}', '${ifscCode}',
-          '${branchName}', ${balance}, '${accountType}',
-          '${swiftCode}'
-        );
-    `);
-    return res.status(200).json(rows);
+
+  const query = ` INSERT INTO public.account(
+    date,
+    user_id,
+    bank_name,
+    account_number,
+    account_holder_name,
+    ifsc_code,
+    branch_name,
+    balance,
+    account_type,
+    swift_code )
+    VALUES
+      (
+        now(), ${userId}, '${bankName}', ${accountNumber},
+        '${accountHolderName}', '${ifscCode}',
+        '${branchName}', ${balance}, '${accountType}',
+        '${swiftCode}'
+      );`
+
+    const  response1 = await pool.query(query);
+    let res1 = response1.rows
+
+    const response2 = await pool.query(`
+    UPDATE public.users
+    SET  balance = balance + ${balance}
+    WHERE id= ${userId};
+    `)
+
+    let res2 = response2.rows
+  const response = {res1, res2};
+
+    return res.status(200).json( {response});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -122,7 +134,7 @@ const getAccountDropDownByUserId = async (req, res) => {
   const { id } = req.body;
   try {
     const { rows } = await pool.query(`
-    SELECT account_type, user_id, id as account_id FROM public.account  where user_id = 4 ;`);
+    SELECT account_type, user_id, id as account_id FROM public.account  where user_id = 13;`);
     return res.status(200).json(rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
