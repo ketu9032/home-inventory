@@ -20,8 +20,8 @@ export class TransferService {
   public editTransfer(transfer: ITransferParams) {
     return this.restService.put(`${this.url}`, transfer);
   }
-  public removeTransfer(id: string) {
-    return this.restService.delete(`${this.url}?id=${id}`);
+  public removeTransfer(id: number) {
+    return this.restService.put(`${this.url}/remove?id=${id}`);
   }
 
 }

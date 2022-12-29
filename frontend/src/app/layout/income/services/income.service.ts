@@ -20,8 +20,8 @@ export class IncomeService {
     public editIncome(income: IIncomeParams) {
         return this.restService.put(`${this.url}`, income);
     }
-    public removeIncome(id) {
-        return this.restService.delete(`${this.url}?id=${id}`);
+    public removeIncome(id: number) {
+        return this.restService.put(`${this.url}/remove?id=${id}`);
     }
 
 

@@ -29,11 +29,7 @@ export class DeleteExpenseComponent implements OnInit {
         private authService: AuthService
     ) { }
 
-    ngOnInit(): void {
-
-    }
-
-
+    ngOnInit(): void {}
 
     removeUser(): void {
         let a = this.data;
@@ -42,7 +38,7 @@ export class DeleteExpenseComponent implements OnInit {
         this.expenseService.removeExpense(id).subscribe(
             (response) => {
                 this.dialogRef.close({ data: true });
-                this.snackBar.open('Cdf deleted successfully', 'OK', {
+                this.snackBar.open('Expense deleted successfully', 'OK', {
                     duration: 3000
                 });
             },
@@ -58,9 +54,4 @@ export class DeleteExpenseComponent implements OnInit {
     onDismiss(): void {
         this.dialogRef.close({ data: false });
     }
-
-
-
-
-
 }

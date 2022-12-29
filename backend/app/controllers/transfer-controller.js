@@ -19,8 +19,8 @@ const getTransfer = async (req, res) => {
           public.transfer t
           join users u on u.id = user_id
           join account a on a.id = account_id
-
-
+        WHERE
+          t.is_active = true
     `);
     return res.status(200).json(rows);
   } catch (error) {
@@ -84,8 +84,8 @@ const updateTransfer = async (req, res) => {
 };
 const removeTransfer = async (req, res) => {
   try {
-    const { id } = req.body;
-    const query = await pool.query(`UPDATE public.account
+    const { id } = req.query;
+    const query = await pool.query(`UPDATE public.transfer
     SET  is_active = false
     WHERE id = ${id}`);
     return res.status(200).json(query);

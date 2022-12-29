@@ -120,7 +120,7 @@ const updateAccount = async (req, res) => {
 };
 const removeAccount = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     const query = await pool.query(`UPDATE public.account
     SET  is_active = false
     WHERE id = ${id}`);

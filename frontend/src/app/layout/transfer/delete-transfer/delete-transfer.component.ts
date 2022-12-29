@@ -24,10 +24,12 @@ export class DeleteTransferComponent implements OnInit {
   ngOnInit() {}
 
   removeTransfer(): void {
-    this.transferService.removeTransfer(this.data).subscribe(
+    let a = this.data;
+    let id: number = +a;
+    this.transferService.removeTransfer(id).subscribe(
       (response) => {
         this.dialogRef.close({ data: true });
-        this.snackBar.open('User deleted successfully', 'OK',{
+        this.snackBar.open('Transfer deleted successfully', 'OK',{
           duration: 3000
         });
       },
