@@ -4,7 +4,7 @@ const pool = require('../db');
 const getUser = async (req, res) => {
   try {
     const { rows } = await pool.query(
-      `SELECT id, user_name, date, email, mobile_number, password, balance FROM public.users`
+      `SELECT id, user_name, date, email, mobile_number, password, balance FROM public.users where is_active = true`
     );
     return res.status(200).json(rows);
   } catch (error) {
@@ -37,7 +37,7 @@ const updateUser = async (req, res) => {
 };
 const removeUser = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     const query = await pool.query(`UPDATE public.users
     SET  is_active = false
     WHERE id = ${id}`);

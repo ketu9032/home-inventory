@@ -79,8 +79,8 @@ const updateIncome = async (req, res) => {
 };
 const removeIncome = async (req, res) => {
   try {
-    const { id } = req.body;
-    const query = await pool.query(`UPDATE public.account
+    const { id } = req.query;
+    const query = await pool.query(`UPDATE public.income
     SET  is_active = false
     WHERE id = ${id}`);
     return res.status(200).json(query);

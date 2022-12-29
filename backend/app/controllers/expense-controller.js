@@ -78,7 +78,7 @@ const updateExpense = async (req, res) => {
 };
 const removeExpense = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     const query = await pool.query(`UPDATE public.expense
     SET  is_active = false
     WHERE id = ${id}`);

@@ -38,7 +38,10 @@ export class DeleteUserComponent implements OnInit {
         let a = this.data;
         let id: number = +a;
 
-        this.userService.removeUser(id).subscribe(
+        this.userService.removeUser(
+            id
+
+        ).subscribe(
             (response) => {
                 this.dialogRef.close({ data: true });
                 this.snackBar.open('Cdf deleted successfully', 'OK', {

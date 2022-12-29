@@ -23,9 +23,10 @@ export class ExpenseService {
     public editExpense(expense: IExpenseParams) {
         return this.restService.put(`${this.url}`, expense);
     }
-    public removeExpense(id) {
-        return this.restService.delete(`${this.url}?id=${id}`);
+    public removeExpense(id: number) {
+        return this.restService.put(`${this.url}/remove?id=${id}`);
     }
 
 
 }
+
