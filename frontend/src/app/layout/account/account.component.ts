@@ -13,6 +13,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { IMatTableParams } from 'src/app/models/table';
 import { AccountService } from './services/account.service';
 import { AddAccountComponent } from './add-account/add-account.component';
+import { DeleteAccountComponent } from './delete-account/delete-account.component';
 @Component({
     selector: 'app-account',
     templateUrl: './account.component.html',
@@ -105,6 +106,20 @@ export class AccountComponent implements OnInit {
             .open(AddAccountComponent, {
                 width: '700px',
                 data: element
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    this.getAccount();
+                }
+            });
+    }
+
+    onDeleteAccount(id: number) {
+        this.dialog
+            .open(DeleteAccountComponent, {
+                width: '350px',
+                data: id
             })
             .afterClosed()
             .subscribe((result) => {

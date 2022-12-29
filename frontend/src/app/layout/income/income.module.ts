@@ -10,11 +10,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/app/shared/modules/material/shared.module';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { IncomeRoutingModule } from './income-routing.module';
+import { DeleteIncomeComponent } from './delete-income/delete-income.component';
 
 @NgModule({
   declarations: [
     IncomeComponent,
-    AddIncomeComponent
+    AddIncomeComponent,
+    DeleteIncomeComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { IncomeRoutingModule } from './income-routing.module';
     FlexLayoutModule.withConfig({ addFlexToParent: false })
   ],
   entryComponents: [
-
+    AddIncomeComponent,
+    DeleteIncomeComponent
   ]
 })
 export class IncomeModule {}

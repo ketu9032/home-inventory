@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { IncomeService } from './services/income.service';
 import { IIncomeData } from 'src/app/models/income';
+import { DeleteIncomeComponent } from './delete-income/delete-income.component';
 
 @Component({
     selector: 'app-income',
@@ -111,7 +112,7 @@ export class IncomeComponent implements OnInit {
         );
     }
 
-    onAddNewExpense(): void {
+    onAddNewIncome(): void {
         this.dialog
             .open(AddIncomeComponent, {
                 width: '700px'
@@ -124,7 +125,7 @@ export class IncomeComponent implements OnInit {
             });
     }
 
-    onEditNewExpense(element) {
+    onEditNewIncome(element) {
         this.dialog
             .open(AddIncomeComponent, {
                 width: '700px',
@@ -138,6 +139,19 @@ export class IncomeComponent implements OnInit {
             });
     }
 
+    onDeleteIncome(id: number) {
+        this.dialog
+            .open(DeleteIncomeComponent, {
+                width: '350px',
+                data: id
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    this.getIncome();
+                }
+            });
+    }
     pageChanged(event: PageEvent) {
         this.tableParams.pageSize = event.pageSize;
         this.tableParams.pageNumber = event.pageIndex + 1;

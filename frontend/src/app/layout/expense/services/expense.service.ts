@@ -23,7 +23,7 @@ export class ExpenseService {
     public editExpense(expense: IExpenseParams) {
         return this.restService.put(`${this.url}`, expense);
     }
-    public removeExpense(id: string) {
+    public removeExpense(id) {
         return this.restService.delete(`${this.url}?id=${id}`);
     }
 

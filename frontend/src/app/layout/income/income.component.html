@@ -28,7 +28,7 @@
         </div>
         <div>
 
-            <button color="primary" class="margin btn" mat-raised-button (click)="onAddNewExpense()">
+            <button color="primary" class="margin btn" mat-raised-button (click)="onAddNewIncome()">
                 Add Income
             </button>
 
@@ -85,14 +85,14 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
-                    <button  mat-icon-button matTooltip="Click to Edit" color="primary"
-                        type="button" (click)=" onEditNewExpense(element)">
-                        <mat-icon aria-label="Edit">edit</mat-icon>
-                    </button>
-                    <button mat-icon-button matTooltip="Click to de-active"
-                        color="warn" (click)="changeStatus(element.incomeId)">
-                        <mat-icon aria-label="Delete">delete</mat-icon>
-                    </button>
+                <button mat-icon-button matTooltip="Click to Edit" color="primary" type="button"
+                    (click)=" onEditNewIncome(element)">
+                    <mat-icon aria-label="Edit">edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Click to de-active" color="warn" (click)="
+                        onDeleteIncome(element.id)">
+                    <mat-icon aria-label="Delete">delete</mat-icon>
+                </button>
             </td>
         </ng-container>
 
