@@ -68,7 +68,7 @@ export class AccountComponent implements OnInit {
     }
     getAccount() {
         this.loader = true;
-        this.accountService.getAccount().subscribe(
+        this.accountService.getAccount(this.tableParams).subscribe(
             (newUser: any[]) => {
                 this.dataSource = new MatTableDataSource<IUserData>(newUser);
                 if (newUser.length > 0) {

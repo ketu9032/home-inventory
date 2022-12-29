@@ -12,10 +12,10 @@ export class ExpenseService {
         private restService: RestService,
         private commonService: CommonService) { }
 
-    public getExpense() {
-        // const queryString = this.commonService.toQueryString(tablePrams);
-        // return this.restService.get<any>(`${this.url}${queryString}`);
-        return this.restService.get(`${this.url}`);
+    public getExpense(tablePrams: IMatTableParams) {
+         const queryString = this.commonService.toQueryString(tablePrams);
+         return this.restService.get<any>(`${this.url}${queryString}`);
+
     }
     public addExpense(expense: IExpenseParams) {
         return this.restService.post(`${this.url}`, expense);

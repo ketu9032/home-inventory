@@ -3,8 +3,35 @@ const pool = require('../db');
 // get account
 const getIncome = async (req, res) => {
   try {
-    const { rows } = await pool.query(`
-          SELECT
+
+    const {
+      orderBy,
+      direction,
+      pageSize,
+      pageNumber,
+      search,
+      active
+    } = req.query;
+
+    let searchQuery = 'having true';
+    let whereClause = ' where true ';
+    const offset = pageSize * pageNumber - pageSize;
+
+    if (search) {
+      searchQuery += ` and
+        (
+          user_name like '%${search}%'
+          or i.date::text like '%${search}%'
+          or amount::text like '%${search}%'
+          or payment_method like '%${search}%'
+          or remark like '%${search}%'
+          or account_type like '%${search}%'
+        )`;
+    }
+    searchQuery += ` and i.is_active = ${active}  `;
+
+const query = `
+      SELECT
           i.id,
           i.date,
           i.user_id,
@@ -16,14 +43,32 @@ const getIncome = async (req, res) => {
           u.user_name as user_name,
           a.account_type as account_type,
           a.id as account_id
-        FROM
+      FROM
           public.income i
-          join users u on u.id = i.user_id
-          join account a on a.id = i.account_id
-        where
-          i.is_active = true;
-    `);
-    return res.status(200).json(rows);
+      join
+          users u on u.id = i.user_id
+      join
+          account a on a.id = i.account_id
+      GROUP BY
+          i.id,
+          i.date,
+          i.user_id,
+          account_id,
+          i.amount,
+          payment_method,
+          remark,
+          i.is_active,
+          u.user_name,
+          a.account_type,
+          account_id,
+          a.id
+      ${searchQuery}
+      order by
+        ${orderBy} ${direction} OFFSET ${offset}
+      LIMIT
+        ${pageSize}`
+    const response = await pool.query(query);
+    return res.status(200).json(response.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

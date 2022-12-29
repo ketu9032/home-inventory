@@ -10,9 +10,9 @@ export class TransferService {
 
   constructor(private restService: RestService, private commonService: CommonService) {}
 
-  public getTransfer() {
-    // const queryString = this.commonService.toQueryString(tablePrams);
-    return this.restService.get(`${this.url}`);
+  public getTransfer(tablePrams: IMatTableParams) {
+    const queryString = this.commonService.toQueryString(tablePrams);
+    return this.restService.get(`${this.url}${queryString}`);
   }
   public addTransfer(transfer: ITransferParams) {
     return this.restService.post(`${this.url}`, transfer);

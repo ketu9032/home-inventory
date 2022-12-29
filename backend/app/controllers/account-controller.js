@@ -1,31 +1,80 @@
 const pool = require('../db');
 
-// get account
+
 const getAccount = async (req, res) => {
   try {
-    const { rows } = await pool.query(`
-        SELECT
-        a.id,
-        a.date,
-        user_id,
-        bank_name,
-        account_number,
-        account_holder_name,
-        ifsc_code,
-        branch_name,
-        a.is_active,
-        a.balance,
-        account_type,
-        swift_code,
-        u.user_name as user_name
-      FROM
-        public.account a
-        Join users u ON u.id = a.user_id
-      where
-        a.is_active = true
+        const {
+      orderBy,
+      direction,
+      pageSize,
+      pageNumber,
+      search,
+      active
+    } = req.query;
 
-    `);
-    return res.status(200).json(rows);
+    let searchQuery = 'having true';
+    let whereClause = ' where true ';
+    const offset = pageSize * pageNumber - pageSize;
+
+    if (search) {
+      searchQuery += ` and
+        (
+          u.user_name like '%${search}%'
+          or a.date::text like '%${search}%'
+          or bank_name like '%${search}%'
+          or account_number::text like '%${search}%'
+          or account_holder_name like '%${search}%'
+          or ifsc_code like '%${search}%'
+          or branch_name like '%${search}%'
+          or account_number::text like '%${search}%'
+          or account_type like '%${search}%'
+          or swift_code like '%${search}%'
+          or a.balance::text like '%${search}%'
+        )`;
+    }
+    searchQuery += ` and a.is_active = ${active}  `;
+
+    const query = `
+          SELECT
+          a.id,
+          a.date,
+          user_id,
+          bank_name,
+          account_number,
+          account_holder_name,
+          ifsc_code,
+          branch_name,
+          a.is_active,
+          a.balance,
+          account_type,
+          swift_code,
+          u.user_name as user_name
+        FROM
+          public.account a
+          Join users u ON u.id = a.user_id
+        group by
+          a.id,
+          user_id,
+          a.date,
+          bank_name,
+          account_number,
+          account_holder_name,
+          ifsc_code,
+          branch_name,
+          a.is_active,
+          a.balance,
+          account_type,
+          swift_code,
+          u.user_name
+          ${searchQuery}
+        order by
+          ${orderBy} ${direction} OFFSET ${offset}
+        LIMIT
+          ${pageSize}
+      `
+
+    const response = await pool.query(query);
+    return res.status(200).json(response.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

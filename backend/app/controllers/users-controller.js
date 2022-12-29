@@ -3,10 +3,59 @@ const pool = require('../db');
 // get User
 const getUser = async (req, res) => {
   try {
-    const { rows } = await pool.query(
-      `SELECT id, user_name, date, email, mobile_number, password, balance FROM public.users where is_active = true`
-    );
-    return res.status(200).json(rows);
+
+    const {
+      orderBy,
+      direction,
+      pageSize,
+      pageNumber,
+      search,
+      active
+    } = req.query;
+
+    let searchQuery = 'having true';
+    let whereClause = ' where true ';
+    const offset = pageSize * pageNumber - pageSize;
+
+    if (search) {
+      searchQuery += ` and
+        (
+          user_name like '%${search}%'
+          or date::text like '%${search}%'
+          or email like '%${search}%'
+          or mobile_number::text like '%${search}%'
+          or balance::text like '%${search}%'
+        )`;
+    }
+    searchQuery += ` and is_active = ${active}  `;
+
+    const query =  `
+          SELECT
+          id,
+          user_name,
+          date,
+          email,
+          mobile_number,
+          password,
+          balance
+        FROM
+          public.users
+        group by
+          users.id,
+          user_name,
+          date,
+          email,
+          password,
+          mobile_number,
+          balance,
+          is_active
+          ${searchQuery}
+        order by
+          ${orderBy} ${direction} OFFSET ${offset}
+        LIMIT
+          ${pageSize}`
+    const response = await pool.query(query);
+    return res.status(200).json(response.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
