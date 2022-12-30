@@ -99,7 +99,7 @@ export class AddExpenseComponent implements OnInit {
         this.isShowLoader = true;
         this.expenseService
             .editExpense({
-                id: this.data.expenseId,
+                id: this.data.id,
                 userId,
                 accountId,
                 paymentMethod,
@@ -128,7 +128,7 @@ export class AddExpenseComponent implements OnInit {
     }
 
     onSubmit() {
-        if (this.data && this.data.expenseId) {
+        if (this.data && this.data.id) {
             this.updateExpense();
         } else {
             this.saveExpense();
@@ -167,7 +167,7 @@ export class AddExpenseComponent implements OnInit {
         let a = this.formGroup.value.userId;
         let id: number = +a
         this.accountService.getAccountUserWise
-            ( id ).subscribe((response) => {
+            (id).subscribe((response) => {
                 this.userAccounts = response
             },
                 (error) => {

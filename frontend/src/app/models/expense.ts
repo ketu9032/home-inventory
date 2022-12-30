@@ -1,6 +1,6 @@
 
 export interface IExpenseData {
-    expenseId: number,
+    id: number,
     user_id: number,
     account_id: number,
     user_name: string,

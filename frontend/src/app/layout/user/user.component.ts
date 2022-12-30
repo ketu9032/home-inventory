@@ -27,7 +27,8 @@ export class UserComponent implements OnInit {
         'email',
         'balance',
         'mobile_number',
-        'action'
+        'action',
+
     ];
 
     dataSource: any = [];
@@ -58,7 +59,7 @@ export class UserComponent implements OnInit {
     ngOnInit(): void {
         // const loggedInUser = this.authService.getUserData()
         // this.isLoggedInUserIsOwner = loggedInUser.role.toLowerCase() === 'owner' ? true : false;
-         this.getUser();
+        this.getUser();
     }
 
     sortData(sort: Sort) {
@@ -95,7 +96,12 @@ export class UserComponent implements OnInit {
             () => { }
         );
     }
+    getTotalBalance() {
 
+
+
+        // return this.dataSource.filteredData.map(t => t.balance).reduce((acc, value) => acc + value, 0);
+    }
     onAddNewUser(): void {
         this.dialog
             .open(AddUserComponent, {
@@ -140,6 +146,4 @@ export class UserComponent implements OnInit {
         this.tableParams.pageNumber = event.pageIndex + 1;
         this.getUser();
     }
-
-
 }

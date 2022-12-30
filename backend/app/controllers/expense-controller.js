@@ -3,15 +3,8 @@ const pool = require('../db');
 // get Expense
 const getExpense = async (req, res) => {
   try {
-
-    const {
-      orderBy,
-      direction,
-      pageSize,
-      pageNumber,
-      search,
-      active
-    } = req.query;
+    const { orderBy, direction, pageSize, pageNumber, search, active } =
+      req.query;
 
     let searchQuery = 'having true';
     let whereClause = ' where true ';
@@ -23,16 +16,17 @@ const getExpense = async (req, res) => {
           user_name like '%${search}%'
           or e.date::text like '%${search}%'
           or  u.user_name::text like '%${search}%'
-          or  a.account_type::text like '%${search}%'
+          or  a.account_type like '%${search}%'
+          or  a.bank_name like '%${search}%'
           or  amount::text like '%${search}%'
           or  payment_method like '%${search}%'
-          or remark like '%${search}%'
-          or amount::text like '%${search}%'
+          or  remark like '%${search}%'
+          or  amount::text like '%${search}%'
         )`;
     }
     searchQuery += ` and e.is_active = ${active}  `;
 
-const query = `
+    const query = `
         SELECT
           e.id,
           e.date,
@@ -46,6 +40,7 @@ const query = `
           a.id as account_id,
           u.user_name as to_user_name,
           a.account_type as account_type,
+          a.bank_name as bank_name,
           a.account_number as account_number
         FROM
           public.expense e
@@ -65,14 +60,15 @@ const query = `
             remark,
             u.user_name,
             a.account_type,
+            a.bank_name,
             a.account_number,
             e.is_active
           ${searchQuery}
         order by
           ${orderBy} ${direction} OFFSET ${offset}
         LIMIT
-          ${pageSize}`
- console.log(query);
+          ${pageSize}`;
+    console.log(query);
     const response = await pool.query(query);
     return res.status(200).json(response.rows);
   } catch (error) {
@@ -82,20 +78,29 @@ const query = `
 
 const addExpense = async (req, res) => {
   try {
-    const { userId, accountId,  amount, paymentMethod, remark } =
-      req.body;
-    const { rows } = await pool.query(`
-    INSERT INTO public.expense(
-      date, user_id, account_id, amount, payment_method, remark
-      )
-      VALUES
-        (
-          now(), ${userId}, ${accountId},
-          ${amount}, '${paymentMethod}',
-          '${remark}'
-        );
-    `);
-    return res.status(200).json(rows);
+    const { userId, accountId, amount, paymentMethod, remark } = req.body;
+
+    const query1 = `INSERT INTO public.expense(
+        date, user_id, account_id, amount, payment_method, remark)
+        VALUES
+          (now(), ${userId}, ${accountId},${amount}, '${paymentMethod}','${remark}')`;
+    const response1 = await pool.query(query1);
+    let res1 = response1.rows;
+
+    const query2 = ` UPDATE public.users
+      SET balance = balance - ${amount}
+      WHERE id = ${userId}`;
+    const response2 = await pool.query(query2);
+    let res2 = response2.rows;
+
+    const query3 = ` UPDATE public.account
+      SET balance = balance - ${amount}
+      WHERE id = ${accountId}`;
+    const response3 = await pool.query(query3);
+    let res3 = response3.rows;
+
+    const response = { res1, res2, res3 };
+    return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -103,8 +108,7 @@ const addExpense = async (req, res) => {
 
 const updateExpense = async (req, res) => {
   try {
-    const { userId, accountId,  amount, paymentMethod, remark, id } =
-      req.body;
+    const { userId, accountId, amount, paymentMethod, remark, id } = req.body;
     const { rows } = await pool.query(`
     UPDATE
       public.expense

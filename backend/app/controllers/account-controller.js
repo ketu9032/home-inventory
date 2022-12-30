@@ -183,7 +183,7 @@ const getAccountDropDownByUserId = async (req, res) => {
   const { id } = req.query;
   try {
     const { rows } = await pool.query(`
-    SELECT account_type, user_id, id as account_id FROM public.account  where user_id = ${id};`);
+    SELECT account_type, user_id, bank_name, id as account_id FROM public.account  where user_id = ${id};`);
     return res.status(200).json(rows);
   } catch (error) {
     res.status(500).json({ error: error.message });

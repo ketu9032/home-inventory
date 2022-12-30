@@ -3,15 +3,8 @@ const pool = require('../db');
 // get account
 const getIncome = async (req, res) => {
   try {
-
-    const {
-      orderBy,
-      direction,
-      pageSize,
-      pageNumber,
-      search,
-      active
-    } = req.query;
+    const { orderBy, direction, pageSize, pageNumber, search, active } =
+      req.query;
 
     let searchQuery = 'having true';
     let whereClause = ' where true ';
@@ -26,11 +19,12 @@ const getIncome = async (req, res) => {
           or payment_method like '%${search}%'
           or remark like '%${search}%'
           or account_type like '%${search}%'
+          or bank_name like '%${search}%'
         )`;
     }
     searchQuery += ` and i.is_active = ${active}  `;
 
-const query = `
+    const query = `
       SELECT
           i.id,
           i.date,
@@ -42,6 +36,7 @@ const query = `
           i.is_active,
           u.user_name as user_name,
           a.account_type as account_type,
+          a.bank_name as bank_name,
           a.id as account_id
       FROM
           public.income i
@@ -61,12 +56,13 @@ const query = `
           u.user_name,
           a.account_type,
           account_id,
+          a.bank_name,
           a.id
       ${searchQuery}
       order by
         ${orderBy} ${direction} OFFSET ${offset}
       LIMIT
-        ${pageSize}`
+        ${pageSize}`;
     const response = await pool.query(query);
     return res.status(200).json(response.rows);
   } catch (error) {
@@ -81,21 +77,25 @@ const addIncome = async (req, res) => {
     const query = ` INSERT INTO public.income(
       date, user_id, account_id, amount, payment_method, remark)
         VALUES
-      (now(),  ${userId},  ${accountId}, ${amount},  '${paymentMethod}','${remark}'); `
-     const response1  =  await pool.query(query);
-      let res1 = response1.rows;
+      (now(),  ${userId},  ${accountId}, ${amount},  '${paymentMethod}','${remark}'); `;
+    const response1 = await pool.query(query);
+    let res1 = response1.rows;
 
-      const query3 = `select balance from users where id = ${userId}`
-      console.log(query3);
-      const response4 = await pool.query(`select balance from users where id = ${userId}`)
-      let res3 = response4;
-      console.log(res3);
+    const query2 = ` UPDATE public.users
+      SET balance = balance + ${amount}
+      WHERE id = ${userId}`;
+    const response2 = await pool.query(query2);
+    let res2 = response2.rows;
 
+    const query3 = ` UPDATE public.account
+      SET balance = balance + ${amount}
+      WHERE id = ${accountId}`;
+    const response3 = await pool.query(query3);
+    let res3 = response3.rows;
 
+    const response = { res1, res2, res3 };
 
-    const  response = {res1, res3}
-
-     return res.status(200).json(response);
+    return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -35,9 +35,8 @@
                 <mat-form-field>
                     <mat-label>Account Number</mat-label>
                     <mat-select formControlName="accountId" matInput required>
-                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id"
-                            (selectionChange)="getAccountDropDownUserIdWise()">
-                            {{userAccount.account_type | titlecase }}
+                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id">
+                            {{userAccount.bank_name | titlecase}}  ({{userAccount.account_type | titlecase }})
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
