@@ -90,7 +90,6 @@ export class AddIncomeComponent implements OnInit {
     }
 
     updateIncome(): void {
-
         this.isShowLoader = true;
         this.incomeService
             .editIncome({
@@ -123,7 +122,7 @@ export class AddIncomeComponent implements OnInit {
     }
 
     onSubmit() {
-        if (this.data) {
+        if (this.data && this.data.id) {
             this.updateIncome();
         } else {
             this.saveIncome();
@@ -131,18 +130,12 @@ export class AddIncomeComponent implements OnInit {
     }
 
     fillForm() {
-        const {
-              user_id: userId,
-            account_id: accountId,
-             payment_Method:paymentMethod,
-            remark,
-            amount } = this.data;
         this.formGroup.patchValue({
-            userId,
-            accountId,
-            paymentMethod,
-            remark,
-            amount
+            userId: this.data.user_id,
+            accountId: this.data.account_id,
+            paymentMethod: this.data.payment_method,
+            remark: this.data.remark,
+            amount: this.data.amount
         });
     }
 

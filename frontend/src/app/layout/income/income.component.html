@@ -61,7 +61,7 @@
         <ng-container matColumnDef="account_type">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Number</th>
             <td mat-cell *matCellDef="let element">
-                {{ element.account_type| titlecase }}
+                {{element.bank_name | titlecase}} ({{ element.account_type| titlecase }})
             </td>
         </ng-container>
 

@@ -51,8 +51,8 @@
 
             <ng-container matColumnDef="balance">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance </th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element.balance | currency: 'INR' }}
+                <td mat-cell *matCellDef="let element" class="black">
+                    <b>₹ {{ element.balance }} </b>
                 </td>
             </ng-container>
 
@@ -94,7 +94,6 @@
                         <mat-icon aria-label="Delete">delete
                         </mat-icon>
                     </button>
-
                 </td>
             </ng-container>
 

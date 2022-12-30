@@ -6,7 +6,7 @@ export interface IIncomeData {
     account_id: number,
     account_type: string,
     amount: number,
-    payment_Method: string,
+    payment_method: string,
     remark: string
 }
 
