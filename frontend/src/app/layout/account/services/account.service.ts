@@ -27,8 +27,8 @@ export class AccountService {
     public removeAccount(id) {
         return this.restService.put(`${this.url}/remove?id=${id}`);
     }
-    public getAccountUserWise(id) {
-        return this.restService.get(`${this.url}/getAccountUserId`, id);
+    public getAccountUserWise(id: number) {
+        return this.restService.get(`${this.url}/getAccountUserId?id=${id}`);
     }
 
 }

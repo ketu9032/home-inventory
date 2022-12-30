@@ -167,7 +167,7 @@ export class AddExpenseComponent implements OnInit {
         let a = this.formGroup.value.userId;
         let id: number = +a
         this.accountService.getAccountUserWise
-            ({ id: id }).subscribe((response) => {
+            ( id ).subscribe((response) => {
                 this.userAccounts = response
             },
                 (error) => {
