@@ -6,20 +6,20 @@
                 <mat-label>Search...</mat-label>
                 <input matInput type="text" [(ngModel)]="tableParams.search" (keyup.enter)="getUser()">
             </mat-form-field>
-            <button color="primary" class="margin btn" mat-raised-button (click)="getUser()">
+            <button class="margin btn button-color" mat-raised-button (click)="getUser()">
                 Search
             </button>
         </div>
 
         <div>
-            <button color="primary" class="btn" mat-raised-button (click)="onAddNewUser()">
+            <button class="btn button-color" mat-raised-button (click)="onAddNewUser()">
                 Add User
             </button>
         </div>
     </div>
     <br />
     <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="date"
+        <table class="table" mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="date"
             matSortDirection="asc">
 
             <ng-container matColumnDef="date">
@@ -82,7 +82,7 @@
             <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr> -->
         </table>
 
-        <mat-paginator #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="defaultPageSize" showFirstLastButtons
+        <mat-paginator class="mat-paginator" #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="defaultPageSize" showFirstLastButtons
             (page)="pageChanged($event)" [length]="+totalRows" aria-label="Select page of elements">
         </mat-paginator>
     </div>

@@ -6,20 +6,20 @@
                 <mat-label>Search...</mat-label>
                 <input matInput type="text" [(ngModel)]="tableParams.search" (keyup.enter)="getAccount()">
             </mat-form-field>
-            <button color="primary" class="margin btn" mat-raised-button (click)="getAccount()">
+            <button class="margin btn button-color" mat-raised-button (click)="getAccount()">
                 Search
             </button>
         </div>
 
         <div>
-            <button color="primary" class="btn" mat-raised-button (click)="onAddNewAccount()">
+            <button class="btn button-color" mat-raised-button (click)="onAddNewAccount()">
                 Add Account
             </button>
         </div>
     </div>
     <br />
     <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="date"
+        <table class="table" mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="date"
             matSortDirection="asc">
 
             <ng-container matColumnDef="date">
@@ -52,7 +52,7 @@
             <ng-container matColumnDef="balance">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance </th>
                 <td mat-cell *matCellDef="let element" class="black">
-                    <b>₹ {{ element.balance }} </b>
+                    ₹ {{ element.balance }}
                 </td>
             </ng-container>
 
@@ -101,7 +101,7 @@
             <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
         </table>
 
-        <mat-paginator #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="defaultPageSize" showFirstLastButtons
+        <mat-paginator class="mat-paginator" #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="defaultPageSize" showFirstLastButtons
             (page)="pageChanged($event)" [length]="+totalRows" aria-label="Select page of elements">
         </mat-paginator>
     </div>

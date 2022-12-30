@@ -21,19 +21,19 @@
                 <mat-label>Search...</mat-label>
                 <input matInput type="text" [(ngModel)]="tableParams.search" (keyup.enter)="getTransfer()">
             </mat-form-field>
-            <button color="primary" class="margin btn" mat-raised-button (click)="getTransfer()">
+            <button class="margin btn button-color" mat-raised-button (click)="getTransfer()">
                 Search
             </button>
-            <button color="primary" class="margin btn" mat-raised-button (click)="clearSearch()">
+            <button class="margin btn button-color" mat-raised-button (click)="clearSearch()">
                 Clear Search
             </button>
 
         </div>
         <div>
-            <button color="primary" class="margin btn" mat-raised-button (click)="onAddNewTransfer()">
+            <button class="margin btn button-color" mat-raised-button (click)="onAddNewTransfer()">
                 Add Transfer
             </button>
-            <button color="primary" class="margin btn" mat-raised-button>
+            <button class="margin btn button-color" mat-raised-button>
                 <mat-icon class="icon">cloud_download</mat-icon>
                 Download
             </button>
@@ -41,7 +41,7 @@
     </div>
     <br />
     <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="date"
+        <table class="table" mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="date"
             matSortDirection="asc">
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
@@ -131,7 +131,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
         </table>
-        <mat-paginator #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="defaultPageSize" showFirstLastButtons
+        <mat-paginator class="mat-paginator" #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="defaultPageSize" showFirstLastButtons
             (page)="pageChanged($event)" [length]="+totalRows" aria-label="Select page of elements">
         </mat-paginator>
     </div>
