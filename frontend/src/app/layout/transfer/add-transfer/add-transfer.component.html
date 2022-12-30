@@ -15,7 +15,7 @@
                     <mat-label>User Name</mat-label>
                     <mat-select formControlName="userId" matInput required>
                         <mat-option *ngFor="let user of users" [value]="user.id"
-                            (click)="getAccountDropDownUserIdWise()">
+                            (selectionChange)="getAccountDropDownUserIdWise()">
                             {{user.user_name | titlecase }}
                         </mat-option>
                     </mat-select>
@@ -35,9 +35,8 @@
                 <mat-form-field>
                     <mat-label>Account Number</mat-label>
                     <mat-select formControlName="accountId" matInput required>
-                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id"
-                            (click)="getAccountDropDownUserIdWise()">
-                            {{userAccount.account_type | titlecase }}
+                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id">
+                            {{userAccount.bank_name | titlecase}}  ({{userAccount.account_type | titlecase }})
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -80,9 +79,8 @@
                 <mat-form-field>
                     <mat-label> To User Account Number</mat-label>
                     <mat-select formControlName="toUserAccountId" matInput required>
-                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id"
-                        (click)="getAccountDropDownUserIdWise()">
-                        {{userAccount.account_type | titlecase }}
+                        <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id">
+                        {{userAccount.bank_name | titlecase}}  ({{userAccount.account_type | titlecase }})
                     </mat-option>
                     </mat-select>
                 </mat-form-field>

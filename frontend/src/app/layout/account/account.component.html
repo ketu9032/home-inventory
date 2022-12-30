@@ -65,13 +65,13 @@
             <ng-container matColumnDef="account_type">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Type</th>
                 <td mat-cell *matCellDef="let element">
-                    {{ element.account_type }}
+                    {{ element.account_type | titlecase }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="ifsc_code">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>IFSC Code</th>
                 <td mat-cell *matCellDef="let element">
-                    {{ element.ifsc_code }}
+                    {{ element.ifsc_code | uppercase }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="branch_Name">

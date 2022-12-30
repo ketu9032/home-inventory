@@ -13,18 +13,17 @@
             <div class="width margin-right">
                 <mat-form-field>
                     <mat-label>User Name</mat-label>
-                    <ng-container *ngIf="data.user_name">
+                    <!-- <ng-container *ngIf="data.user_name">
                         <input matInput formControlName="userName" required readonly />
-                    </ng-container>
-                    <ng-container *ngIf="!data.user_name">
+                    </ng-container> -->
 
                         <input matInput formControlName="userName" required />
-                    </ng-container>
+
                 </mat-form-field>
                 <div>
-                    <ng-container *ngIf="data.user_name">
+                    <!-- <ng-container *ngIf="data.user_name">
                         <span class="error">User name is editable</span>
-                    </ng-container>
+                    </ng-container> -->
                     <ng-container *ngIf="
           formGroup.controls.userName.touched &&
           !formGroup.controls.userName.value
@@ -41,9 +40,16 @@
                 </mat-form-field>
                 <div>
                     <ng-container *ngIf="
-      formGroup.controls.password.touched &&
-      !formGroup.controls.password.value
-    ">
+                        formGroup.controls.email.errors &&
+                          !formGroup.controls.email.errors.required
+                    ">
+                                      <span class="error"><br>Please enter correct email address</span>
+                                      <br />
+                                  </ng-container>
+                    <ng-container *ngIf="
+                        formGroup.controls.password.touched &&
+                        !formGroup.controls.password.value
+                        ">
                         <span class="error">Password is Required</span>
                     </ng-container>
                 </div>
@@ -54,7 +60,7 @@
             <div class="width margin-right">
                 <mat-form-field>
                     <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" required />
+                    <input matInput formControlName="email" required class="uppercase" />
                 </mat-form-field>
                 <div>
                     <ng-container *ngIf="
