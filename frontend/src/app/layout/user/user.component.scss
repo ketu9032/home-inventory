@@ -2,9 +2,6 @@
     font-size: 14px;
 }
 
-table {
-    width: 100%;
-}
 
 .loader {
     position: absolute;
@@ -38,11 +35,15 @@ tr.mat-row {
 }
 
 th {
-    color: rgb(0, 0, 0);
+    color: black;
     font-size: 15px;
 }
 
 td {
     color: rgb(73 70 70 / 87%);
     font-size: 14px;
+}
+
+.black{
+     color: black;
 }

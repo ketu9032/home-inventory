@@ -3,7 +3,7 @@
     position: fixed;
     top: 56px;
     bottom: 0;
-    background: #fff;
+    background: linear-gradient(0deg, #b9afaf 0, #ffffff 100%);
     box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
     z-index: 999;
     -ms-overflow-y: auto;
@@ -33,7 +33,7 @@
 }
 
 .active {
-    background: #909ff4 !important;
+    background: linear-gradient(0deg, #c6bebe 0, #c0c0c0 100%) !important;
 }
 
 .nested-menu {

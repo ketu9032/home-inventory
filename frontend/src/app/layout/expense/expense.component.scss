@@ -2,9 +2,7 @@
     font-size: 14px;
 }
 
-table {
-    width: 100%;
-}
+
 
 .loader {
     position: absolute;
@@ -25,9 +23,11 @@ table {
     font-size: 13px;
     height: 33px;
 }
-.icon{
+
+.icon {
     vertical-align: text-top;
 }
+
 .header {
     display: flex;
     align-items: center;
@@ -52,19 +52,17 @@ td {
 .red {
     background-color: #f3e1e1;
 }
-.green{
+
+.green {
     background-color: #daf8da;
 }
 
 .dark-red {
     color: red;
 }
-.dark-green{
+
+.dark-green {
     color: green;
 }
 
 
-.approved {
-    font-weight: bold;
-    color: black;
-}

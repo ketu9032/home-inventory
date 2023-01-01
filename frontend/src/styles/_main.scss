@@ -12,6 +12,12 @@ body {
     right: 0;
     bottom: 0;
     padding: 20px;
+
+
+    background: linear-gradient(0deg, #b9afaf 0, #ffffff 100%);
+}
+.mat-dialog-container{
+    background: linear-gradient(0deg, #d5d5d5 0, #ffffff 100%);
 }
 
 .mb-20 {
@@ -21,4 +27,20 @@ body {
 .error {
     color: red;
     font-size: 14px;
+}
+.table {
+    width: 100%;
+    background: linear-gradient(0deg, #d5d5d5 0, #ffffff 100%);
+}
+
+.mat-paginator {
+    background: linear-gradient(0deg, #d5d5d5 0, #ffffff 100%);
+}
+
+.black {
+    color: black
+}
+.button-color {
+    background: linear-gradient(0deg, #a8a8a8 0, #ffffff 100%);
+    color: black;
 }
