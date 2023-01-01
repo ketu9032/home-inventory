@@ -50,6 +50,12 @@ const routes: Routes = [
                 // canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./income/income.module').then((m) => m.IncomeModule)
+            },
+            {
+                path: 'investment',
+                // canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('./investment/investment.module').then((m) => m.InvestmentModule)
             }
 
         ]

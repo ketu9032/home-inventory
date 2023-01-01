@@ -47,6 +47,12 @@ export class SidebarComponent implements OnInit {
             name: 'Income',
             icon: 'compare_arrows',
             key: 'income'
+        },
+        {
+            link: '/investment',
+            name: 'Investment',
+            icon: 'bar_chart',
+            key: 'investment'
         }
     ]
 
