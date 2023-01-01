@@ -54,7 +54,7 @@
 
             <ng-container matColumnDef="balance">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell *matCellDef="let element" class="black">
                     <b>{{ element.balance | currency: 'INR' }}</b>
                 </td>
                 <!-- <td mat-footer-cell *matFooterCellDef> {{200 | currency}} </td> -->
