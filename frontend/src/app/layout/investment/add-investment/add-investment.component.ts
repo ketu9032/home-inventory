@@ -60,7 +60,7 @@ export class AddInvestmentComponent implements OnInit {
 
         this.isShowLoader = true;
         this.incomeService
-            .addIncome({
+            .addInvestment({
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
                 paymentMethod: this.formGroup.value.paymentMethod,
@@ -69,7 +69,7 @@ export class AddInvestmentComponent implements OnInit {
             })
             .subscribe(
                 (response) => {
-                    this.snackBar.open('Income saved successfully', 'OK', {
+                    this.snackBar.open('Investment saved successfully', 'OK', {
                         duration: 3000
                     });
                     this.isShowLoader = false;
@@ -91,7 +91,7 @@ export class AddInvestmentComponent implements OnInit {
     updateIncome(): void {
         this.isShowLoader = true;
         this.incomeService
-            .editIncome({
+            .editInvestment({
                 id: this.data.id,
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
@@ -102,7 +102,7 @@ export class AddInvestmentComponent implements OnInit {
             .subscribe(
                 (response) => {
                     this.isShowLoader = false;
-                    this.snackBar.open('Income updated successfully', 'OK', {
+                    this.snackBar.open('Investment updated successfully', 'OK', {
                         duration: 3000
                     });
                     this.dialogRef.close(true);

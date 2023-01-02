@@ -1,5 +1,5 @@
 <div class="main-header">
-    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Income' : 'Update Income' }}</b> </h1>
+    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Investment' : 'Update Investment' }}</b> </h1>
     <button mat-button mat-dialog-close>
         <mat-icon>close</mat-icon>
     </button>
@@ -36,7 +36,7 @@
                     <mat-label>Account Number</mat-label>
                     <mat-select formControlName="accountId" matInput required>
                         <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id">
-                            {{userAccount.bank_name | titlecase}}  ({{userAccount.account_type | titlecase }})
+                            {{userAccount.bank_name | titlecase}} ({{userAccount.account_type | titlecase }})
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -72,7 +72,7 @@
             <div class="width">
                 <mat-form-field>
                     <mat-label>Payment Method</mat-label>
-                    <input matInput formControlName="paymentMethod"  required />
+                    <input matInput formControlName="paymentMethod" required />
                 </mat-form-field>
                 <div>
 

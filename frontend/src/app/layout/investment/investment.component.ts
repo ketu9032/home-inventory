@@ -12,6 +12,7 @@ import { IncomeService } from './services/investment.service';
 import { IIncomeData } from 'src/app/models/income';
 import { AddInvestmentComponent } from './add-investment/add-investment.component';
 import { DeleteInvestmentComponent } from './delete-investment/delete-investment.component';
+import { InvestmentTypeComponent } from './investment-type/investment-type.component';
 
 @Component({
     selector: 'app-investment',
@@ -62,7 +63,7 @@ export class InvestmentComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.getIncome()
+        // this.getInvestment()
     }
 
     sortData(sort: Sort) {
@@ -81,16 +82,16 @@ export class InvestmentComponent implements OnInit {
         this.tableParams.orderBy = sort.active;
         this.tableParams.direction = sort.direction;
         this.tableParams.pageNumber = 1;
-        this.getIncome();
+        this.getInvestment();
     }
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
     }
 
-    getIncome() {
+    getInvestment() {
         this.loader = true;
-        this.incomeService.getIncome(this.tableParams).subscribe(
+        this.incomeService.getInvestment(this.tableParams).subscribe(
             (newCustomers: any[]) => {
                 this.dataSource = new MatTableDataSource<IIncomeData>(newCustomers);
                 if (newCustomers.length > 0) {
@@ -112,7 +113,7 @@ export class InvestmentComponent implements OnInit {
         );
     }
 
-    onAddNewIncome(): void {
+    onAddNewInvestment(): void {
         this.dialog
             .open(AddInvestmentComponent, {
                 width: '700px'
@@ -120,12 +121,12 @@ export class InvestmentComponent implements OnInit {
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getIncome();
+                    this.getInvestment();
                 }
             });
     }
 
-    onEditNewIncome(element) {
+    onEditNewInvestment(element) {
         this.dialog
             .open(AddInvestmentComponent, {
                 width: '700px',
@@ -134,12 +135,12 @@ export class InvestmentComponent implements OnInit {
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getIncome();
+                    this.getInvestment();
                 }
             });
     }
 
-    onDeleteIncome(id: number) {
+    onDeleteInvestment(id: number) {
         this.dialog
             .open(DeleteInvestmentComponent, {
                 width: '350px',
@@ -148,14 +149,27 @@ export class InvestmentComponent implements OnInit {
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getIncome();
+                    this.getInvestment();
+                }
+            });
+    }
+
+    onAddInvestmentType() {
+        this.dialog
+            .open(InvestmentTypeComponent, {
+                width: '700px'
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    this.getInvestment();
                 }
             });
     }
     pageChanged(event: PageEvent) {
         this.tableParams.pageSize = event.pageSize;
         this.tableParams.pageNumber = event.pageIndex + 1;
-        this.getIncome()
+        this.getInvestment()
     }
 
 
@@ -163,6 +177,6 @@ export class InvestmentComponent implements OnInit {
         this.fromDate = '';
         this.toDate = '';
         this.tableParams.search = '';
-        this.getIncome();
+        this.getInvestment();
     }
 }

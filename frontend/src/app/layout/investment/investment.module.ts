@@ -11,27 +11,38 @@ import { SharedModule } from 'src/app/shared/modules/material/shared.module';
 import { InvestmentRoutingModule } from './investment-routing.module';
 import { DeleteInvestmentComponent } from './delete-investment/delete-investment.component';
 import { AddInvestmentComponent } from './add-investment/add-investment.component';
+import { AddInvestmentTypeComponent } from './investment-type/add-investment-type/add-investment-type.component';
+import { DeleteInvestmentTypeComponent } from './investment-type/delete-investment-type/delete-investment-type.component';
+import { InvestmentTypeComponent } from './investment-type/investment-type.component';
 
 @NgModule({
-  declarations: [
-    InvestmentComponent,
-    AddInvestmentComponent,
-    DeleteInvestmentComponent
-  ],
-  imports: [
-    CommonModule,
-    InvestmentRoutingModule,
-    SharedModule,
-    MatCheckboxModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule.withConfig({ addFlexToParent: false })
-  ],
-  entryComponents: [
-    AddInvestmentComponent,
-    DeleteInvestmentComponent
-]
+    declarations: [
+        InvestmentComponent,
+        AddInvestmentComponent,
+        DeleteInvestmentComponent,
+        InvestmentTypeComponent,
+        AddInvestmentTypeComponent,
+        DeleteInvestmentTypeComponent
+
+    ],
+    imports: [
+        CommonModule,
+        InvestmentRoutingModule,
+        SharedModule,
+        MatCheckboxModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        FlexLayoutModule.withConfig({ addFlexToParent: false })
+    ],
+    entryComponents: [
+        AddInvestmentComponent,
+        DeleteInvestmentComponent,
+        DeleteInvestmentTypeComponent,
+        InvestmentTypeComponent,
+        AddInvestmentTypeComponent,
+        DeleteInvestmentTypeComponent
+    ]
 })
-export class InvestmentModule {}
+export class InvestmentModule { }

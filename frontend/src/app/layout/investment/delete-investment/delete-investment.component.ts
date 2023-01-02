@@ -1,6 +1,6 @@
 import { AuthService } from '../../../auth/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import {
     MatDialog,
     MatDialogRef,
@@ -36,7 +36,7 @@ export class DeleteInvestmentComponent implements OnInit {
         let a = this.data;
         let id: number = +a;
 
-        this.incomeService.removeIncome(id).subscribe(
+        this.incomeService.removeInvestment(id).subscribe(
             (response) => {
                 this.dialogRef.close({ data: true });
                 this.snackBar.open('Income deleted successfully', 'OK', {
