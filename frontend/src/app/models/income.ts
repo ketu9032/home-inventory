@@ -18,3 +18,13 @@ export interface IIncomeParams {
     paymentMethod: string,
     remark: string
 }
+export interface IIncomeTypeData {
+    id: number,
+    income_type: string,
+
+}
+
+export interface IIncomeTypeParams {
+    id?: number,
+    incomeType: string,
+}

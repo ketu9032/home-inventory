@@ -22,6 +22,7 @@ const getExpense = async (req, res) => {
           or  payment_method like '%${search}%'
           or  remark like '%${search}%'
           or  amount::text like '%${search}%'
+
         )`;
     }
     searchQuery += ` and e.is_active = ${active}  `;
@@ -41,13 +42,17 @@ const getExpense = async (req, res) => {
           u.user_name as to_user_name,
           a.account_type as account_type,
           a.bank_name as bank_name,
-          a.account_number as account_number
+          a.account_number as account_number,
+          ee.expense_type as expense_type
         FROM
           public.expense e
         join
           users u On u.id = e.user_id
         join
           account a on a.id = e.account_id
+        join
+         expense_type ee on ee.id = e.expense_type_id
+
         group by
             u.id,
             a.id,
@@ -62,7 +67,9 @@ const getExpense = async (req, res) => {
             a.account_type,
             a.bank_name,
             a.account_number,
-            e.is_active
+            e.is_active,
+            ee.expense_type
+
           ${searchQuery}
         order by
           ${orderBy} ${direction} OFFSET ${offset}
@@ -78,12 +85,13 @@ const getExpense = async (req, res) => {
 
 const addExpense = async (req, res) => {
   try {
-    const { userId, accountId, amount, paymentMethod, remark } = req.body;
+    const { userId, accountId, amount, paymentMethod, remark,expenseTypeId } = req.body;
 
     const query1 = `INSERT INTO public.expense(
-        date, user_id, account_id, amount, payment_method, remark)
+        date, user_id, account_id, expense_type_id,  amount, payment_method, remark)
         VALUES
-          (now(), ${userId}, ${accountId},${amount}, '${paymentMethod}','${remark}')`;
+          (now(), ${userId}, ${accountId}, ${expenseTypeId},${amount}, '${paymentMethod}','${remark}')`;
+          console.log(query1);
     const response1 = await pool.query(query1);
     let res1 = response1.rows;
 
@@ -108,13 +116,14 @@ const addExpense = async (req, res) => {
 
 const updateExpense = async (req, res) => {
   try {
-    const { userId, accountId, amount, paymentMethod, remark, id } = req.body;
+    const { userId, accountId, amount,expenseTypeId, paymentMethod, remark, id } = req.body;
     const { rows } = await pool.query(`
     UPDATE
       public.expense
     SET
       date = now(),
       user_id = ${userId},
+      expense_type_id = ${expenseTypeId},
       account_id = '${accountId}',
       amount = '${amount}',
       payment_method = '${paymentMethod}',

@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IExpenseData } from 'src/app/models/expense';
 import { AccountService } from '../../account/services/account.service';
 import { UserService } from '../../user/services/user.service';
+import { ExpenseTypeService } from '../services/expense-type.service';
 import { ExpenseService } from '../services/expense.service';
 
 @Component({
@@ -23,8 +24,9 @@ export class AddExpenseComponent implements OnInit {
     amount = true
     currentDate = new Date()
 
-    users: any
-    userAccounts: any
+    users: any;
+    userAccounts: any;
+    expenseTypes: any;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IExpenseData,
@@ -34,13 +36,15 @@ export class AddExpenseComponent implements OnInit {
         public snackBar: MatSnackBar,
         private expenseService: ExpenseService,
         private userService: UserService,
-        private accountService: AccountService
+        private accountService: AccountService,
+        private expenseTypeService: ExpenseTypeService,
     ) { }
 
     ngOnInit() {
         console.log(this.data);
         this.initializeForm();
         this.getUserDropDown();
+        this.getExpenseTypeDropDown();
         if (this.data) {
             this.fillForm();
         }
@@ -50,6 +54,7 @@ export class AddExpenseComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
             accountId: ['', Validators.required],
+            expenseTypeId: ['', Validators.required],
             paymentMethod: ['', Validators.required],
             remark: ['', Validators.required],
             amount: ['', Validators.required]
@@ -65,8 +70,9 @@ export class AddExpenseComponent implements OnInit {
             .addExpense({
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
-                paymentMethod,
-                remark,
+                expenseTypeId: +this.formGroup.value.expenseTypeId,
+                paymentMethod: this.formGroup.value.paymentMethod,
+                remark: this.formGroup.value.remark,
                 amount: this.formGroup.value.amount
             })
             .subscribe(
@@ -94,6 +100,7 @@ export class AddExpenseComponent implements OnInit {
         const { userId,
             accountId,
             paymentMethod,
+            expenseTypeId,
             remark,
             amount } = this.formGroup.value;
         this.isShowLoader = true;
@@ -102,6 +109,7 @@ export class AddExpenseComponent implements OnInit {
                 id: this.data.id,
                 userId,
                 accountId,
+                expenseTypeId,
                 paymentMethod,
                 remark,
                 amount
@@ -182,5 +190,23 @@ export class AddExpenseComponent implements OnInit {
                 },
                 () => { }
             );
+    }
+
+    getExpenseTypeDropDown() {
+        this.expenseTypeService.expenseTypeDropDown().subscribe((response) => {
+            this.expenseTypes = response
+        },
+            (error) => {
+                this.isShowLoader = false;
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
     }
 }

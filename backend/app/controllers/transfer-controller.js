@@ -38,14 +38,21 @@ const getTransfer = async (req, res) => {
           remark,
           t.is_active,
           u.user_name as user_name,
-          u.user_name as to_user_name,
-          a.account_type
+          uu.user_name as to_user_name,
+          a.account_type,
+          a.bank_name,
+          aa.account_type as to_account_type,
+          aa.bank_name as to_bank_name
         FROM
           public.transfer t
         join
           users u on u.id = user_id
         join
+          users uu on uu.id = to_user_id
+        join
           account a on a.id = account_id
+        join
+          account aa on aa.id = to_account_id
         GROUP BY
           t.id,
           t.date,
@@ -57,6 +64,10 @@ const getTransfer = async (req, res) => {
           t.is_active,
           u.user_name,
           a.account_type,
+          a.bank_name,
+          uu.user_name,
+          aa.account_type,
+          aa.bank_name,
           t.is_active
           ${searchQuery}
         order by
@@ -81,12 +92,48 @@ const addTransfer = async (req, res) => {
       paymentMethod,
       remark
     } = req.body;
-    const { rows } = await pool.query(`
-    INSERT INTO public.transfer(
-      date, user_id, to_user_id, amount, payment_method, remark, account_id, to_account_id)
-      VALUES (now(),  ${userId}, ${toUserId}, ${amount}, '${paymentMethod}', '${remark}', ${accountId}, ${toUserAccountId});
-    `);
-    return res.status(200).json(rows);
+
+    const query1 = `
+        INSERT INTO public.transfer(
+          date, user_id, to_user_id, amount,
+          payment_method, remark, account_id,
+          to_account_id
+          )
+        VALUES
+         (
+            now(), ${userId}, ${toUserId}, ${amount},
+            '${paymentMethod}', '${remark}',
+            ${accountId}, ${toUserAccountId}
+      )`
+      const response1  = await pool.query(query1);
+      let res1 = response1.rows;
+
+     const query2 = ` UPDATE public.users
+          SET balance = balance - ${amount}
+          WHERE id = ${userId}`;
+    const response2 = await pool.query(query2);
+    let res2 = response2.rows;
+
+    const query3 = ` UPDATE public.account
+        SET balance = balance - ${amount}
+        WHERE id = ${accountId}`;
+    const response3 = await pool.query(query3);
+    let res3 = response3.rows;
+
+    const query4 = ` UPDATE public.users
+        SET balance = balance + ${amount}
+        WHERE id = ${toUserId}`;
+    const response4 = await pool.query(query4);
+    let res4 = response4.rows;
+
+    const query5 = ` UPDATE public.account
+      SET balance = balance + ${amount}
+      WHERE id = ${toUserAccountId}`;
+    const response5 = await pool.query(query5);
+    let res5 = response5.rows;
+
+    const response = { res1, res2, res3, res4, res5 };
+    return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

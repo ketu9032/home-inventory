@@ -90,7 +90,25 @@
 
         </div>
         <div class="flex">
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Expense Type</mat-label>
+                    <mat-select formControlName="expenseTypeId" matInput required>
+                        <mat-option *ngFor="let type of expenseTypes" [value]="type.id">
+                            {{type.expense_type | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
 
+                    <ng-container *ngIf="
+          formGroup.controls.expenseTypeId.touched &&
+          !formGroup.controls.expenseTypeId.value
+        ">
+                        <span class="error">Expense type name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
             <div class="width">
                 <mat-form-field>
                     <mat-label>Remark</mat-label>
