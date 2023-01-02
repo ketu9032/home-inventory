@@ -14,7 +14,7 @@ const getInvestment = async (req, res) => {
       searchQuery += ` and
         (
           user_name like '%${search}%'
-          or e.date::text like '%${search}%'
+          or i.date::text like '%${search}%'
           or  u.user_name::text like '%${search}%'
           or  a.account_type like '%${search}%'
           or  a.bank_name like '%${search}%'
@@ -22,38 +22,43 @@ const getInvestment = async (req, res) => {
           or  payment_method like '%${search}%'
           or  remark like '%${search}%'
           or  amount::text like '%${search}%'
+          or  investment_type like '%${search}%'
         )`;
     }
-    searchQuery += ` and e.is_active = ${active}  `;
+    searchQuery += ` and i.is_active = ${active}  `;
 
     const query = `
         SELECT
-          e.id,
-          e.date,
-          e.user_id,
+          i.id,
+          i.date,
+          i.user_id,
           account_id,
           amount,
           payment_method,
           remark,
+          investment_type_id,
           u.user_name as user_name,
           u.id as user_id,
           a.id as account_id,
-          u.user_name as to_user_name,
           a.account_type as account_type,
           a.bank_name as bank_name,
-          a.account_number as account_number
+          ii.investment_type as investment_type
+
         FROM
-          public.expense e
+          public.investment  i
         join
-          users u On u.id = e.user_id
+          users u On u.id = i.user_id
         join
-          account a on a.id = e.account_id
+          account a on a.id = i.account_id
+        Join
+          public."investment-type" ii  on ii.id = i.investment_type_id
         group by
             u.id,
             a.id,
-            e.id,
-            e.date,
-            e.user_id,
+            ii.id,
+            i.id,
+            i.date,
+            i.user_id,
             account_id,
             amount,
             payment_method,
@@ -61,14 +66,15 @@ const getInvestment = async (req, res) => {
             u.user_name,
             a.account_type,
             a.bank_name,
-            a.account_number,
-            e.is_active
+            investment_type_id,
+            ii.investment_type,
+            i.is_active
           ${searchQuery}
         order by
           ${orderBy} ${direction} OFFSET ${offset}
         LIMIT
           ${pageSize}`;
-    console.log(query);
+
     const response = await pool.query(query);
     return res.status(200).json(response.rows);
   } catch (error) {
@@ -78,12 +84,12 @@ const getInvestment = async (req, res) => {
 
 const addInvestment = async (req, res) => {
   try {
-    const { userId, accountId, amount, paymentMethod, remark } = req.body;
+    const { userId, accountId, investmentTypeId, amount, paymentMethod, remark } = req.body;
 
-    const query1 = `INSERT INTO public.expense(
-        date, user_id, account_id, amount, payment_method, remark)
+    const query1 = `INSERT INTO public.investment(
+        date, user_id, account_id, investment_type_id, amount, payment_method, remark)
         VALUES
-          (now(), ${userId}, ${accountId},${amount}, '${paymentMethod}','${remark}')`;
+          (now(), ${userId}, ${accountId}, ${investmentTypeId}, ${amount}, '${paymentMethod}','${remark}')`;
     const response1 = await pool.query(query1);
     let res1 = response1.rows;
 
@@ -108,17 +114,11 @@ const addInvestment = async (req, res) => {
 
 const updateInvestment = async (req, res) => {
   try {
-    const { userId, accountId, amount, paymentMethod, remark, id } = req.body;
+    const { userId, accountId, investmentTypeId, amount, paymentMethod, remark, id } = req.body;
     const { rows } = await pool.query(`
-    UPDATE
-      public.expense
-    SET
-      date = now(),
-      user_id = ${userId},
-      account_id = '${accountId}',
-      amount = '${amount}',
-      payment_method = '${paymentMethod}',
-      remark = '${remark}'
+    UPDATE public.investment
+	SET  date = now(), user_id = ${userId}, account_id = ${accountId}, amount= ${amount} , payment_method= '${paymentMethod}', remark= '${remark}', investment_type_id= ${investmentTypeId}
+
     WHERE
       id=${id};
   `);
@@ -130,7 +130,7 @@ const updateInvestment = async (req, res) => {
 const removeInvestment = async (req, res) => {
   try {
     const { id } = req.query;
-    const query = await pool.query(`UPDATE public.expense
+    const query = await pool.query(`UPDATE public.investment
     SET  is_active = false
     WHERE id = ${id}`);
     return res.status(200).json(query);

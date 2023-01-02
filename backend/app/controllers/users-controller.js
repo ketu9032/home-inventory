@@ -98,7 +98,7 @@ const removeUser = async (req, res) => {
 
 const getUserDropDown = async (req, res) => {
   try {
-    const { rows } = await pool.query(`SELECT id, user_name FROM public.users`);
+    const { rows } = await pool.query(`SELECT id, user_name FROM public.users where is_active = true`);
     return res.status(200).json(rows);
   } catch (error) {
     res.status(500).json({ error: error.message });

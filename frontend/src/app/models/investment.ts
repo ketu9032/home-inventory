@@ -14,6 +14,7 @@ export interface IInvestmentParams {
     id?: number,
     userId: number,
     accountId: number,
+    investmentId: number,
     amount: number,
     paymentMethod: string,
     remark: string

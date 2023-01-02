@@ -83,9 +83,19 @@ const removeInvestmentType = async (req, res) => {
   }
 };
 
+const getInvestmentTypeDropDown = async (req, res) => {
+  try {
+    const { rows } = await pool.query(`SELECT id, investment_type FROM public."investment-type" where is_active = true`);
+    return res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getInvestmentType,
   addInvestmentType,
   updateInvestmentType,
   removeInvestmentType,
+  getInvestmentTypeDropDown
 };

@@ -13,6 +13,7 @@ import { IIncomeData } from 'src/app/models/income';
 import { AddInvestmentComponent } from './add-investment/add-investment.component';
 import { DeleteInvestmentComponent } from './delete-investment/delete-investment.component';
 import { InvestmentTypeComponent } from './investment-type/investment-type.component';
+import { IInvestmentData } from 'src/app/models/investment';
 
 @Component({
     selector: 'app-investment',
@@ -25,6 +26,7 @@ export class InvestmentComponent implements OnInit {
         'user_name',
         'account_type',
         'amount',
+        'investment_type',
         'payment_method',
         'remark',
         'action'
@@ -63,7 +65,7 @@ export class InvestmentComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        // this.getInvestment()
+         this.getInvestment()
     }
 
     sortData(sort: Sort) {
@@ -93,7 +95,7 @@ export class InvestmentComponent implements OnInit {
         this.loader = true;
         this.incomeService.getInvestment(this.tableParams).subscribe(
             (newCustomers: any[]) => {
-                this.dataSource = new MatTableDataSource<IIncomeData>(newCustomers);
+                this.dataSource = new MatTableDataSource<IInvestmentData>(newCustomers);
                 if (newCustomers.length > 0) {
                     this.totalRows = newCustomers[0].total;
                 }
