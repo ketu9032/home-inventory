@@ -5,6 +5,8 @@ export interface IInvestmentData {
     user_name: string,
     account_id: number,
     account_type: string,
+    investment_type_Id: number,
+    investment_type: string,
     amount: number,
     payment_method: string,
     remark: string
@@ -14,7 +16,7 @@ export interface IInvestmentParams {
     id?: number,
     userId: number,
     accountId: number,
-    investmentId: number,
+    investmentTypeId: number,
     amount: number,
     paymentMethod: string,
     remark: string

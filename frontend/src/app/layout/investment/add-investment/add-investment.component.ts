@@ -54,22 +54,20 @@ export class AddInvestmentComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
             accountId: ['', Validators.required],
-            investmentId: ['', Validators.required],
+            amount: ['', Validators.required],
             paymentMethod: ['', Validators.required],
+            investmentTypeId: ['', Validators.required],
             remark: ['', Validators.required],
-            amount: ['', Validators.required]
         });
     }
 
     saveIncome(): void {
-        +this.formGroup.value.investmentId
-        debugger
         this.isShowLoader = true;
         this.incomeService
             .addInvestment({
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
-                investmentId: +this.formGroup.value.investmentId,
+                investmentTypeId: +this.formGroup.value.investmentTypeId,
                 paymentMethod: this.formGroup.value.paymentMethod,
                 remark: this.formGroup.value.remark,
                 amount: this.formGroup.value.amount,
@@ -105,7 +103,7 @@ export class AddInvestmentComponent implements OnInit {
                 paymentMethod: this.formGroup.value.paymentMethod,
                 remark: this.formGroup.value.remark,
                 amount: this.formGroup.value.amount,
-                investmentId: this.formGroup.value.investmentId,
+                investmentTypeId: this.formGroup.value.investmentTypeId,
             })
             .subscribe(
                 (response) => {
