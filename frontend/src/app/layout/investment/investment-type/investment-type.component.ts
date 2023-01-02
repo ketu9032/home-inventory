@@ -19,7 +19,7 @@ import { DeleteInvestmentTypeComponent } from './delete-investment-type/delete-i
 })
 export class InvestmentTypeComponent implements OnInit {
     displayedColumns: string[] = [
-        'investmentType',
+        'investment_type',
         'action'
     ];
     dataSource: any = [];
@@ -43,7 +43,7 @@ export class InvestmentTypeComponent implements OnInit {
         public snackBar: MatSnackBar
     ) { }
     ngOnInit(): void {
-        // this.getInvestmentType();
+        this.getInvestmentType();
     }
     sortData(sort: Sort) {
         this.tableParams.orderBy = sort.active;

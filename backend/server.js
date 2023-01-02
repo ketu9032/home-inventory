@@ -7,6 +7,7 @@ const expenseRoutes = require('./app/routes/expense-routes');
 const transferRoutes = require('./app/routes/transfer-routes');
 const incomeRoutes = require('./app/routes/income-routes');
 const investmentRoutes = require('./app/routes/investment-routes');
+const investmentTypeRoutes = require('./app/routes/investment-type-routes');
 
 const app = express();
 const port = 4000;
@@ -32,5 +33,6 @@ app.use('/api/expense', expenseRoutes);
 app.use('/api/transfer', transferRoutes);
 app.use('/api/income', incomeRoutes);
 app.use('/api/investment', investmentRoutes);
+app.use('/api/investmentType', investmentTypeRoutes);
 
 app.listen(port, () => console.log(`app listening on port ${port}`));

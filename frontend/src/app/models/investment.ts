@@ -20,7 +20,7 @@ export interface IInvestmentParams {
 }
 export interface IInvestmentTypeData {
     id: number,
-    investmentType: string,
+    investment_type: string,
 
 }
 

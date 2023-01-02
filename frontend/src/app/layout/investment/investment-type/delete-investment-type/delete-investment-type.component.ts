@@ -15,7 +15,7 @@ import { InvestmentTypeService } from '../../services/investment-type.service';
 export class DeleteInvestmentTypeComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA) public data: string,
+        @Inject(MAT_DIALOG_DATA) public data: any,
         private investmentTypeService: InvestmentTypeService,
         private dialogRef: MatDialogRef<DeleteInvestmentTypeComponent>,
         public snackBar: MatSnackBar
@@ -24,8 +24,11 @@ export class DeleteInvestmentTypeComponent implements OnInit {
     ngOnInit() { }
 
     removeInvestmentType(): void {
-        let id
-        this.investmentTypeService.removeInvestmentType(id).subscribe(
+
+        console.log(this.data);
+
+
+        this.investmentTypeService.removeInvestmentType(this.data).subscribe(
             (response) => {
                 this.dialogRef.close({ data: true });
                 this.snackBar.open('Tier deleted successfully', 'OK', {
