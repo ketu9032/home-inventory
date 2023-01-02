@@ -14,13 +14,14 @@ export interface IInvestmentParams {
     id?: number,
     userId: number,
     accountId: number,
+    investmentId: number,
     amount: number,
     paymentMethod: string,
     remark: string
 }
 export interface IInvestmentTypeData {
     id: number,
-    investmentType: string,
+    investment_type: string,
 
 }
 

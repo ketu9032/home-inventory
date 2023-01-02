@@ -24,6 +24,9 @@ export class AddInvestmentTypeComponent implements OnInit {
         private investmentTypeService: InvestmentTypeService,
     ) { }
     ngOnInit() {
+        this.data
+        console.log(this.data);
+
         this.initializeForm();
         if (this.data && this.data.id) {
             this.fillForm();
@@ -44,7 +47,7 @@ export class AddInvestmentTypeComponent implements OnInit {
             .subscribe(
                 (response) => {
                     this.isShowLoader = false;
-                    this.snackBar.open('Investment Type saved successfully', 'OK', {
+                    this.snackBar.open('Investment type saved successfully', 'OK', {
                         duration: 3000
                     });
                     this.dialogRef.close(true);
@@ -62,7 +65,6 @@ export class AddInvestmentTypeComponent implements OnInit {
             );
     }
     updateInvestmentType(): void {
-        const { code } = this.formGroup.value;
         this.isShowLoader = true;
         this.investmentTypeService
             .editInvestmentType({
@@ -72,7 +74,7 @@ export class AddInvestmentTypeComponent implements OnInit {
             .subscribe(
                 (response) => {
                     this.isShowLoader = false;
-                    this.snackBar.open('Investment Type updated successfully', 'OK', {
+                    this.snackBar.open('Investment type updated successfully', 'OK', {
                         duration: 3000
                     });
                     this.dialogRef.close(true);
@@ -97,9 +99,9 @@ export class AddInvestmentTypeComponent implements OnInit {
         }
     }
     fillForm() {
-        const { investmentType: investmentType } = this.data;
+
         this.formGroup.patchValue({
-            investmentType,
+            investmentType: this.data.investment_type,
         });
     }
 }

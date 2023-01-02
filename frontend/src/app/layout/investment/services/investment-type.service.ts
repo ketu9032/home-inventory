@@ -7,6 +7,7 @@ import { IInvestmentTypeParams } from 'src/app/models/investment';
 @Injectable({ providedIn: 'root' })
 export class InvestmentTypeService {
     private url = 'api/investmentType';
+    private url1 = 'api/investmentType/investmentTypeDropDown';
 
     constructor(private restService: RestService, private commonService: CommonService) { }
 
@@ -23,6 +24,7 @@ export class InvestmentTypeService {
     public removeInvestmentType(id: number) {
         return this.restService.put(`${this.url}/remove?id=${id}`);
     }
-
-
+    public investmentTypeDropDown() {
+        return this.restService.get(`${this.url}/investmentTypeDropDown`);
+    }
 }

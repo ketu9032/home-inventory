@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IIncomeData } from 'src/app/models/income';
 import { AccountService } from '../../account/services/account.service';
 import { UserService } from '../../user/services/user.service';
+import { InvestmentTypeService } from '../services/investment-type.service';
 import { IncomeService } from '../services/investment.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class AddInvestmentComponent implements OnInit {
 
     users: any;
     userAccounts: any;
+    investmentTypes: any;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IIncomeData,
@@ -34,13 +36,15 @@ export class AddInvestmentComponent implements OnInit {
         public snackBar: MatSnackBar,
         private incomeService: IncomeService,
         private userService: UserService,
+        private investmentTypeService: InvestmentTypeService,
         private accountService: AccountService,
     ) { }
 
     ngOnInit() {
-        console.log(this.data)
         this.initializeForm();
+        console.log(this.data)
         this.getUserDropDown();
+        this.getInvestmentTypeDropDown();
         if (this.data) {
             this.fillForm();
         }
@@ -50,6 +54,7 @@ export class AddInvestmentComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
             accountId: ['', Validators.required],
+            investmentId: ['', Validators.required],
             paymentMethod: ['', Validators.required],
             remark: ['', Validators.required],
             amount: ['', Validators.required]
@@ -57,12 +62,14 @@ export class AddInvestmentComponent implements OnInit {
     }
 
     saveIncome(): void {
-
+        +this.formGroup.value.investmentId
+        debugger
         this.isShowLoader = true;
         this.incomeService
             .addInvestment({
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
+                investmentId: +this.formGroup.value.investmentId,
                 paymentMethod: this.formGroup.value.paymentMethod,
                 remark: this.formGroup.value.remark,
                 amount: this.formGroup.value.amount,
@@ -98,6 +105,7 @@ export class AddInvestmentComponent implements OnInit {
                 paymentMethod: this.formGroup.value.paymentMethod,
                 remark: this.formGroup.value.remark,
                 amount: this.formGroup.value.amount,
+                investmentId: this.formGroup.value.investmentId,
             })
             .subscribe(
                 (response) => {
@@ -162,6 +170,25 @@ export class AddInvestmentComponent implements OnInit {
         this.accountService.getAccountUserWise
             (id).subscribe((response) => {
                 this.userAccounts = response
+            },
+                (error) => {
+                    this.isShowLoader = false;
+                    this.snackBar.open(
+                        (error.error && error.error.message) || error.message,
+                        'Ok',
+                        {
+                            duration: 3000
+                        }
+                    );
+                },
+                () => { }
+            );
+    }
+
+    getInvestmentTypeDropDown() {
+        this.investmentTypeService.investmentTypeDropDown
+            ().subscribe((response) => {
+                this.investmentTypes = response
             },
                 (error) => {
                     this.isShowLoader = false;

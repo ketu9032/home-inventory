@@ -87,8 +87,28 @@
 
         </div>
         <div class="flex">
-
             <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Investment Type</mat-label>
+                    <mat-select formControlName=" investmentId" matInput required >
+                        <mat-option *ngFor="let type of investmentTypes" [value]="type.investment_type">
+                            {{type.investment_type | titlecase}}
+                            {{type.id}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+
+                    <ng-container *ngIf="
+          formGroup.controls.investmentId.touched &&
+          !formGroup.controls.investmentId.value
+        ">
+                        <span class="error">Investment Type is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="width ">
                 <mat-form-field>
                     <mat-label>Remark</mat-label>
                     <input matInput formControlName="remark" required />
@@ -105,8 +125,9 @@
         </div>
 
         <!-- button start -->
+        <!-- [disabled]="!formGroup.valid || isShowLoader" -->
         <div class="button-save-update center">
-            <button mat-raised-button color="primary" [disabled]="!formGroup.valid || isShowLoader" type="submit"
+            <button mat-raised-button color="primary"  type="submit"
                 class="margin-right">
                 <span *ngIf="!isShowLoader">
                     {{ !this.data ? 'Save' : 'Update' }}
