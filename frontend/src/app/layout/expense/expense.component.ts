@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { UserService } from '../user/services/user.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { DeleteExpenseComponent } from './delete-expense/delete-expense.component';
+import { ExpenseTypeComponent } from './expense-type/expense-type.component';
 
 @Component({
     selector: 'app-expense',
@@ -25,6 +26,7 @@ export class ExpenseComponent implements OnInit {
         'user_name',
         'account_number',
         'amount',
+        'expense_type',
         'payment_method',
         'remark',
         'action'
@@ -148,6 +150,19 @@ export class ExpenseComponent implements OnInit {
             .open(DeleteExpenseComponent, {
                 width: '350px',
                 data: id
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    this.getExpense();
+                }
+            });
+    }
+
+    onAddNewExpenseType(): void {
+        this.dialog
+            .open(ExpenseTypeComponent, {
+                width: '700px'
             })
             .afterClosed()
             .subscribe((result) => {

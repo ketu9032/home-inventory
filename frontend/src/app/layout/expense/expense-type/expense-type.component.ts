@@ -8,19 +8,20 @@ import { IInvestmentTypeData } from 'src/app/models/investment';
 import { IMatTableParams } from 'src/app/models/table';
 
 import { PAGE_SIZE_OPTION } from 'src/app/shared/global/table-config';
-import { InvestmentTypeService } from '../services/investment-type.service';
-import { AddInvestmentTypeComponent } from './add-investment-type/add-investment-type.component';
-import { DeleteInvestmentTypeComponent } from './delete-investment-type/delete-investment-type.component';
+import { ExpenseTypeService } from '../services/expense-type.service';
+import { AddExpenseTypeComponent } from './add-expense-type/add-expense-type.component';
+import { DeleteExpenseTypeComponent } from './delete-expense-type/delete-expense-type.component';
+
 
 @Component({
-    selector: 'app-investment-type',
-    templateUrl: './investment-type.component.html',
-    styleUrls: ['./investment-type.component.scss']
+    selector: 'app-expense-type',
+    templateUrl: './expense-type.component.html',
+    styleUrls: ['./expense-type.component.scss']
 })
-export class InvestmentTypeComponent implements OnInit {
+export class ExpenseTypeComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'investment_type',
+        'expense_type',
         'action'
     ];
     dataSource: any = [];
@@ -40,24 +41,24 @@ export class InvestmentTypeComponent implements OnInit {
     }
     constructor(
         public dialog: MatDialog,
-        private investmentTypeService: InvestmentTypeService,
+        private expenseTypeService: ExpenseTypeService,
         public snackBar: MatSnackBar
     ) { }
     ngOnInit(): void {
-        this.getInvestmentType();
+        this.getExpenseType();
     }
     sortData(sort: Sort) {
         this.tableParams.orderBy = sort.active;
         this.tableParams.direction = sort.direction;
         this.tableParams.pageNumber = 1;
-        this.getInvestmentType();
+        this.getExpenseType();
     }
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
     }
-    getInvestmentType() {
+    getExpenseType() {
         this.loader = true;
-        this.investmentTypeService.getInvestmentType(this.tableParams).subscribe(
+        this.expenseTypeService.getExpenseType(this.tableParams).subscribe(
             (newTier: any[]) => {
                 this.dataSource = new MatTableDataSource<IInvestmentTypeData>(newTier);
                 if (newTier.length > 0) {
@@ -78,50 +79,50 @@ export class InvestmentTypeComponent implements OnInit {
             () => { }
         );
     }
-    onAddNewInvestmentType(): void {
+    onAddNewExpenseType(): void {
         this.dialog
-            .open(AddInvestmentTypeComponent, {
+            .open(AddExpenseTypeComponent, {
                 width: '350px'
             })
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getInvestmentType();
+                    this.getExpenseType();
                 }
             });
     }
-    onEditInvestmentType(element) {
+    onEditExpenseType(element) {
         this.dialog
-            .open(AddInvestmentTypeComponent, {
+            .open(AddExpenseTypeComponent, {
                 width: '350px',
                 data: element
             })
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getInvestmentType();
+                    this.getExpenseType();
                 }
             });
     }
 
 
-    onDeleteInvestmentType(id: number) {
+    onDeleteExpenseType(id: number) {
         this.dialog
-            .open(DeleteInvestmentTypeComponent, {
+            .open(DeleteExpenseTypeComponent, {
                 width: '350px',
                 data: id
             })
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getInvestmentType();
+                    this.getExpenseType();
                 }
             });
     }
     pageChanged(event: PageEvent) {
         this.tableParams.pageSize = event.pageSize;
         this.tableParams.pageNumber = event.pageIndex + 1;
-        this.getInvestmentType();
+        this.getExpenseType();
     }
 
 

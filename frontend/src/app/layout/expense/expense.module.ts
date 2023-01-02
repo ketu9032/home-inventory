@@ -11,12 +11,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/app/shared/modules/material/shared.module';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { DeleteExpenseComponent } from './delete-expense/delete-expense.component';
+import { ExpenseTypeComponent } from './expense-type/expense-type.component';
+import { AddExpenseTypeComponent } from './expense-type/add-expense-type/add-expense-type.component';
+import { DeleteExpenseTypeComponent } from './expense-type/delete-expense-type/delete-expense-type.component';
 
 @NgModule({
     declarations: [
         ExpenseComponent,
         AddExpenseComponent,
-        DeleteExpenseComponent
+        DeleteExpenseComponent,
+        ExpenseTypeComponent,
+        AddExpenseTypeComponent,
+        DeleteExpenseTypeComponent
     ],
     imports: [
         CommonModule,
@@ -31,7 +37,10 @@ import { DeleteExpenseComponent } from './delete-expense/delete-expense.componen
     ],
     entryComponents: [
         AddExpenseComponent,
-        DeleteExpenseComponent
+        DeleteExpenseComponent,
+        ExpenseTypeComponent,
+        AddExpenseTypeComponent,
+        DeleteExpenseTypeComponent
     ]
 })
 export class ExpenseModule { }

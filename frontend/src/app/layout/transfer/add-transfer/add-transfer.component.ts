@@ -20,6 +20,7 @@ export class AddTransferComponent implements OnInit {
     selectedRole: string
     users: any;
     userAccounts: any;
+    toUserAccounts: any;
     isShowLoader = false;
     currentDate = new Date();
 
@@ -162,6 +163,26 @@ export class AddTransferComponent implements OnInit {
         this.accountService.getAccountUserWise
             ( id).subscribe((response) => {
                 this.userAccounts = response
+            },
+                (error) => {
+                    this.isShowLoader = false;
+                    this.snackBar.open(
+                        (error.error && error.error.message) || error.message,
+                        'Ok',
+                        {
+                            duration: 3000
+                        }
+                    );
+                },
+                () => { }
+            );
+    }
+    getAccountDropDownToUserIdWise() {
+        let a = this.formGroup.value.toUserId;
+        let id: number = +a
+        this.accountService.getAccountUserWise
+            ( id).subscribe((response) => {
+                this.toUserAccounts = response
             },
                 (error) => {
                     this.isShowLoader = false;
