@@ -42,6 +42,8 @@ export class AddTransferComponent implements OnInit {
         this.getUserDropDown();
         if (this.data ) {
             this.fillForm();
+            this.getAccountDropDownUserIdWise();
+            this.getAccountDropDownToUserIdWise();
         }
     }
     initializeForm(): void {
@@ -130,9 +132,9 @@ export class AddTransferComponent implements OnInit {
     fillForm() {
         this.formGroup.patchValue({
             userId: this.data.user_id,
-            // accountId: this.data.,
+            accountId: this.data.account_id,
             toUserId: this.data.to_user_id,
-            // toUserAccountId: this.data.,
+            toUserAccountId: this.data.to_user_account_id,
             remark: this.data.remark,
             amount: this.data.amount,
             paymentMethod: this.data.payment_method,
@@ -158,8 +160,12 @@ export class AddTransferComponent implements OnInit {
     }
 
     getAccountDropDownUserIdWise() {
-        let a = this.formGroup.value.userId;
-        let id: number = +a
+        let id: number;
+        if (this.data) {
+            id = +this.data.user_id;
+        } else {
+            id = +this.formGroup.value.userId;
+        }
         this.accountService.getAccountUserWise
             ( id).subscribe((response) => {
                 this.userAccounts = response
@@ -178,8 +184,12 @@ export class AddTransferComponent implements OnInit {
             );
     }
     getAccountDropDownToUserIdWise() {
-        let a = this.formGroup.value.toUserId;
-        let id: number = +a
+        let id: number;
+        if (this.data) {
+            id = +this.data.to_user_id;
+        } else {
+            id = +this.formGroup.value.toUserId;
+        }
         this.accountService.getAccountUserWise
             ( id).subscribe((response) => {
                 this.toUserAccounts = response

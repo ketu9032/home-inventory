@@ -3,6 +3,8 @@ export interface ITransferData {
     id:number,
     user_id: number,
     to_user_id: number,
+    account_id: number,
+    to_user_account_id: number,
     amount: number,
     remark: string,
     payment_method: string,
