@@ -47,6 +47,7 @@ export class AddInvestmentComponent implements OnInit {
         this.getInvestmentTypeDropDown();
         if (this.data) {
             this.fillForm();
+            this.getAccountDropDownUserIdWise()
         }
     }
 
@@ -138,6 +139,7 @@ export class AddInvestmentComponent implements OnInit {
         this.formGroup.patchValue({
             userId: this.data.user_id,
             accountId: this.data.account_id,
+            investmentTypeId: this.data.investment_type_id,
             paymentMethod: this.data.payment_method,
             remark: this.data.remark,
             amount: this.data.amount
@@ -163,8 +165,12 @@ export class AddInvestmentComponent implements OnInit {
     }
 
     getAccountDropDownUserIdWise() {
-        let a = this.formGroup.value.userId;
-        let id: number = +a
+        let id: number;
+        if(this.data){
+            id = +this.data.user_id;
+        } else {
+            id = +this.formGroup.value.userId;
+        }
         this.accountService.getAccountUserWise
             (id).subscribe((response) => {
                 this.userAccounts = response
