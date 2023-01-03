@@ -7,6 +7,7 @@ import { IExpenseData } from 'src/app/models/expense';
 import { IIncomeData } from 'src/app/models/income';
 import { AccountService } from '../../account/services/account.service';
 import { UserService } from '../../user/services/user.service';
+import { IncomeTypeService } from '../services/income-type.service';
 import { IncomeService } from '../services/income.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class AddIncomeComponent implements OnInit {
 
     users: any;
     userAccounts: any;
+    incomeTypes: any;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IIncomeData,
@@ -36,14 +38,17 @@ export class AddIncomeComponent implements OnInit {
         private incomeService: IncomeService,
         private userService: UserService,
         private accountService: AccountService,
+        private incomeTypeService: IncomeTypeService,
     ) { }
 
     ngOnInit() {
         console.log(this.data)
         this.initializeForm();
         this.getUserDropDown();
+        this.getIncomeTypeDropDown();
         if (this.data) {
             this.fillForm();
+            this.getAccountDropDownUserIdWise()
         }
     }
 
@@ -51,6 +56,7 @@ export class AddIncomeComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
             accountId: ['', Validators.required],
+            incomeTypeId: ['', Validators.required],
             paymentMethod: ['', Validators.required],
             remark: ['', Validators.required],
             amount: ['', Validators.required]
@@ -64,6 +70,7 @@ export class AddIncomeComponent implements OnInit {
             .addIncome({
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
+                incomeTypeId: +this.formGroup.value.incomeTypeId,
                 paymentMethod: this.formGroup.value.paymentMethod,
                 remark: this.formGroup.value.remark,
                 amount: this.formGroup.value.amount,
@@ -96,6 +103,7 @@ export class AddIncomeComponent implements OnInit {
                 id: this.data.id,
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
+                incomeTypeId: +this.formGroup.value.incomeTypeId,
                 paymentMethod: this.formGroup.value.paymentMethod,
                 remark: this.formGroup.value.remark,
                 amount: this.formGroup.value.amount,
@@ -158,8 +166,12 @@ export class AddIncomeComponent implements OnInit {
     }
 
     getAccountDropDownUserIdWise() {
-        let a = this.formGroup.value.userId;
-        let id: number = +a
+        let id: number;
+        if (this.data) {
+            id = +this.data.user_id;
+        } else {
+            id = +this.formGroup.value.userId;
+        }
         this.accountService.getAccountUserWise
             (id).subscribe((response) => {
                 this.userAccounts = response
@@ -176,5 +188,23 @@ export class AddIncomeComponent implements OnInit {
                 },
                 () => { }
             );
+    }
+
+    getIncomeTypeDropDown() {
+        this.incomeTypeService.incomeTypeDropDown().subscribe((response) => {
+            this.incomeTypes = response
+        },
+            (error) => {
+                this.isShowLoader = false;
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
     }
 }

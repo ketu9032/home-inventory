@@ -14,6 +14,7 @@ export interface IIncomeParams {
     id?: number,
     userId: number,
     accountId: number,
+    incomeTypeId: number,
     amount: number,
     paymentMethod: string,
     remark: string
@@ -21,7 +22,6 @@ export interface IIncomeParams {
 export interface IIncomeTypeData {
     id: number,
     income_type: string,
-
 }
 
 export interface IIncomeTypeParams {

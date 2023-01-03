@@ -36,7 +36,7 @@
                     <mat-label>Account Number</mat-label>
                     <mat-select formControlName="accountId" matInput required>
                         <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id">
-                            {{userAccount.bank_name | titlecase}}  ({{userAccount.account_type | titlecase }})
+                            {{userAccount.bank_name | titlecase}} ({{userAccount.account_type | titlecase }})
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -72,7 +72,7 @@
             <div class="width">
                 <mat-form-field>
                     <mat-label>Payment Method</mat-label>
-                    <input matInput formControlName="paymentMethod"  required />
+                    <input matInput formControlName="paymentMethod" required />
                 </mat-form-field>
                 <div>
 
@@ -90,8 +90,27 @@
 
             <div class="width margin-right">
                 <mat-form-field>
+                    <mat-label>Expense Type</mat-label>
+                    <mat-select formControlName="incomeTypeId" matInput required>
+                        <mat-option *ngFor="let type of incomeTypes" [value]="type.id">
+                            {{type.income_type | titlecase }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+
+                    <ng-container *ngIf="
+          formGroup.controls.incomeTypeId.touched &&
+          !formGroup.controls.incomeTypeId.value
+        ">
+                        <span class="error">Income type name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="width">
+                <mat-form-field>
                     <mat-label>Remark</mat-label>
-                    <input matInput formControlName="remark" required />
+                    <textarea matInput formControlName="remark" required placeholder="Expense Details.."></textarea>
                 </mat-form-field>
                 <div>
                     <ng-container *ngIf="

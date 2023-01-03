@@ -76,12 +76,13 @@ const getIncome = async (req, res) => {
 
 const addIncome = async (req, res) => {
   try {
-    const { userId, accountId, amount, paymentMethod, remark } = req.body;
+    const { userId, accountId, amount, incomeTypeId, paymentMethod, remark } =
+      req.body;
 
     const query = ` INSERT INTO public.income(
-      date, user_id, account_id, amount, payment_method, remark)
+      date, user_id, account_id, amount, income_type_id, payment_method, remark)
         VALUES
-      (now(),  ${userId},  ${accountId}, ${amount},  '${paymentMethod}','${remark}'); `;
+      (now(),  ${userId},  ${accountId}, ${amount}, ${incomeTypeId},  '${paymentMethod}','${remark}'); `;
     const response1 = await pool.query(query);
     let res1 = response1.rows;
 
@@ -91,7 +92,7 @@ const addIncome = async (req, res) => {
     const response2 = await pool.query(query2);
     let res2 = response2.rows;
 
-    const response = { res1, res2};
+    const response = { res1, res2 };
 
     return res.status(200).json(response);
   } catch (error) {
@@ -101,21 +102,60 @@ const addIncome = async (req, res) => {
 
 const updateIncome = async (req, res) => {
   try {
-    const { userId, accountId, amount, paymentMethod, remark, id } = req.body;
-    const { rows } = await pool.query(`
+    const {
+      userId,
+      accountId,
+      amount,
+      incomeTypeId,
+      paymentMethod,
+      remark,
+      id
+    } = req.body;
+
+    const query2 = `select amount, id from income where id = ${id}`;
+    const response2 = await pool.query(query2);
+    let res2 = response2.rows[0].amount;
+
+    const query1 = `
         UPDATE
       public.income
     SET
       date = now(),
       user_id = ${userId},
       account_id = '${accountId}',
+      income_type_id = '${incomeTypeId}',
       amount = ${amount},
       payment_method = '${paymentMethod}',
       remark = '${remark}'
     WHERE
     id=${id};
-  `);
-    return res.status(200).json(rows);
+  `;
+    const response1 = await pool.query(query1);
+    let res1 = response1.rows;
+
+    const query3 = `
+  UPDATE
+    public.account
+  SET
+    balance = balance - ${res2}
+  WHERE
+    id = ${accountId}`;
+    console.log(query3);
+    const response3 = await pool.query(query3);
+    let res3 = response3.rows;
+
+    const query4 = `
+  UPDATE
+    public.account
+  SET
+    balance = balance + ${amount}
+  WHERE
+    id = ${accountId}`;
+    const response4 = await pool.query(query4);
+    let res4 = response4.rows;
+
+    const response = { res1, res2, res3, res4 };
+    return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
