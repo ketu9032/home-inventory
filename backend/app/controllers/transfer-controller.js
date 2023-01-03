@@ -108,9 +108,9 @@ const addTransfer = async (req, res) => {
       const response1  = await pool.query(query1);
       let res1 = response1.rows;
 
-     const query2 = ` UPDATE public.users
-          SET balance = balance - ${amount}
-          WHERE id = ${userId}`;
+    const query2 = ` UPDATE public.account
+      SET balance = balance + ${amount}
+      WHERE id = ${toUserAccountId}`;
     const response2 = await pool.query(query2);
     let res2 = response2.rows;
 
@@ -120,19 +120,8 @@ const addTransfer = async (req, res) => {
     const response3 = await pool.query(query3);
     let res3 = response3.rows;
 
-    const query4 = ` UPDATE public.users
-        SET balance = balance + ${amount}
-        WHERE id = ${toUserId}`;
-    const response4 = await pool.query(query4);
-    let res4 = response4.rows;
+  const response = { res1, res2, res3};
 
-    const query5 = ` UPDATE public.account
-      SET balance = balance + ${amount}
-      WHERE id = ${toUserAccountId}`;
-    const response5 = await pool.query(query5);
-    let res5 = response5.rows;
-
-    const response = { res1, res2, res3, res4, res5 };
     return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -95,19 +95,14 @@ const addExpense = async (req, res) => {
     const response1 = await pool.query(query1);
     let res1 = response1.rows;
 
-    const query2 = ` UPDATE public.users
+
+    const query2 = ` UPDATE public.account
       SET balance = balance - ${amount}
-      WHERE id = ${userId}`;
+      WHERE id = ${accountId}`;
     const response2 = await pool.query(query2);
     let res2 = response2.rows;
 
-    const query3 = ` UPDATE public.account
-      SET balance = balance - ${amount}
-      WHERE id = ${accountId}`;
-    const response3 = await pool.query(query3);
-    let res3 = response3.rows;
-
-    const response = { res1, res2, res3 };
+    const response = { res1, res2 };
     return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
