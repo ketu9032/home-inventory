@@ -47,6 +47,7 @@ export class AddExpenseComponent implements OnInit {
         this.getExpenseTypeDropDown();
         if (this.data) {
             this.fillForm();
+            this.getAccountDropDownUserIdWise()
         }
     }
 
@@ -62,9 +63,7 @@ export class AddExpenseComponent implements OnInit {
     }
 
     saveExpense(): void {
-        const {
-            paymentMethod,
-            remark } = this.formGroup.value;
+
         this.isShowLoader = true;
         this.expenseService
             .addExpense({
@@ -144,9 +143,11 @@ export class AddExpenseComponent implements OnInit {
     }
 
     fillForm() {
+
         this.formGroup.patchValue({
             userId: this.data.user_id,
             accountId: this.data.account_id,
+            expenseTypeId: this.data.expense_type_id,
             paymentMethod: this.data.payment_method,
             remark: this.data.remark,
             amount: this.data.amount,
@@ -172,8 +173,12 @@ export class AddExpenseComponent implements OnInit {
     }
 
     getAccountDropDownUserIdWise() {
-        let a = this.formGroup.value.userId;
-        let id: number = +a
+        let id: number;
+        if(this.data){
+            id = +this.data.user_id;
+        } else {
+            id = +this.formGroup.value.userId;
+        }
         this.accountService.getAccountUserWise
             (id).subscribe((response) => {
                 this.userAccounts = response
