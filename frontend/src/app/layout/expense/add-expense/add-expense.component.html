@@ -36,7 +36,7 @@
                     <mat-label>Account Number</mat-label>
                     <mat-select formControlName="accountId" matInput required>
                         <mat-option *ngFor="let userAccount of userAccounts" [value]="userAccount.account_id">
-                            {{userAccount.bank_name | titlecase}}  ({{userAccount.account_type | titlecase }})
+                            {{userAccount.bank_name | titlecase}} ({{userAccount.account_type | titlecase }})
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -112,7 +112,6 @@
             <div class="width">
                 <mat-form-field>
                     <mat-label>Remark</mat-label>
-                    <!-- <input matInput formControlName="remark" required /> -->
                     <textarea matInput formControlName="remark" required placeholder="Expense Details.."></textarea>
                 </mat-form-field>
                 <div>
