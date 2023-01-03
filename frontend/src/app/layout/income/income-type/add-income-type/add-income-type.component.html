@@ -1,0 +1,34 @@
+<div class="main-header">
+    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Income Type' : 'Update Income Type' }} </b></h1>
+    <button mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div class="container">
+    <mat-divider></mat-divider>
+    <br>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <!-- Investment start -->
+        <mat-form-field>
+            <mat-label>Income  Type</mat-label>
+            <input matInput formControlName="incomeType" required />
+        </mat-form-field>
+        <div>
+            <ng-container *ngIf="
+          formGroup.controls.incomeType.touched &&
+          !formGroup.controls.incomeType.value
+        ">
+                <span class="error">Income  Type is Required</span>
+            </ng-container>
+        </div>
+        <!-- button start -->
+        <div class="btn-update">
+            <button mat-raised-button class="button-color" [disabled]="!formGroup.valid || isShowLoader" type="submit">
+                <span *ngIf="!isShowLoader">
+                    {{ !this.data ? 'Save' : 'Update' }}
+                </span>
+                <mat-spinner *ngIf="isShowLoader" class="inline-loader" diameter="20"></mat-spinner>
+            </button>
+        </div>
+    </form>
+</div>

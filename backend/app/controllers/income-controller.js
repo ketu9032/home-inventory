@@ -37,13 +37,16 @@ const getIncome = async (req, res) => {
           u.user_name as user_name,
           a.account_type as account_type,
           a.bank_name as bank_name,
-          a.id as account_id
+          a.id as account_id,
+          ii.income_type as income_type
       FROM
           public.income i
       join
           users u on u.id = i.user_id
       join
           account a on a.id = i.account_id
+      join
+          income_type ii  on ii.id = i.income_type_id
       GROUP BY
           i.id,
           i.date,
@@ -57,7 +60,8 @@ const getIncome = async (req, res) => {
           a.account_type,
           account_id,
           a.bank_name,
-          a.id
+          a.id,
+          ii.income_type
       ${searchQuery}
       order by
         ${orderBy} ${direction} OFFSET ${offset}
