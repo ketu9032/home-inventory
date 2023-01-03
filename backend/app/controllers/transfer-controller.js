@@ -41,8 +41,10 @@ const getTransfer = async (req, res) => {
           uu.user_name as to_user_name,
           a.account_type,
           a.bank_name,
+          a.id as account_id,
           aa.account_type as to_account_type,
-          aa.bank_name as to_bank_name
+          aa.bank_name as to_bank_name,
+          aa.id as to_user_account_id
         FROM
           public.transfer t
         join
@@ -65,9 +67,11 @@ const getTransfer = async (req, res) => {
           u.user_name,
           a.account_type,
           a.bank_name,
+          a.id,
           uu.user_name,
           aa.account_type,
           aa.bank_name,
+          aa.id,
           t.is_active
           ${searchQuery}
         order by
@@ -140,7 +144,12 @@ const updateTransfer = async (req, res) => {
       remark,
       id
     } = req.body;
-    const { rows } = await pool.query(`
+
+    const query1 = `select amount, id from transfer where id = ${id}`;
+    const response1 = await pool.query(query1);
+    let res1 = response1.rows[0].amount;
+
+    const query2 =`
     UPDATE public.transfer
       SET
        date = now(),
@@ -154,8 +163,54 @@ const updateTransfer = async (req, res) => {
 
     WHERE
       id=${id};
-  `);
-    return res.status(200).json(rows);
+  `
+  const response2 = await pool.query(query2);
+  let res2 = response2.rows;
+
+  const query3 = `
+UPDATE
+  public.account
+SET
+  balance = balance + ${res1}
+WHERE
+  id = ${accountId}`;
+  console.log(query3);
+  const response3 = await pool.query(query3);
+  let res3 = response3.rows;
+
+  const query4 = `
+UPDATE
+  public.account
+SET
+  balance = balance - ${res1}
+WHERE
+  id = ${toUserAccountId}`;
+  const response4 = await pool.query(query4);
+  let res4 = response4.rows;
+
+  const query5 = `
+UPDATE
+  public.account
+SET
+  balance = balance - ${amount}
+WHERE
+  id = ${accountId}`;
+  console.log(query5);
+  const response5 = await pool.query(query5);
+  let res5 = response5.rows;
+
+  const query6 = `
+UPDATE
+  public.account
+SET
+  balance = balance + ${amount}
+WHERE
+  id = ${toUserAccountId}`;
+  const response6 = await pool.query(query6);
+  let res6 = response6.rows;
+
+  const response = { res1, res2, res3, res4, res5, res6 };
+  return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
