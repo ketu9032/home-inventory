@@ -84,7 +84,14 @@ const getInvestment = async (req, res) => {
 
 const addInvestment = async (req, res) => {
   try {
-    const { userId, accountId, investmentTypeId, amount, paymentMethod, remark } = req.body;
+    const {
+      userId,
+      accountId,
+      investmentTypeId,
+      amount,
+      paymentMethod,
+      remark
+    } = req.body;
 
     const query1 = `INSERT INTO public.investment(
         date, user_id, account_id, investment_type_id, amount, payment_method, remark)
@@ -108,15 +115,53 @@ const addInvestment = async (req, res) => {
 
 const updateInvestment = async (req, res) => {
   try {
-    const { userId, accountId, investmentTypeId, amount, paymentMethod, remark, id } = req.body;
-    const { rows } = await pool.query(`
+    const {
+      userId,
+      accountId,
+      investmentTypeId,
+      amount,
+      paymentMethod,
+      remark,
+      id
+    } = req.body;
+
+    const query2 = `select amount, id from investment where id = ${id}`;
+    const response2 = await pool.query(query2);
+    let res2 = response2.rows[0].amount;
+
+    const query1 = `
     UPDATE public.investment
 	SET  date = now(), user_id = ${userId}, account_id = ${accountId}, amount= ${amount} , payment_method= '${paymentMethod}', remark= '${remark}', investment_type_id= ${investmentTypeId}
-
     WHERE
       id=${id};
-  `);
-    return res.status(200).json(rows);
+  `;
+
+    const response1 = await pool.query(query1);
+    let res1 = response1.rows;
+
+    const query3 = `
+    UPDATE
+      public.account
+    SET
+      balance = balance + ${res2}
+    WHERE
+      id = ${accountId}`;
+    console.log(query3);
+    const response3 = await pool.query(query3);
+    let res3 = response3.rows;
+
+    const query4 = `
+    UPDATE
+      public.account
+    SET
+      balance = balance - ${amount}
+    WHERE
+      id = ${accountId}`;
+    const response4 = await pool.query(query4);
+    let res4 = response4.rows;
+
+    const response = { res1, res2, res3, res4 };
+    return res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -4,6 +4,7 @@ export interface IIncomeData {
     user_id: number,
     user_name: string,
     account_id: number,
+    investment_type_id: number,
     account_type: string,
     amount: number,
     payment_method: string,
