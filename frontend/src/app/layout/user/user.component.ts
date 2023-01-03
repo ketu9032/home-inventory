@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
         'date',
         'user_name',
         'email',
-        'balance',
+        'user_wise_balance',
         'mobile_number',
         'action',
 
