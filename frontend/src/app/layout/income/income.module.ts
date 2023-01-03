@@ -11,12 +11,18 @@ import { SharedModule } from 'src/app/shared/modules/material/shared.module';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { IncomeRoutingModule } from './income-routing.module';
 import { DeleteIncomeComponent } from './delete-income/delete-income.component';
+import { IncomeTypeComponent } from './income-type/income-type.component';
+import { AddIncomeTypeComponent } from './income-type/add-income-type/add-income-type.component';
+import { DeleteIncomeTypeComponent } from './income-type/delete-income-type/delete-income-type.component';
 
 @NgModule({
   declarations: [
     IncomeComponent,
     AddIncomeComponent,
-    DeleteIncomeComponent
+    DeleteIncomeComponent,
+    IncomeTypeComponent,
+    AddIncomeTypeComponent,
+    DeleteIncomeTypeComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +37,10 @@ import { DeleteIncomeComponent } from './delete-income/delete-income.component';
   ],
   entryComponents: [
     AddIncomeComponent,
-    DeleteIncomeComponent
+    DeleteIncomeComponent,
+    IncomeTypeComponent,
+    AddIncomeTypeComponent,
+    DeleteIncomeTypeComponent
   ]
 })
 export class IncomeModule {}

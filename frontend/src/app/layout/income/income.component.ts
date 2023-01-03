@@ -12,6 +12,7 @@ import { AddIncomeComponent } from './add-income/add-income.component';
 import { IncomeService } from './services/income.service';
 import { IIncomeData } from 'src/app/models/income';
 import { DeleteIncomeComponent } from './delete-income/delete-income.component';
+import { IncomeTypeComponent } from './income-type/income-type.component';
 
 @Component({
     selector: 'app-income',
@@ -24,6 +25,7 @@ export class IncomeComponent implements OnInit {
         'user_name',
         'account_type',
         'amount',
+        'income_type',
         'payment_method',
         'remark',
         'action'
@@ -144,6 +146,19 @@ export class IncomeComponent implements OnInit {
             .open(DeleteIncomeComponent, {
                 width: '350px',
                 data: id
+            })
+            .afterClosed()
+            .subscribe((result) => {
+                if (result) {
+                    this.getIncome();
+                }
+            });
+    }
+
+    onAddNewIncomeType(): void {
+        this.dialog
+            .open(IncomeTypeComponent, {
+                width: '700px'
             })
             .afterClosed()
             .subscribe((result) => {
