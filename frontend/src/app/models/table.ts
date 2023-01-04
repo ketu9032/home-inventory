@@ -23,7 +23,7 @@ export interface IMatTableParamsWithSearchParams {
 }
 
 export interface ISelectedDate {
-    startDate: Date;
-    endDate: Date;
+    startDate: any;
+    endDate: any;
 }
 

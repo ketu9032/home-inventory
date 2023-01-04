@@ -5,3 +5,8 @@ export interface IDashboardDaysParams {
 
 
 
+export interface IDashboardDetailsChartFilter {
+    startDate: any;
+    endDate: any;
+
+ }

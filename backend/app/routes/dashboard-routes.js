@@ -5,6 +5,7 @@ const router = Router();
 //albums API
 
 router.get('/details', controllers.getDashboardDetails);
+router.get('/detailsChart', controllers.getDashboardDetailsChart);
 router.post('/', controllers.addAccount);
 router.put('/', controllers.updateAccount);
 router.put('/remove', controllers.removeAccount);
