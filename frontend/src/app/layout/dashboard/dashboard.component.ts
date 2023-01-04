@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
-import { ISelectedDate } from 'src/app/models/table';
+import { IMatTableParams, ISelectedDate } from 'src/app/models/table';
+import { PAGE_SIZE, PAGE_SIZE_OPTION } from 'src/app/shared/global/table-config';
 
 
 
@@ -27,11 +28,24 @@ export class DashboardComponent implements OnInit {
 
     todaySummary: any;
 
-
-    selectedDate: ISelectedDate = {
-        startDate: moment(moment(), "DD-MM-YYYY").add(-11, 'days'),
-        endDate: moment(moment(), "DD-MM-YYYY").add(18, 'days'),
+    public defaultPageSize = PAGE_SIZE;
+    public pageSizeOptions = PAGE_SIZE_OPTION;
+    tableParams: IMatTableParams = {
+        pageSize: this.defaultPageSize,
+        pageNumber: 1,
+        orderBy: 'id',
+        direction: "desc",
+        search: '',
+        active: true,
     }
+
+    fromDate: string;
+    toDate: string;
+
+    // selectedDate: ISelectedDate = {
+    //     // startDate: moment(moment(), "DD-MM-YYYY").add(-11, 'days'),
+    //     // endDate: moment(moment(), "DD-MM-YYYY").add(18, 'days'),
+    // }
 
     public dayWiseChart: any = {
         chart: {
@@ -101,13 +115,13 @@ export class DashboardComponent implements OnInit {
     }
 
     getDayWiseSalesProfitChart() {
-        if (this.selectedDate.startDate) {
-            this.selectedDate.startDate = moment(this.startDate).format("YYYY-MM-DD")
+        // if (this.selectedDate.startDate) {
+        //     this.selectedDate.startDate = moment(this.startDate).format("YYYY-MM-DD")
 
-        }
-        if (this.selectedDate.endDate) {
-            this.selectedDate.endDate = moment(this.endDate).format("YYYY-MM-DD")
-        }
+        // }
+        // if (this.selectedDate.endDate) {
+        //     this.selectedDate.endDate = moment(this.endDate).format("YYYY-MM-DD")
+        // }
         let convertedSalesDate;
         let convertedPurchaseDate;
         // this.analysisService
@@ -182,7 +196,5 @@ export class DashboardComponent implements OnInit {
         }
 
     };
-
-
 
 }
