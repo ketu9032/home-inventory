@@ -118,6 +118,7 @@ export class ExpenseChartComponent implements OnInit {
                 () => { }
             );
     }
+
     getDaysArray(startDate, endDate) {
         for (var arr = [], dt = new Date(startDate); dt <= new Date(endDate); dt.setDate(dt.getDate() + 1)) {
             arr.push(new Date(dt));
