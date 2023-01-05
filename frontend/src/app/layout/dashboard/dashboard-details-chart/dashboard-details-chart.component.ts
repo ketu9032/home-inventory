@@ -11,6 +11,8 @@ import { DashboardDetailsService } from '../services/dashboard-details.service';
 })
 export class DashboardDetailsChartComponent implements OnInit {
 
+    fromDate
+    toDate
     startDate: any;
     endDate: any;
     dayChart;
@@ -22,7 +24,7 @@ export class DashboardDetailsChartComponent implements OnInit {
     //         endDate: moment(moment(), "DD-MM-YYYY").add(18, 'days'),
     // }
 
-    public dayWiseChart: any = {
+    public dashboardDetailsChart: any = {
         chart: {
             type: 'column'
         },
@@ -127,24 +129,24 @@ export class DashboardDetailsChartComponent implements OnInit {
                             return convertedSalesDate === arraySignalDate;
                         })
                         if (arraySignalDate !== convertedSalesDate) {
-                            this.dayWiseChart.xAxis.categories.push(arraySignalDate)
-                            this.dayWiseChart.series[0].data.push(0);
+                            this.dashboardDetailsChart.xAxis.categories.push(arraySignalDate)
+                            this.dashboardDetailsChart.series[0].data.push(0);
                         } else (
-                            this.dayWiseChart.xAxis.categories.push(arraySignalDate),
-                            this.dayWiseChart.series[0].data.push(+salesDate.sa)
+                            this.dashboardDetailsChart.xAxis.categories.push(arraySignalDate),
+                            this.dashboardDetailsChart.series[0].data.push(+salesDate.sa)
                         )
                         const purchaseDate = this.dayChart.res2.find(x => {
                             convertedPurchaseDate = moment(x.date).subtract(1).format("DD-MM-YYYY")
                             return convertedPurchaseDate === arraySignalDate;
                         })
                         if (arraySignalDate !== convertedPurchaseDate) {
-                            this.dayWiseChart.series[1].data.push(0);
+                            this.dashboardDetailsChart.series[1].data.push(0);
                         } else (
-                            this.dayWiseChart.series[1].data.push(+purchaseDate.pa)
+                            this.dashboardDetailsChart.series[1].data.push(+purchaseDate.pa)
                         )
 
                     }
-                    Highcharts.chart('profitChartData', this.dayWiseChart);
+                    Highcharts.chart('dashboardDetailsChart', this.dashboardDetailsChart);
 
                 },
                 (error) => {
@@ -170,4 +172,5 @@ export class DashboardDetailsChartComponent implements OnInit {
         }
 
     };
+    clearSearch(){}
 }

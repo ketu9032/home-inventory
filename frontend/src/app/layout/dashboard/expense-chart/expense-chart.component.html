@@ -1,5 +1,5 @@
 <div>
-    <h1 class="center">Details Chart</h1>
+    <h1 class="center">Expense Chart</h1>
     <div class="header">
         <div>
             <!-- Select date range -->
@@ -13,7 +13,7 @@
                 <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
             <!-- search -->
-            <button class="margin btn button-color" mat-raised-button (click)="getDayWiseSalesProfitChart()">
+            <button class="margin btn button-color" mat-raised-button (click)="getExpenseChart()">
                 Search
             </button>
             <button class="margin btn button-color" mat-raised-button (click)="clearSearch()">
@@ -27,5 +27,5 @@
             </button>
         </div>
     </div>
-    <div id="dashboardDetailsChart"></div>
+    <div id="expenseChart"></div>
 </div>

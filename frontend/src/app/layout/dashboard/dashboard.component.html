@@ -1,6 +1,14 @@
-<div>
-    <mat-spinner *ngIf="loader" class="loader" diameter="40"></mat-spinner>
+<div class="main">
 
-    <br />
+    <div>
+        <mat-spinner *ngIf="loader" class="loader" diameter="40"></mat-spinner>
+
+        <br />
+    </div>
+    <app-dashboard-details></app-dashboard-details>
+    <app-dashboard-details-chart></app-dashboard-details-chart>
+    <app-investment-chart></app-investment-chart>
+    <app-income-chart></app-income-chart>
+    <app-expense-chart></app-expense-chart>
+
 </div>
-<app-dashboard-details></app-dashboard-details>

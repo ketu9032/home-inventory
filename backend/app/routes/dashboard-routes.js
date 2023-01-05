@@ -6,9 +6,9 @@ const router = Router();
 
 router.get('/details', controllers.getDashboardDetails);
 router.get('/detailsChart', controllers.getDashboardDetailsChart);
-router.post('/', controllers.addAccount);
-router.put('/', controllers.updateAccount);
-router.put('/remove', controllers.removeAccount);
-router.get('/getAccountUserId', controllers.getAccountDropDownByUserId);
+router.get('/investmentChart', controllers.getInvestmentChart);
+router.get('/incomeChart', controllers.getIncomeChart);
+router.get('/expenseChart', controllers.getExpenseChart);
+
 
 module.exports = router;
