@@ -225,7 +225,7 @@ export class DashboardDetailsChartComponent implements OnInit {
     clearSearch() {
         this.fromDate = '';
         this.toDate = '';
-
+        this.getInvestmentChart()
         this.getUserDropDown();
     }
 }

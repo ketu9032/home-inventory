@@ -36,7 +36,13 @@
         <mat-card class="center  summary-box">
             <mat-card-content>
                 <div class="black"> {{details.balance | currency: "INR"}} </div>
-                <a class="primary font-size-14 " [routerLink]="['/user']">Balance</a>
+                <a class="primary font-size-14 " [routerLink]="['/user']">Toatal Fund </a>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="center  summary-box">
+            <mat-card-content>
+                <div class="black"> {{details.balance | currency: "INR"}} </div>
+                <a class="primary font-size-14 " [routerLink]="['/user']">Bank Balance</a>
             </mat-card-content>
         </mat-card>
         <mat-card class="center  summary-box">

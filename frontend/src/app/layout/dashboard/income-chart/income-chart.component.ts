@@ -4,6 +4,7 @@ import * as e from 'express';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
 import { ISelectedDate } from 'src/app/models/table';
+import { UserService } from '../../user/services/user.service';
 import { DashboardDetailsService } from '../services/dashboard-details.service';
 @Component({
     selector: 'app-income-chart',
@@ -11,6 +12,7 @@ import { DashboardDetailsService } from '../services/dashboard-details.service';
     styleUrls: ['./income-chart.component.scss']
 })
 export class IncomeChartComponent implements OnInit {
+    users;
     fromDate;
     toDate;
     startDate: any;
@@ -85,6 +87,7 @@ export class IncomeChartComponent implements OnInit {
     constructor(
         public snackBar: MatSnackBar,
         private dashboardDetailsService: DashboardDetailsService,
+        private userService: UserService,
     ) { }
     ngOnInit() {
         this.getIncomeChart();
@@ -128,5 +131,24 @@ export class IncomeChartComponent implements OnInit {
             this.daysArray.push(this.formatChangeDate)
         }
     };
-    clearSearch(){}
+    getUserDropDown() {
+        this.userService.userDropDown().subscribe((response) => {
+            this.users = response
+        },
+            (error) => {
+
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
+    }
+    clearSearch(){
+        this.getIncomeChart();
+    }
 }
