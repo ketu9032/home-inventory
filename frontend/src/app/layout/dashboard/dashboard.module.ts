@@ -8,10 +8,22 @@ import { MaterialModule } from 'src/app/shared/modules/material/material.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/app/shared/modules/material/shared.module';
+import { DashboardDetailsComponent } from './dashboard-details/dashboard-details.component';
+import { DashboardDetailsChartComponent } from './dashboard-details-chart/dashboard-details-chart.component';
+import { InvestmentChartComponent } from './investment-chart/investment-chart.component';
+import { IncomeChartComponent } from './income-chart/income-chart.component';
+import { ExpenseChartComponent } from './expense-chart/expense-chart.component';
 
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [
+    DashboardComponent,
+    DashboardDetailsComponent,
+    DashboardDetailsChartComponent,
+    InvestmentChartComponent,
+    IncomeChartComponent,
+    ExpenseChartComponent
+],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -25,6 +37,11 @@ import { SharedModule } from 'src/app/shared/modules/material/shared.module';
   ],
   entryComponents: [
     DashboardComponent,
+    DashboardDetailsComponent,
+    DashboardDetailsChartComponent,
+    InvestmentChartComponent,
+    IncomeChartComponent,
+    ExpenseChartComponent
   ],
 })
 export class DashboardModule { }

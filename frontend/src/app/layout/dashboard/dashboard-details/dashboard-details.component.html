@@ -1,0 +1,64 @@
+<div class="header">
+    <div>
+        <!-- Select date range -->
+        <mat-form-field class="field-width margin">
+            <mat-label>Select date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate [(ngModel)]="fromDate" placeholder="Start date">
+                <input matEndDate [(ngModel)]="toDate" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <!-- search -->
+
+
+        <button class="margin btn button-color" mat-raised-button (click)="getDashboardDetails()">
+            Search
+        </button>
+        <button class="margin btn button-color" mat-raised-button (click)="clearSearch()">
+            Clear Search
+        </button>
+    </div>
+    <div>
+
+
+        <button class="margin btn button-color" mat-raised-button>
+            <mat-icon class="icon">cloud_download</mat-icon>
+            Download
+        </button>
+    </div>
+</div>
+<br>
+<div class="summary-container">
+    <div class="summary-content flex justify-content">
+        <mat-card class="center  summary-box">
+            <mat-card-content>
+                <div class="black"> {{details.balance | currency: "INR"}} </div>
+                <a class="primary font-size-14 " [routerLink]="['/user']">Balance</a>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="center  summary-box">
+            <mat-card-content>
+                <div class="black"> {{details.investment | currency: 'INR'}} </div>
+                <a class="primary font-size-14" [routerLink]="['/investment']">Investment</a>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="center  summary-box">
+            <mat-card-content>
+                <div class="black"> {{details.income | currency: 'INR'}}</div>
+                <a class="primary font-size-14" [routerLink]="['/income']">Income</a>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="center  summary-box">
+            <mat-card-content >
+                <div class="black">{{details.expense | currency: 'INR'}}</div>
+                <a class="primary font-size-14" [routerLink]="['/expense']">Expense</a>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>
+<br><br>
+
