@@ -63,7 +63,6 @@ export class AddExpenseComponent implements OnInit {
     }
 
     saveExpense(): void {
-
         this.isShowLoader = true;
         this.expenseService
             .addExpense({
@@ -214,4 +213,5 @@ export class AddExpenseComponent implements OnInit {
             () => { }
         );
     }
+
 }

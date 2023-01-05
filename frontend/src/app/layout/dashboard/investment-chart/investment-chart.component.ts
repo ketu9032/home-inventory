@@ -4,6 +4,7 @@ import * as e from 'express';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
 import { ISelectedDate } from 'src/app/models/table';
+import { UserService } from '../../user/services/user.service';
 import { DashboardDetailsService } from '../services/dashboard-details.service';
 @Component({
     selector: 'app-investment-chart',
@@ -11,6 +12,7 @@ import { DashboardDetailsService } from '../services/dashboard-details.service';
     styleUrls: ['./investment-chart.component.scss']
 })
 export class InvestmentChartComponent implements OnInit {
+    users;
     fromDate;
     toDate;
     startDate: any;
@@ -85,6 +87,7 @@ export class InvestmentChartComponent implements OnInit {
     constructor(
         public snackBar: MatSnackBar,
         private dashboardDetailsService: DashboardDetailsService,
+        private userService: UserService,
     ) { }
     ngOnInit() {
         this.getInvestmentChart();
@@ -129,8 +132,24 @@ export class InvestmentChartComponent implements OnInit {
         }
 
     };
+    getUserDropDown() {
+        this.userService.userDropDown().subscribe((response) => {
+            this.users = response
+        },
+            (error) => {
 
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
+    }
     clearSearch() {
-
+        this.getInvestmentChart()
     }
 }

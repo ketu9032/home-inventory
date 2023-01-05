@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
 import { ISelectedDate } from 'src/app/models/table';
+import { UserService } from '../../user/services/user.service';
 import { DashboardDetailsService } from '../services/dashboard-details.service';
 @Component({
     selector: 'app-dashboard-details-chart',
@@ -10,7 +11,7 @@ import { DashboardDetailsService } from '../services/dashboard-details.service';
     styleUrls: ['./dashboard-details-chart.component.scss']
 })
 export class DashboardDetailsChartComponent implements OnInit {
-
+    users;
     fromDate
     toDate
     startDate: any;
@@ -52,6 +53,12 @@ export class DashboardDetailsChartComponent implements OnInit {
                 overflow: 'justify'
             }
         },
+
+        colors: [
+            '#5acf5a',
+            '#ea6a6a',
+            '#4774da'
+       ],
         tooltip: {
             valueSuffix: ''
         },
@@ -75,79 +82,104 @@ export class DashboardDetailsChartComponent implements OnInit {
             shadow: true
         },
         series: [{
-            name: 'Sale',
+            name: 'Income',
             data: []
-        }, {
-            name: 'Profit',
+        },
+         {
+            name: 'Expense',
             data: []
-        }]
+
+        },
+         {
+            name: 'Investment',
+            data: []
+        }
+    ]
     }
     constructor(
         public snackBar: MatSnackBar,
         private dashboardDetailsService: DashboardDetailsService,
+        private userService: UserService,
     ) { }
     ngOnInit() {
-        this.getDayWiseSalesProfitChart();
+        this.getUserDropDown();
+        this.getIncomeChart();
+        this.getExpenseChart();
+        this.getInvestmentChart();
     }
 
-    getDayWiseSalesProfitChart() {
-        // if (this.selectedDate.startDate) {
-        //     this.selectedDate.startDate = moment(this.startDate).format("YYYY-MM-DD")
-
-        // }
-        // if (this.selectedDate.endDate) {
-        //     this.selectedDate.endDate = moment(this.endDate).format("YYYY-MM-DD")
-        // }
-        let convertedSalesDate;
-        let convertedPurchaseDate;
+    getIncomeChart() {
+        let data = []
+        let date = []
         this.dashboardDetailsService
-            .dashboardDetailsChart()
-
+            .incomeChart()
             .subscribe(
-                (response) => {
-                    this.dayChart = response
-
-                    // for (let index = 0; index < this.dayChart.res1.length; index++) {
-                    //     const element = this.dayChart.res1[index];
-                    //     this.totalSaleInDayWise =       +this.totalSaleInDayWise + +element.sa
-
-                    //     this.averageSaleInDayWise = (this.totalSaleInDayWise / 30)
-
-                    // }
-
-                    // for (let index = 0; index < this.dayChart.res2.length; index++) {
-                    //     const element = this.dayChart.res2[index];
-                    //     this.totalProfitInDayWise =        +this.totalProfitInDayWise + +element.pa
-                    //     this.averageProfitInDayWise =  (this.totalProfitInDayWise / 30)
-
-                    // }
-
-                    for (let index = 0; index < this.daysArray.length; index++) {
-                        const arraySignalDate = this.daysArray[index];
-                        const salesDate = this.dayChart.res1.find(x => {
-                            convertedSalesDate = moment(x.date).subtract(1).format("DD-MM-YYYY")
-                            return convertedSalesDate === arraySignalDate;
-                        })
-                        if (arraySignalDate !== convertedSalesDate) {
-                            this.dashboardDetailsChart.xAxis.categories.push(arraySignalDate)
-                            this.dashboardDetailsChart.series[0].data.push(0);
-                        } else (
-                            this.dashboardDetailsChart.xAxis.categories.push(arraySignalDate),
-                            this.dashboardDetailsChart.series[0].data.push(+salesDate.sa)
+                (response: []) => {
+                    for (let index = 0; index < response.length; index++) {
+                        let element: any = response[index]
+                        data.push(+element.amount)
+                        date.push(moment(element.date).format("DD-MM-YYYY")
                         )
-                        const purchaseDate = this.dayChart.res2.find(x => {
-                            convertedPurchaseDate = moment(x.date).subtract(1).format("DD-MM-YYYY")
-                            return convertedPurchaseDate === arraySignalDate;
-                        })
-                        if (arraySignalDate !== convertedPurchaseDate) {
-                            this.dashboardDetailsChart.series[1].data.push(0);
-                        } else (
-                            this.dashboardDetailsChart.series[1].data.push(+purchaseDate.pa)
-                        )
-
                     }
+                    this.dashboardDetailsChart.xAxis.categories = date
+                    this.dashboardDetailsChart.series[0].data = data
                     Highcharts.chart('dashboardDetailsChart', this.dashboardDetailsChart);
-
+                },
+                (error) => {
+                    this.snackBar.open(
+                        (error.error && error.error.message) || error.message,
+                        'Ok', {
+                        duration: 3000
+                    }
+                    );
+                },
+                () => { }
+            );
+    }
+    getExpenseChart() {
+        let data = []
+        let date = []
+        this.dashboardDetailsService
+            .expenseChart()
+            .subscribe(
+                (response: []) => {
+                    for (let index = 0; index < response.length; index++) {
+                        let element: any = response[index]
+                        data.push(+element.amount)
+                        date.push(moment(element.date).format("DD-MM-YYYY")
+                        )
+                    }
+                    this.dashboardDetailsChart.xAxis.categories = date
+                    this.dashboardDetailsChart.series[1].data = data
+                    Highcharts.chart('dashboardDetailsChart', this.dashboardDetailsChart);
+                },
+                (error) => {
+                    this.snackBar.open(
+                        (error.error && error.error.message) || error.message,
+                        'Ok', {
+                        duration: 3000
+                    }
+                    );
+                },
+                () => { }
+            );
+    }
+    getInvestmentChart() {
+        let data = []
+        let date = []
+        this.dashboardDetailsService
+            .investmentChart()
+            .subscribe(
+                (response: []) => {
+                    for (let index = 0; index < response.length; index++) {
+                        let element: any = response[index]
+                        data.push(+element.amount)
+                        date.push(moment(element.date).format("DD-MM-YYYY")
+                        )
+                    }
+                    this.dashboardDetailsChart.xAxis.categories = date
+                    this.dashboardDetailsChart.series[2].data = data
+                    Highcharts.chart('dashboardDetailsChart', this.dashboardDetailsChart);
                 },
                 (error) => {
                     this.snackBar.open(
@@ -161,6 +193,25 @@ export class DashboardDetailsChartComponent implements OnInit {
             );
     }
 
+    getUserDropDown() {
+        this.userService.userDropDown().subscribe((response) => {
+            this.users = response
+        },
+            (error) => {
+
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
+    }
+
+
     getDaysArray(startDate, endDate) {
         for (var arr = [], dt = new Date(startDate); dt <= new Date(endDate); dt.setDate(dt.getDate() + 1)) {
             arr.push(new Date(dt));
@@ -170,7 +221,11 @@ export class DashboardDetailsChartComponent implements OnInit {
             this.formatChangeDate = moment(element).format("DD-MM-YYYY");
             this.daysArray.push(this.formatChangeDate)
         }
-
     };
-    clearSearch(){}
+    clearSearch() {
+        this.fromDate = '';
+        this.toDate = '';
+        this.getInvestmentChart()
+        this.getUserDropDown();
+    }
 }

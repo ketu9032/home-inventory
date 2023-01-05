@@ -4,6 +4,7 @@ import * as e from 'express';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
 import { ISelectedDate } from 'src/app/models/table';
+import { UserService } from '../../user/services/user.service';
 import { DashboardDetailsService } from '../services/dashboard-details.service';
 @Component({
     selector: 'app-expense-chart',
@@ -11,6 +12,7 @@ import { DashboardDetailsService } from '../services/dashboard-details.service';
     styleUrls: ['./expense-chart.component.scss']
 })
 export class ExpenseChartComponent implements OnInit {
+    users;
     fromDate;
     toDate;
     startDate: any;
@@ -85,6 +87,7 @@ export class ExpenseChartComponent implements OnInit {
     constructor(
         public snackBar: MatSnackBar,
         private dashboardDetailsService: DashboardDetailsService,
+        private userService: UserService,
     ) { }
     ngOnInit() {
         this.getExpenseChart();
@@ -118,6 +121,7 @@ export class ExpenseChartComponent implements OnInit {
                 () => { }
             );
     }
+
     getDaysArray(startDate, endDate) {
         for (var arr = [], dt = new Date(startDate); dt <= new Date(endDate); dt.setDate(dt.getDate() + 1)) {
             arr.push(new Date(dt));
@@ -129,5 +133,27 @@ export class ExpenseChartComponent implements OnInit {
         }
     };
 
-    clearSearch(){}
+    getUserDropDown() {
+        this.userService.userDropDown().subscribe((response) => {
+            this.users = response
+        },
+            (error) => {
+
+                this.snackBar.open(
+                    (error.error && error.error.message) || error.message,
+                    'Ok',
+                    {
+                        duration: 3000
+                    }
+                );
+            },
+            () => { }
+        );
+    }
+    clearSearch() {
+        this.fromDate = '';
+        this.toDate = '';
+
+        this.getExpenseChart();
+    }
 }
