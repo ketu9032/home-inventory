@@ -8,7 +8,6 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExpenseService } from '../services/borrow.service';
-
 @Component({
     selector: 'app-delete-borrow',
     templateUrl: './delete-borrow.component.html',
@@ -19,7 +18,6 @@ export class DeleteBorrowComponent implements OnInit {
     isLoggedInUserIsOwner: boolean = false;
     isShowLoader: boolean = false;
     isUserNameExist: boolean = true;
-
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
@@ -28,14 +26,11 @@ export class DeleteBorrowComponent implements OnInit {
         private expenseService: ExpenseService,
         private authService: AuthService
     ) { }
-
     ngOnInit(): void {}
-
     removeUser(): void {
         let a = this.data;
         let id: number = +a;
-
-        this.expenseService.removeExpense(id).subscribe(
+        this.expenseService.removeBorrow(id).subscribe(
             (response) => {
                 this.dialogRef.close({ data: true });
                 this.snackBar.open('Expense deleted successfully', 'OK', {
@@ -50,7 +45,6 @@ export class DeleteBorrowComponent implements OnInit {
             () => { }
         );
     }
-
     onDismiss(): void {
         this.dialogRef.close({ data: false });
     }

@@ -2,31 +2,24 @@ import { CommonService } from '../../../shared/services/common.service';
 import { Injectable } from '@angular/core';
 import { IMatTableParams } from 'src/app/models/table';
 import { RestService } from 'src/app/shared/services';
-import { IExpenseParams } from 'src/app/models/expense';
-
+import { IBorrowParams } from 'src/app/models/borrow';
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
-    private url = 'api/expense';
-
+    private url = 'api/borrow';
     constructor(
         private restService: RestService,
         private commonService: CommonService) { }
-
-    public getExpense(tablePrams: IMatTableParams) {
+    public getBorrow(tablePrams: IMatTableParams) {
          const queryString = this.commonService.toQueryString(tablePrams);
          return this.restService.get<any>(`${this.url}${queryString}`);
-
     }
-    public addExpense(expense: IExpenseParams) {
-        return this.restService.post(`${this.url}`, expense);
+    public addBorrow(borrow: IBorrowParams) {
+        return this.restService.post(`${this.url}`, borrow);
     }
-    public editExpense(expense: IExpenseParams) {
-        return this.restService.put(`${this.url}`, expense);
+    public editBorrow(borrow: IBorrowParams) {
+        return this.restService.put(`${this.url}`, borrow);
     }
-    public removeExpense(id: number) {
+    public removeBorrow(id: number) {
         return this.restService.put(`${this.url}/remove?id=${id}`);
     }
-
-
 }
-

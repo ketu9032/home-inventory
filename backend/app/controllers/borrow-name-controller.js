@@ -1,15 +1,11 @@
 const pool = require('../db');
-
-// get income
 const getBorrowName = async (req, res) => {
   try {
     const { orderBy, direction, pageSize, pageNumber, search, active } =
       req.query;
-
     let searchQuery = 'having true';
     let whereClause = ' where true ';
     const offset = pageSize * pageNumber - pageSize;
-
     if (search) {
       searchQuery += ` and
         (
@@ -21,7 +17,6 @@ const getBorrowName = async (req, res) => {
         )`;
     }
     searchQuery += ` and is_active = ${active}  `;
-
     const query = `
     SELECT id, date, first_name, mobile_number, alternative_number, last_name, is_active
     FROM public.borrow_name
@@ -33,7 +28,6 @@ const getBorrowName = async (req, res) => {
       ${orderBy} ${direction} OFFSET ${offset}
     LIMIT
       ${pageSize}
-
           `;
     const response = await pool.query(query);
     return res.status(200).json(response.rows);
@@ -41,22 +35,18 @@ const getBorrowName = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 const addBorrowName = async (req, res) => {
   try {
     const { firstName, lastName, mobileNumber, alternativeNumber  } = req.body;
-
     const query1 = `INSERT INTO public.borrow_name(
       date, first_name,last_name, mobile_number, alternative_number )
       VALUES (now(), '${firstName}', '${lastName}',${mobileNumber}, ${alternativeNumber})`;
     const response = await pool.query(query1);
-
     return res.status(200).json(response.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 const updateBorrowName = async (req, res) => {
   try {
     const { firstName, lastName, mobileNumber, alternativeNumber, id } = req.body;
@@ -84,7 +74,6 @@ const removeBorrowName = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 const getBorrowNameDropDown = async (req, res) => {
   try {
     const { rows } = await pool.query(`SELECT id, first_name, last_name FROM public.borrow_name where is_active = true`);
@@ -93,7 +82,6 @@ const getBorrowNameDropDown = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 module.exports = {
   getBorrowName,
   addBorrowName,

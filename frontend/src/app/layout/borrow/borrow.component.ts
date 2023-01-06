@@ -13,7 +13,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { AddBorrowComponent } from './add-borrow/add-borrow.component';
 import { DeleteBorrowComponent } from './delete-borrow/delete-borrow.component';
 import { BorrowNameComponent } from './borrow-name/borrow-name.component';
-
 @Component({
     selector: 'app-borrow',
     templateUrl: './borrow.component.html',
@@ -27,6 +26,8 @@ export class BorrowComponent implements OnInit {
         'amount',
         'expense_type',
         'payment_method',
+        'returnDate',
+        'refName',
         'remark',
         'action'
     ];
@@ -46,29 +47,22 @@ export class BorrowComponent implements OnInit {
         search: '',
         active: true,
     }
-
     loggedInUsersData: any;
-
     fromDate: string;
     toDate: string;
     userId?: number;
     categoryId?: number;
     isCashIn?: boolean
-
     constructor(
         public dialog: MatDialog,
         private expenseService: ExpenseService,
         public snackBar: MatSnackBar,
         public authService: AuthService,
         private userService: UserService,
-
     ) { }
-
     ngOnInit(): void {
-
         this.getBorrow();
     }
-
     sortData(sort: Sort) {
         if (sort.active === 'expenseId') {
             sort.active = 'expense.id';
@@ -87,15 +81,12 @@ export class BorrowComponent implements OnInit {
         this.tableParams.pageNumber = 1;
         this.getBorrow();
     }
-
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
     }
-
     getBorrow() {
         this.loader = true;
-
-        this.expenseService.getExpense(this.tableParams).subscribe(
+        this.expenseService.getBorrow(this.tableParams).subscribe(
             (newCustomers: any[]) => {
                 this.dataSource = new MatTableDataSource<IExpenseData>(newCustomers);
                 if (newCustomers.length > 0) {
@@ -116,7 +107,6 @@ export class BorrowComponent implements OnInit {
             () => { }
         );
     }
-
     onAddNewBorrow(): void {
         this.dialog
             .open(AddBorrowComponent, {
@@ -129,7 +119,6 @@ export class BorrowComponent implements OnInit {
                 }
             });
     }
-
     onEditNewBorrow(element) {
         this.dialog
             .open(AddBorrowComponent, {
@@ -143,7 +132,6 @@ export class BorrowComponent implements OnInit {
                 }
             });
     }
-
     onDeleteBorrow(id: number) {
         this.dialog
             .open(DeleteBorrowComponent, {
@@ -157,7 +145,6 @@ export class BorrowComponent implements OnInit {
                 }
             });
     }
-
     oneNewGetBorrowName(): void {
         this.dialog
             .open(BorrowNameComponent, {
@@ -170,14 +157,11 @@ export class BorrowComponent implements OnInit {
                 }
             });
     }
-
     pageChanged(event: PageEvent) {
         this.tableParams.pageSize = event.pageSize;
         this.tableParams.pageNumber = event.pageIndex + 1;
         this.getBorrow()
     }
-
-
     clearSearch() {
         this.fromDate = '';
         this.toDate = '';
@@ -185,7 +169,6 @@ export class BorrowComponent implements OnInit {
         this.categoryId = null;
         this.isCashIn = undefined;
         this.tableParams.search = '';
-
         this.getBorrow();
     }
 }

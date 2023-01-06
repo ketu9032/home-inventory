@@ -3,12 +3,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as moment from 'moment';
+import { IBorrowData } from 'src/app/models/borrow';
 import { IExpenseData } from 'src/app/models/expense';
 import { AccountService } from '../../account/services/account.service';
 import { UserService } from '../../user/services/user.service';
 import { BorrowNameService } from '../services/borrow-name.service';
 import { ExpenseService } from '../services/borrow.service';
-
 @Component({
     selector: 'app-add-borrow',
     templateUrl: './add-borrow.component.html',
@@ -17,19 +18,16 @@ import { ExpenseService } from '../services/borrow.service';
 export class AddBorrowComponent implements OnInit {
     formGroup: FormGroup;
     selectedRole: string
-
     categories = []
     isShowLoader = false;
     loggedInUser: boolean = true;
     amount = true
     currentDate = new Date()
-
     users: any;
     userAccounts: any;
-    expenseTypes: any;
-
+    borrowNames: any;
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: IExpenseData,
+        @Inject(MAT_DIALOG_DATA) public data: IBorrowData,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<AddBorrowComponent>,
         private formBuilder: FormBuilder,
@@ -39,39 +37,40 @@ export class AddBorrowComponent implements OnInit {
         private accountService: AccountService,
         private borrowNameService: BorrowNameService,
     ) { }
-
     ngOnInit() {
         console.log(this.data);
         this.initializeForm();
         this.getUserDropDown();
-        this.getExpenseTypeDropDown();
+        this.getBorrowNameDropDown();
         if (this.data) {
             this.fillForm();
             this.getAccountDropDownUserIdWise()
         }
     }
-
     initializeForm(): void {
         this.formGroup = this.formBuilder.group({
             userId: ['', Validators.required],
             accountId: ['', Validators.required],
-            expenseTypeId: ['', Validators.required],
+            borrowNameId: ['', Validators.required],
             paymentMethod: ['', Validators.required],
+            returnDate: ['', Validators.required],
+            refName: ['', Validators.required],
             remark: ['', Validators.required],
             amount: ['', Validators.required]
         });
     }
-
-    saveExpense(): void {
+    saveBorrow(): void {
         this.isShowLoader = true;
         this.expenseService
-            .addExpense({
+            .addBorrow({
                 userId: +this.formGroup.value.userId,
                 accountId: +this.formGroup.value.accountId,
-                expenseTypeId: +this.formGroup.value.expenseTypeId,
+                borrowNameId: +this.formGroup.value.borrowNameId,
                 paymentMethod: this.formGroup.value.paymentMethod,
                 remark: this.formGroup.value.remark,
-                amount: this.formGroup.value.amount
+                amount: this.formGroup.value.amount,
+                returnDate: moment(this.formGroup.value.returnDate).format("YYYY-MM-DD"),
+                refName: this.formGroup.value.refName
             })
             .subscribe(
                 (response) => {
@@ -93,24 +92,27 @@ export class AddBorrowComponent implements OnInit {
                 () => { }
             );
     }
-
-    updateExpense(): void {
+    updateBorrow(): void {
         const { userId,
             accountId,
             paymentMethod,
-            expenseTypeId,
+            returnDate,
+            borrowNameId,
+            refName,
             remark,
             amount } = this.formGroup.value;
         this.isShowLoader = true;
         this.expenseService
-            .editExpense({
+            .editBorrow({
                 id: this.data.id,
                 userId,
                 accountId,
-                expenseTypeId,
+                borrowNameId,
                 paymentMethod,
                 remark,
-                amount
+                amount,
+                returnDate,
+                refName
             })
             .subscribe(
                 (response) => {
@@ -132,27 +134,25 @@ export class AddBorrowComponent implements OnInit {
                 () => { }
             );
     }
-
     onSubmit() {
         if (this.data && this.data.id) {
-            this.updateExpense();
+            this.updateBorrow();
         } else {
-            this.saveExpense();
+            this.saveBorrow();
         }
     }
-
     fillForm() {
-
         this.formGroup.patchValue({
             userId: this.data.user_id,
             accountId: this.data.account_id,
-            expenseTypeId: this.data.expense_type_id,
+            borrowNameId: this.data.borrow_name_id,
             paymentMethod: this.data.payment_method,
             remark: this.data.remark,
             amount: this.data.amount,
+            refName: this.data.ref_name,
+            returnDate : this.data.return_date
         });
     }
-
     getUserDropDown() {
         this.userService.userDropDown().subscribe((response) => {
             this.users = response
@@ -170,7 +170,6 @@ export class AddBorrowComponent implements OnInit {
             () => { }
         );
     }
-
     getAccountDropDownUserIdWise() {
         let id: number;
         if(this.data){
@@ -195,10 +194,9 @@ export class AddBorrowComponent implements OnInit {
                 () => { }
             );
     }
-
-    getExpenseTypeDropDown() {
+    getBorrowNameDropDown() {
         this.borrowNameService.borrowNameDropDown().subscribe((response) => {
-            this.expenseTypes = response
+            this.borrowNames = response
         },
             (error) => {
                 this.isShowLoader = false;
@@ -213,5 +211,4 @@ export class AddBorrowComponent implements OnInit {
             () => { }
         );
     }
-
 }

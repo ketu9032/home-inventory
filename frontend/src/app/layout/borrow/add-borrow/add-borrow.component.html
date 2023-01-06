@@ -1,5 +1,5 @@
 <div class="main-header">
-    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Expense' : 'Update Expense' }}</b> </h1>
+    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Borrow' : 'Update Borrow' }}</b> </h1>
     <button mat-button mat-dialog-close>
         <mat-icon>close</mat-icon>
     </button>
@@ -21,7 +21,6 @@
                     </mat-select>
                 </mat-form-field>
                 <div>
-
                     <ng-container *ngIf="
           formGroup.controls.userId.touched &&
           !formGroup.controls.userId.value
@@ -41,7 +40,6 @@
                     </mat-select>
                 </mat-form-field>
                 <div>
-
                     <ng-container *ngIf="
           formGroup.controls.accountId.touched &&
           !formGroup.controls.accountId.value
@@ -50,10 +48,8 @@
                     </ng-container>
                 </div>
             </div>
-
         </div>
         <div class="flex">
-
             <div class="width margin-right">
                 <mat-form-field>
                     <mat-label>Amount</mat-label>
@@ -78,7 +74,6 @@
                     </mat-select>
                 </mat-form-field>
                 <div>
-
                     <ng-container *ngIf="
           formGroup.controls.paymentMethod.touched &&
           !formGroup.controls.paymentMethod.value
@@ -87,25 +82,55 @@
                     </ng-container>
                 </div>
             </div>
-
         </div>
         <div class="flex">
             <div class="width margin-right">
                 <mat-form-field>
-                    <mat-label>Expense Type</mat-label>
-                    <mat-select formControlName="expenseTypeId" matInput required>
-                        <mat-option *ngFor="let type of expenseTypes" [value]="type.id">
-                            {{type.expense_type | titlecase }}
+                    <mat-label>Borrow Name</mat-label>
+                    <mat-select formControlName="borrowNameId" matInput required>
+                        <mat-option *ngFor="let type of borrowNames" [value]="type.id">
+                            {{type.first_name | titlecase }} {{type.last_name | titlecase}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <div>
-
                     <ng-container *ngIf="
-          formGroup.controls.expenseTypeId.touched &&
-          !formGroup.controls.expenseTypeId.value
+          formGroup.controls.borrowNameId.touched &&
+          !formGroup.controls.borrowNameId.value
         ">
-                        <span class="error">Expense type name is Required</span>
+                        <span class="error">Borrow name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Return Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="returnDate" required>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.returnDate.touched &&
+          !formGroup.controls.returnDate.value
+        ">
+                        <span class="error"> Return Date is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Ref. Name</mat-label>
+                    <input matInput formControlName="refName"  required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.refName.touched &&
+          !formGroup.controls.refName.value
+        ">
+                        <span class="error">Reference name is Required</span>
                     </ng-container>
                 </div>
             </div>
@@ -123,10 +148,7 @@
                     </ng-container>
                 </div>
             </div>
-
-
         </div>
-
         <!-- button start -->
         <div class="button-save-update center">
             <button mat-raised-button color="primary" [disabled]="!formGroup.valid || isShowLoader" type="submit"

@@ -4,9 +4,6 @@ import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
 import { IMatTableParams, ISelectedDate } from 'src/app/models/table';
 import { PAGE_SIZE, PAGE_SIZE_OPTION } from 'src/app/shared/global/table-config';
-
-
-
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
@@ -14,20 +11,16 @@ import { PAGE_SIZE, PAGE_SIZE_OPTION } from 'src/app/shared/global/table-config'
 })
 export class DashboardComponent implements OnInit {
     loader: boolean = false;
-
     startDate: any;
     endDate: any;
     totalSaleInDayWise: number = 0;
     totalProfitInDayWise: number = 0;
     averageSaleInDayWise: number = 0;
     averageProfitInDayWise: number = 0;
-
     dayChart;
     formatChangeDate;
     daysArray = []
-
     todaySummary: any;
-
     public defaultPageSize = PAGE_SIZE;
     public pageSizeOptions = PAGE_SIZE_OPTION;
     tableParams: IMatTableParams = {
@@ -38,15 +31,12 @@ export class DashboardComponent implements OnInit {
         search: '',
         active: true,
     }
-
     fromDate: string;
     toDate: string;
-
     // selectedDate: ISelectedDate = {
     //     // startDate: moment(moment(), "DD-MM-YYYY").add(-11, 'days'),
-    //     // endDate: moment(moment(), "DD-MM-YYYY").add(18, 'days'),
+    //     // endDate: (moment(moment), "DD-MM-YYYY").add(18, 'days'),
     // }
-
     public dayWiseChart: any = {
         chart: {
             type: 'column'
@@ -66,7 +56,6 @@ export class DashboardComponent implements OnInit {
         },
         yAxis: {
             min: 0,
-
             title: {
                 text: 'Amount (RS.)',
                 align: 'high'
@@ -105,19 +94,15 @@ export class DashboardComponent implements OnInit {
             data: []
         }]
     }
-
     constructor(
         public snackBar: MatSnackBar,
-
     ) { }
     ngOnInit() {
         this.getDayWiseSalesProfitChart();
     }
-
     getDayWiseSalesProfitChart() {
         // if (this.selectedDate.startDate) {
         //     this.selectedDate.startDate = moment(this.startDate).format("YYYY-MM-DD")
-
         // }
         // if (this.selectedDate.endDate) {
         //     this.selectedDate.endDate = moment(this.endDate).format("YYYY-MM-DD")
@@ -130,22 +115,16 @@ export class DashboardComponent implements OnInit {
         //     .subscribe(
         //         (response) => {
         //             this.dayChart = response
-
         //             for (let index = 0; index < this.dayChart.res1.length; index++) {
         //                 const element = this.dayChart.res1[index];
         //                 this.totalSaleInDayWise =       +this.totalSaleInDayWise + +element.sa
-
         //                 this.averageSaleInDayWise = (this.totalSaleInDayWise / 30)
-
         //             }
-
         //             for (let index = 0; index < this.dayChart.res2.length; index++) {
         //                 const element = this.dayChart.res2[index];
         //                 this.totalProfitInDayWise =        +this.totalProfitInDayWise + +element.pa
         //                 this.averageProfitInDayWise =  (this.totalProfitInDayWise / 30)
-
         //             }
-
         //             for (let index = 0; index < this.daysArray.length; index++) {
         //                 const arraySignalDate = this.daysArray[index];
         //                 const salesDate = this.dayChart.res1.find(x => {
@@ -168,10 +147,8 @@ export class DashboardComponent implements OnInit {
         //                 } else (
         //                     this.dayWiseChart.series[1].data.push(+purchaseDate.pa)
         //                 )
-
         //             }
         //             Highcharts.chart('profitChartData', this.dayWiseChart);
-
         //         },
         //         (error) => {
         //             this.snackBar.open(
@@ -184,7 +161,6 @@ export class DashboardComponent implements OnInit {
         //         () => { }
         //     );
     }
-
     getDaysArray(startDate, endDate) {
         for (var arr = [], dt = new Date(startDate); dt <= new Date(endDate); dt.setDate(dt.getDate() + 1)) {
             arr.push(new Date(dt));
@@ -194,7 +170,5 @@ export class DashboardComponent implements OnInit {
             this.formatChangeDate = moment(element).format("DD-MM-YYYY");
             this.daysArray.push(this.formatChangeDate)
         }
-
     };
-
 }
