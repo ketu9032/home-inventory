@@ -56,6 +56,12 @@ const routes: Routes = [
                 // canActivate: [AuthGuard],
                 loadChildren: () =>
                     import('./investment/investment.module').then((m) => m.InvestmentModule)
+            },
+            {
+                path: 'borrow',
+                // canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('./borrow/borrow.module').then((m) => m.BorrowModule)
             }
 
         ]

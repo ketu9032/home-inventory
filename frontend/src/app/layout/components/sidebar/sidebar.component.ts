@@ -53,6 +53,12 @@ export class SidebarComponent implements OnInit {
             name: 'Investment',
             icon: 'bar_chart',
             key: 'investment'
+        },
+        {
+            link: '/borrow',
+            name: 'Borrow',
+            icon: 'repeat',
+            key: 'borrow'
         }
     ]
 
