@@ -21,7 +21,19 @@
         flex-direction: column;
     }
 
-    .input {
+    .flex {
+        display: flex;
+    }
+
+    .width {
         width: 100%;
+    }
+
+    .margin-right {
+        margin-right: 15px;
+    }
+
+    .center {
+        text-align: center;
     }
 }

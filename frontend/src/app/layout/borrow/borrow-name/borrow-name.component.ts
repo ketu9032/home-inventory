@@ -8,7 +8,7 @@ import { IInvestmentTypeData } from 'src/app/models/investment';
 import { IMatTableParams } from 'src/app/models/table';
 
 import { PAGE_SIZE_OPTION } from 'src/app/shared/global/table-config';
-import { ExpenseTypeService } from '../services/expense-type.service';
+import { BorrowNameService } from '../services/borrow-name.service';
 import { AddBorrowNameComponent } from './add-borrow-name/add-borrow-name.component';
 import { DeleteBorrowNameComponent } from './delete-borrow-name/delete-borrow-name.component';
 
@@ -21,7 +21,10 @@ import { DeleteBorrowNameComponent } from './delete-borrow-name/delete-borrow-na
 export class BorrowNameComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
-        'expense_type',
+        'first_name',
+        'last_name',
+        'mobile_number',
+        'alternative_number',
         'action'
     ];
     dataSource: any = [];
@@ -41,7 +44,7 @@ export class BorrowNameComponent implements OnInit {
     }
     constructor(
         public dialog: MatDialog,
-        private expenseTypeService: ExpenseTypeService,
+        private borrowNameService: BorrowNameService,
         public snackBar: MatSnackBar
     ) { }
     ngOnInit(): void {
@@ -58,7 +61,7 @@ export class BorrowNameComponent implements OnInit {
     }
     getExpenseType() {
         this.loader = true;
-        this.expenseTypeService.getExpenseType(this.tableParams).subscribe(
+        this.borrowNameService.getExpenseType(this.tableParams).subscribe(
             (newTier: any[]) => {
                 this.dataSource = new MatTableDataSource<IInvestmentTypeData>(newTier);
                 if (newTier.length > 0) {
@@ -82,7 +85,7 @@ export class BorrowNameComponent implements OnInit {
     onAddNewExpenseType(): void {
         this.dialog
             .open(AddBorrowNameComponent, {
-                width: '350px'
+                width: '550px'
             })
             .afterClosed()
             .subscribe((result) => {
@@ -94,7 +97,7 @@ export class BorrowNameComponent implements OnInit {
     onEditExpenseType(element) {
         this.dialog
             .open(AddBorrowNameComponent, {
-                width: '350px',
+                width: '550px',
                 data: element
             })
             .afterClosed()

@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { IMatTableParams } from 'src/app/models/table';
 import { RestService } from 'src/app/shared/services';
 import { IExpenseParams, IExpenseTypeParams } from 'src/app/models/expense';
+import { IBorrowNameParams } from 'src/app/models/borrow';
 
 @Injectable({ providedIn: 'root' })
-export class ExpenseTypeService {
-    private url = 'api/expenseType';
+export class BorrowNameService {
+    private url = 'api/borrowName';
 
     constructor(
         private restService: RestService,
@@ -17,16 +18,16 @@ export class ExpenseTypeService {
          return this.restService.get<any>(`${this.url}${queryString}`);
 
     }
-    public addExpenseType(expense: IExpenseTypeParams) {
-        return this.restService.post(`${this.url}`, expense);
+    public addBorrowName(borrowName: IBorrowNameParams) {
+        return this.restService.post(`${this.url}`, borrowName);
     }
-    public editExpenseType(expense: IExpenseTypeParams) {
-        return this.restService.put(`${this.url}`, expense);
+    public editBorrowName(borrowName: IBorrowNameParams) {
+        return this.restService.put(`${this.url}`, borrowName);
     }
-    public removeExpenseType(id: number) {
+    public removeBorrowName(id: number) {
         return this.restService.put(`${this.url}/remove?id=${id}`);
     }
-    public expenseTypeDropDown() {
+    public borrowNameDropDown() {
         return this.restService.get(`${this.url}/expenseTypeDropDown`);
     }
 

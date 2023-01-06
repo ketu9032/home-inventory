@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IExpenseData } from 'src/app/models/expense';
 import { AccountService } from '../../account/services/account.service';
 import { UserService } from '../../user/services/user.service';
-import { ExpenseTypeService } from '../services/expense-type.service';
+import { BorrowNameService } from '../services/borrow-name.service';
 import { ExpenseService } from '../services/borrow.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class AddBorrowComponent implements OnInit {
         private expenseService: ExpenseService,
         private userService: UserService,
         private accountService: AccountService,
-        private expenseTypeService: ExpenseTypeService,
+        private borrowNameService: BorrowNameService,
     ) { }
 
     ngOnInit() {
@@ -197,7 +197,7 @@ export class AddBorrowComponent implements OnInit {
     }
 
     getExpenseTypeDropDown() {
-        this.expenseTypeService.expenseTypeDropDown().subscribe((response) => {
+        this.borrowNameService.borrowNameDropDown().subscribe((response) => {
             this.expenseTypes = response
         },
             (error) => {

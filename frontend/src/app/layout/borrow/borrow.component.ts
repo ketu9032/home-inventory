@@ -66,7 +66,7 @@ export class BorrowComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.getExpense();
+        this.getBorrow();
     }
 
     sortData(sort: Sort) {
@@ -85,14 +85,14 @@ export class BorrowComponent implements OnInit {
         this.tableParams.orderBy = sort.active;
         this.tableParams.direction = sort.direction;
         this.tableParams.pageNumber = 1;
-        this.getExpense();
+        this.getBorrow();
     }
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
     }
 
-    getExpense() {
+    getBorrow() {
         this.loader = true;
 
         this.expenseService.getExpense(this.tableParams).subscribe(
@@ -117,7 +117,7 @@ export class BorrowComponent implements OnInit {
         );
     }
 
-    onAddNewExpense(): void {
+    onAddNewBorrow(): void {
         this.dialog
             .open(AddBorrowComponent, {
                 width: '700px'
@@ -125,12 +125,12 @@ export class BorrowComponent implements OnInit {
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getExpense();
+                    this.getBorrow();
                 }
             });
     }
 
-    onEditNewExpense(element) {
+    onEditNewBorrow(element) {
         this.dialog
             .open(AddBorrowComponent, {
                 width: '700px',
@@ -139,12 +139,12 @@ export class BorrowComponent implements OnInit {
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getExpense();
+                    this.getBorrow();
                 }
             });
     }
 
-    onDeleteExpense(id: number) {
+    onDeleteBorrow(id: number) {
         this.dialog
             .open(DeleteBorrowComponent, {
                 width: '350px',
@@ -153,20 +153,20 @@ export class BorrowComponent implements OnInit {
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getExpense();
+                    this.getBorrow();
                 }
             });
     }
 
-    onAddNewExpenseType(): void {
+    oneNewGetBorrowName(): void {
         this.dialog
             .open(BorrowNameComponent, {
-                width: '700px'
+                width: '900px'
             })
             .afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    this.getExpense();
+                    this.getBorrow();
                 }
             });
     }
@@ -174,7 +174,7 @@ export class BorrowComponent implements OnInit {
     pageChanged(event: PageEvent) {
         this.tableParams.pageSize = event.pageSize;
         this.tableParams.pageNumber = event.pageIndex + 1;
-        this.getExpense()
+        this.getBorrow()
     }
 
 
@@ -186,6 +186,6 @@ export class BorrowComponent implements OnInit {
         this.isCashIn = undefined;
         this.tableParams.search = '';
 
-        this.getExpense();
+        this.getBorrow();
     }
 }

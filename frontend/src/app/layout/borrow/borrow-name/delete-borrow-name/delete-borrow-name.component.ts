@@ -5,7 +5,7 @@ import {
 } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ExpenseTypeService } from '../../services/expense-type.service';
+import { BorrowNameService } from '../../services/borrow-name.service';
 
 @Component({
     selector: 'app-delete-borrow-name',
@@ -16,7 +16,7 @@ export class DeleteBorrowNameComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private expenseTypeService: ExpenseTypeService,
+        private borrowNameService: BorrowNameService,
         private dialogRef: MatDialogRef<DeleteBorrowNameComponent>,
         public snackBar: MatSnackBar
     ) { }
@@ -24,7 +24,7 @@ export class DeleteBorrowNameComponent implements OnInit {
     ngOnInit() { }
 
     removeExpenseType(): void {
-        this.expenseTypeService.removeExpenseType(this.data).subscribe(
+        this.borrowNameService.removeBorrowName(this.data).subscribe(
             (response) => {
                 this.dialogRef.close({ data: true });
                 this.snackBar.open('Expense type deleted successfully', 'OK', {

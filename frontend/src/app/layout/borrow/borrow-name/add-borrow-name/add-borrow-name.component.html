@@ -1,5 +1,5 @@
 <div class="main-header">
-    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Expense Type' : 'Update Expense Type' }} </b></h1>
+    <h1 mat-dialog-title><b> {{ !this.data ? 'Add Borrow Name' : 'Update Borrow Name' }} </b></h1>
     <button mat-button mat-dialog-close>
         <mat-icon>close</mat-icon>
     </button>
@@ -8,18 +8,70 @@
     <mat-divider></mat-divider>
     <br>
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-        <!-- Investment start -->
-        <mat-form-field>
-            <mat-label>Expense Type</mat-label>
-            <input matInput formControlName="expenseType" required />
-        </mat-form-field>
-        <div>
-            <ng-container *ngIf="
-          formGroup.controls.expenseType.touched &&
-          !formGroup.controls.expenseType.value
-        ">
-                <span class="error">Expense Type is Required</span>
-            </ng-container>
+        <div class="flex">
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="firstName"  required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.firstName.touched &&
+          !formGroup.controls.firstName.value
+            ">
+                        <span class="error">First Name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- balance start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="lastName"  required />
+                </mat-form-field>
+                <div>
+
+                    <ng-container *ngIf="
+          formGroup.controls.lastName.touched &&
+          !formGroup.controls.lastName.value
+            ">
+                        <span class="error">Last Name is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex">
+            <div class="width margin-right">
+                <mat-form-field>
+                    <mat-label>Mobile Number</mat-label>
+                    <input matInput formControlName="mobileNumber" type="number" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.mobileNumber.touched &&
+          !formGroup.controls.mobileNumber.value
+            ">
+                        <span class="error">Mobile Number is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- balance start -->
+            <div class="width">
+                <mat-form-field>
+                    <mat-label>Alternative Number</mat-label>
+                    <input matInput formControlName="alternativeNumber" type="number" required />
+                </mat-form-field>
+                <div>
+                    <ng-container *ngIf="
+          formGroup.controls.alternativeNumber.touched &&
+          !formGroup.controls.alternativeNumber.value
+            ">
+                        <span class="error">Alternative Number is Required</span>
+                    </ng-container>
+                </div>
+            </div>
+
         </div>
         <!-- button start -->
         <div class="btn-update">

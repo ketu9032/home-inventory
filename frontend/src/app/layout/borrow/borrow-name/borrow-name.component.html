@@ -1,6 +1,6 @@
 <div class="main-header">
 
-    <h1 mat-dialog-title><b>Expense Type</b></h1>
+    <h1 mat-dialog-title><b>Borrow Name</b></h1>
     <button mat-button mat-dialog-close>
         <mat-icon>close</mat-icon>
     </button>
@@ -21,7 +21,7 @@
     </div>
     <div>
         <button class="  button-color" mat-raised-button (click)="onAddNewExpenseType()">
-            Add Expense Type
+            Add Borrow Name
         </button>
     </div>
 </div>
@@ -36,10 +36,31 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="expense_type">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Expense Type</th>
+        <ng-container matColumnDef="first_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
             <td mat-cell *matCellDef="let element">
-                {{ element.expense_type | uppercase }}
+                {{ element.first_name | titlecase }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="last_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.last_name | titlecase }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mobile_number">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile Number</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.mobile_number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="alternative_number">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Alternative Number</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.alternative_number  }}
             </td>
         </ng-container>
         <ng-container matColumnDef="action">
